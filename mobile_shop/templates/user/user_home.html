@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Navbar Example</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'user_home.css' %}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <!-- Logo -->
+        <a href="#" class="logo"><img src="static/img/logo.png" alt=""></a>
+
+        <!-- Navbar Links -->
+        <ul id="navbar-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Shop</a></li>
+            <li><a href="#">Deals</a></li>
+            <li><a href="#">New Arrivals</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="logout">LogOut</a></li>
+        </ul>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <input type="text" placeholder="Search for mobile phones...">
+        </div>
+
+        <!-- Cart Icon -->
+        <div class="cart-icon">
+            🛒
+        </div>
+
+        <!-- Hamburger Menu Icon (for mobile) -->
+        <div class="menu-icon" id="menu-icon">
+            &#9776; <!-- Hamburger icon -->
+        </div>
+    </nav>
+
+    <script>
+        // JavaScript to Toggle Navbar on Mobile View
+        const menuIcon = document.getElementById('menu-icon');
+        const navbarLinks = document.getElementById('navbar-links');
+
+        menuIcon.addEventListener('click', () => {
+            navbarLinks.classList.toggle('show');
+        });
+    </script>
+
+
+</body>
+</html>
