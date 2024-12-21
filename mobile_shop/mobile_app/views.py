@@ -46,15 +46,16 @@ def add_pro(req):
         dis=req.POST['adis']
         price=req.POST['aprice']
         stock=req.POST['astock']
+        categor=req.POST['cat']
         img=req.FILES['aimg']
-        pro=Product.objects.create(pid=pid,pname=name,pdis=dis,price=price,stock=stock,img=img)
+        pro=Product.objects.create(pid=pid,pname=name,pdis=dis,price=price,stock=stock,img=img,cate=Category.objects.get(cname=categor))
         pro.save()
-        return redirect(shop_home)
+        return redirect(details)
     else:
         data=Category.objects.all()
         return render(req,'shop/add_pro.html',{'data':data})
 
-def category(req):
+def category(req,cid):
     if req.method=='POST':
         name=req.POST['bname']
         categ=Category.objects.create(cname=name)
@@ -64,7 +65,16 @@ def category(req):
         data=Category.objects.all()
         return render(req,'shop/category.html',{'data':data})
 
-
+def details(req):
+    if req.method=='POST':
+        col=req.POST['color']
+        storage=req.POST['storage']
+        dt=Details.objects.create(color=col,storage=storage,pro=Product.objects.all())
+        dt.save()
+        return redirect(shop_home)
+    else:
+        data=Product.objects.all()
+        return render(req,'shop/details.html',{'data':data})
 #----------USER------------
 def user_reg(req):
     if req.method=='POST':

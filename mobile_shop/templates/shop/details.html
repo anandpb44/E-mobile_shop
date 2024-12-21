@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Details</title>
+</head>
+<body>
+    
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <select name="pid" id="">
+            
+            {% for d in data %}
+            <option value="{{d.pname}}">{{d.pname}}</option>
+            {% endfor %}
+        </select>
+        <input type="text" name="color" id="" placeholder="Device Color">
+        <input type="text" name="storage" id="" placeholder="Device Storage">
+        <input type="submit" value="Add">
+    </form>
+</body>
+</html>

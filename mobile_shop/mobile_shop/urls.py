@@ -24,6 +24,7 @@ urlpatterns = [
     path('register',views.user_reg),
     path('shop_home',views.shop_home),
     path('user_home',views.user_home),
-    path('category',views.category),
+    path('category/<cid>',views.category),
     path('add_pro',views.add_pro),
+    path('details',views.details),
 ]
