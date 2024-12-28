@@ -7,9 +7,12 @@
 </head>
 <body>
     
-    {% for i in data %}
-        {{i.cname}}
-    {% endfor %}
+    <select name="" id="">
+        {% for i in data %}
+        <option value="{{i.cname}}">{{i.cname}}</option>
+        {% endfor %}
+    </select>
+    
     <form action="" method="post">
         {% csrf_token %}
         <input type="text" name="bname" id="bname" placeholder="Brand Name">

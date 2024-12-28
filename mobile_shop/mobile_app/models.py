@@ -11,9 +11,10 @@ class Product(models.Model):
     stock=models.IntegerField()
     img=models.FileField()
     cate=models.ForeignKey(Category,on_delete=models.CASCADE)
-
+    
 class Details(models.Model):
     color=models.TextField()
     storage=models.TextField()
+    ram=models.TextField()
     img=models.FileField()
     pro=models.ForeignKey(Product,on_delete=models.CASCADE)

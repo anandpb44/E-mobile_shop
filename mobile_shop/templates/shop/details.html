@@ -10,14 +10,15 @@
 
     <form action="" method="post">
         {% csrf_token %}
-        <select name="pid" id="">
+        <select name="p_id" id="">
             
-            {% for d in data %}
+            {% for d in data1 %}
             <option value="{{d.pname}}">{{d.pname}}</option>
             {% endfor %}
         </select>
         <input type="text" name="color" id="" placeholder="Device Color">
         <input type="text" name="storage" id="" placeholder="Device Storage">
+        <input type="text" name="ram" id="" placeholder="Device Ram">
         <input type="submit" value="Add">
     </form>
 </body>

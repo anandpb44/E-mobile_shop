@@ -9,6 +9,8 @@ from .models import *
 
 
 def shop_log(req):
+    if 'mshop' in req.session:
+        return redirect(shop_home)
     if req.method=='POST':
         uname=req.POST['username']
         password=req.POST['password']
@@ -37,7 +39,12 @@ def shop_logout(req):
 
 #-----------OWNER-------------
 def shop_home(req):
-    return render(req,'shop/shop_home.html')
+    if 'mshop' in req.session:
+        product=Product.objects.all()
+        details=Details.objects.all()
+        return render(req,'shop/shop_home.html',{'product':product,'details':details})
+    else:
+        return redirect(shop_log)
 
 def add_pro(req):
     if req.method=='POST':
@@ -55,7 +62,7 @@ def add_pro(req):
         data=Category.objects.all()
         return render(req,'shop/add_pro.html',{'data':data})
 
-def category(req,cid):
+def category(req):
     if req.method=='POST':
         name=req.POST['bname']
         categ=Category.objects.create(cname=name)
@@ -67,14 +74,16 @@ def category(req,cid):
 
 def details(req):
     if req.method=='POST':
-        col=req.POST['color']
+        color=req.POST['color']
         storage=req.POST['storage']
-        dt=Details.objects.create(color=col,storage=storage,pro=Product.objects.all())
+        ram=req.POST['ram']
+        products=req.POST['p_id']
+        dt=Details.objects.create(color=color,storage=storage,ram=ram,pro=Product.objects.get(pname=products))
         dt.save()
         return redirect(shop_home)
     else:
         data=Product.objects.all()
-        return render(req,'shop/details.html',{'data':data})
+        return render(req,'shop/details.html',{'data1':data})
 #----------USER------------
 def user_reg(req):
     if req.method=='POST':
