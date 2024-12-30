@@ -7,13 +7,14 @@ class Product(models.Model):
     pid=models.TextField()
     pname=models.TextField()
     pdis=models.TextField()
-    price=models.IntegerField()
-    stock=models.IntegerField()
     img=models.FileField()
     cate=models.ForeignKey(Category,on_delete=models.CASCADE)
     
+    
 class Details(models.Model):
     color=models.TextField()
+    price=models.TextField()
+    stock=models.TextField()
     storage=models.TextField()
     ram=models.TextField()
     img=models.FileField()

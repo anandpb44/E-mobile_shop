@@ -1,4 +1,4 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Products</title>
     {% load static%}
-    <link rel="stylesheet" href="{% static ''%}">
+    <link rel="stylesheet" href="{% static 'shop_add.css' %}">
 </head>
 
-<body style="background-image: url('static/bb.jpg');">
+<body>
     <div class="form">
         <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
@@ -18,21 +18,21 @@
                 <option value="{{i.cname}}">{{i.cname}}</option>
                 {% endfor %}
             </select><br>
+            <div class="data">
             <input type="text" name="aid" id="" placeholder="Product Id" required style="width: 300px; height: 40px;"><br><br>
             <input type="text" name="aname" id="" placeholder="Product Name" required style="width: 300px; height: 40px;"><br><br>
             <input type="text" name="adis" id="" placeholder="Product Discription" required style="width: 300px; height: 40px;"><br><br>
-            <input type="number" name="aprice" id="" placeholder="Product Price" required style="width: 300px; height: 40px;"><br><br>
-            <input type="number" name="astock" id="" placeholder="Number of Stocks" required style="width: 300px; height: 40px;"><br><br>
             <input type="file" name="aimg" id="" required>
-            <input type="submit" value="Add"><br>
+            <button >Add</button>
+          </div>
         </form>
     </div>
 </body>
 
-</html> -->
+</html>
 
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -44,6 +44,7 @@
   <div class="container">
     <h2>Add New Mobile Product</h2>
     <form action="#" method="POST" class="add-product-form">
+      {% csrf_token %}
         <div class="form-group">
             <label for="product-name">Product ID</label>
             <input type="text" id="product-name" name="aid" placeholder="Enter product name" required>
@@ -61,6 +62,10 @@
         <input type="number" id="product-price" name="aprice" placeholder="Enter product price" required>
       </div>
       <div class="form-group">
+        <label for="product-price">Product  Stock</label>
+        <input type="number" id="product-price" name="astock" placeholder="Enter product price" required>
+      </div>
+      <div class="form-group">
         <label for="product-image">Product Image</label>
         <input type="file" id="product-image" name="aimg" accept="image/*" required>
       </div>
@@ -68,4 +73,4 @@
     </form>
   </div>
 </body>
-</html>
+</html> -->

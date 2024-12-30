@@ -27,4 +27,6 @@ urlpatterns = [
     path('category',views.category),
     path('add_pro',views.add_pro),
     path('details',views.details),
+    path('shop_delete/<pid>',views.delete),
+    
 ]

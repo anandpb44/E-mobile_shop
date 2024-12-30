@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.conf import settings
 from .models import *
+import os
+
 # Create your views here.
 
 
@@ -51,11 +53,9 @@ def add_pro(req):
         pid=req.POST['aid']
         name=req.POST['aname']
         dis=req.POST['adis']
-        price=req.POST['aprice']
-        stock=req.POST['astock']
         categor=req.POST['cat']
         img=req.FILES['aimg']
-        pro=Product.objects.create(pid=pid,pname=name,pdis=dis,price=price,stock=stock,img=img,cate=Category.objects.get(cname=categor))
+        pro=Product.objects.create(pid=pid,pname=name,pdis=dis,img=img,cate=Category.objects.get(cname=categor))
         pro.save()
         return redirect(details)
     else:
@@ -77,13 +77,23 @@ def details(req):
         color=req.POST['color']
         storage=req.POST['storage']
         ram=req.POST['ram']
+        price=req.POST['price']
+        stock=req.POST['stock']
         products=req.POST['p_id']
-        dt=Details.objects.create(color=color,storage=storage,ram=ram,pro=Product.objects.get(pname=products))
+        dt=Details.objects.create(color=color,storage=storage,ram=ram,price=price,stock=stock,pro=Product.objects.get(pname=products))
         dt.save()
         return redirect(shop_home)
     else:
         data=Product.objects.all()
         return render(req,'shop/details.html',{'data1':data})
+    
+def delete(req,pid):
+    data=Product.objects.get(pk=pid)
+    file=data.img.url
+    file=file.split('/')[-1]
+    os.remove('media/'+file)
+    data.delete()
+    return redirect(shop_home)
 #----------USER------------
 def user_reg(req):
     if req.method=='POST':
