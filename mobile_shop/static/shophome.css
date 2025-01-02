@@ -59,6 +59,9 @@ body {
     height: 4px;
     background-color: white;
 }
+.row{
+    gap: 20px;
+}
 
 /* Mobile Styles (Default) */
 @media (max-width: 768px) {

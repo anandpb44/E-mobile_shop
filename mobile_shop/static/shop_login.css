@@ -12,19 +12,17 @@
   
   /* Background Styles */
   body {
-    background: url('background-image.jpg') no-repeat center center fixed;
-    background-size: cover;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100vh;  
   }
   
   /* Login Container */
   .login-container {
     width: 100%;
     max-width: 400px;
-    background-color: rgba(255, 255, 255, 0.8); /* White with opacity */
+    background-color:white; /* White with opacity */
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(33, 223, 43, 0.986);

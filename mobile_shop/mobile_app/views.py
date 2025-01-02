@@ -53,9 +53,9 @@ def add_pro(req):
         pid=req.POST['aid']
         name=req.POST['aname']
         dis=req.POST['adis']
-        categor=req.POST['cat']
+        categorie=req.POST['cat']
         img=req.FILES['aimg']
-        pro=Product.objects.create(pid=pid,pname=name,pdis=dis,img=img,cate=Category.objects.get(cname=categor))
+        pro=Product.objects.create(pid=pid,pname=name,pdis=dis,img=img,cate=Category.objects.get(cname=categorie))
         pro.save()
         return redirect(details)
     else:
@@ -94,6 +94,17 @@ def delete(req,pid):
     os.remove('media/'+file)
     data.delete()
     return redirect(shop_home)
+def edit_pro(req,pid):
+    if req.method=='POST':
+        epid=req.POST['e_pid']
+        ename=req.POST['e_pname']
+        edis=req.POST['e_pdis']
+        img=req.FILES.get('e_img')
+        if img:
+            Product.objects.filter(pk=pid).update(pid=epid,pname=ename,pdis=edis)
+            data=Product.objects.get(pk=id)
+
+    return render(req,'shop/edit_pro.html')
 #----------USER------------
 def user_reg(req):
     if req.method=='POST':

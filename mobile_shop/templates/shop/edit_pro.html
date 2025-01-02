@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editing Product </title>
+    <link rel="stylesheet" href="{% static 'edit_pro.css' %}">
+</head>
+
+<body>
+    <div class="">
+        <h4>Edit Product</h4>
+        <div class="form">
+            <form action="" method="post" enctype="multipart/form-data">
+                {% for i in product %}
+                <input type="text" name="e_pid" id="" readonly value="{{i.pdis}}">
+                {% endfor %}
+                <img src="{{prod.img.url}}" alt="" width="400px" height="500px">
+                <input type="text" name="e_pname" id="" placeholder="Enter Product Name">
+                <input type="text" name="e_pdis" id="" placeholder="Discription">
+                <input type="file" name="e_img" id="">
+                <button type="submit">UDATE</button>
+                <a href="">EDIT DETAILS</a>
+                {% csrf_token %}
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -36,15 +36,22 @@
     <div class="container mt-5">
         <div class="row">
           {% for p in product %}
-          <div class="col-lg-4">
+          <div class="col-lg-6">
             <div class="card mt-5" style="width:700px">
-              <img class="card-img-top" src="{{p.img.url}}" alt="Card image" style="width:100%; height:400px;">
+              <img class="card-img-top" src="{{p.img.url}}" alt="Card image" style="width:500px; height:400px;">
               <div class="card-body">
                 <h4 class="card-title">{{p.pname}}</h4>
-                <h4 class="card-title">Price${{p.price}}</h4>
+                <h5 class="card-title">feartures</h5>
                 <p class="card-text">{{p.pdis}}</p>
-                <a href="shop_edit/{{p.pk}}" class="btn btn-primary">Edit</a>
-                <a href="shop_delete/{{p.pk}}" class="btn btn-primary">Delete</a>
+                {% for d in details %}
+                {% if d.pro == p %}
+                <p class="card-text">Color:{{d.color}}</p>
+                <p class="card-text">Storage:{{d.storage}}</p> <p class="card-text">RAM:{{d.ram}}</p>
+                <p class="card-text">Price:{{d.price}}₹</p>
+                {% endif %}
+                {% endfor %}
+                <a href="edit_pro/{{p.pk}}" class="btn btn-primary">Edit</a>
+                <a href="delete/{{p.pk}}" class="btn btn-primary">Delete</a>
               </div>
             </div>
           </div>
