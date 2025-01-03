@@ -95,16 +95,49 @@ def delete(req,pid):
     data.delete()
     return redirect(shop_home)
 def edit_pro(req,pid):
+    if 'mshop' in req.session:
+        if req.method=='POST':
+            epid=req.POST['e_pid']
+            ename=req.POST['e_pname']
+            edis=req.POST['e_pdis']
+            img=req.FILES.get('e_img')
+            if img:
+                Product.objects.filter(pk=pid).update(pid=epid,pname=ename,pdis=edis)
+                data=Product.objects.get(pk=id)
+                # url=data.img.url
+                # og_path=url.split('/')[-1]
+                # os.remove('media/'+og_path)
+                data.img=img
+                data.save()
+            else:
+                Product.objects.filter(pk=pid).update(pname=ename,pdis=edis)
+            return redirect(shop_home)
+        
+        else:
+            data=Product.objects.get(pk=pid)
+            return render(req,'shop/edit_pro.html',{'epro':data})
+    else:
+        return redirect(shop_log)
+    
+def edit_details(req,pid):
     if req.method=='POST':
-        epid=req.POST['e_pid']
-        ename=req.POST['e_pname']
-        edis=req.POST['e_pdis']
-        img=req.FILES.get('e_img')
-        if img:
-            Product.objects.filter(pk=pid).update(pid=epid,pname=ename,pdis=edis)
-            data=Product.objects.get(pk=id)
-
-    return render(req,'shop/edit_pro.html')
+        product=req.POST['product']
+        ecolor=req.POST['ed_color']
+        estorage=req.POST['ed_storage']
+        eram=req.POST['ed_ram']
+        eprice=req.POST['ed_price']
+        estock=req.POST['ed_stock']
+        data=Details.objects.create(pro=Product.objects.get(pk=product),color=ecolor,storage=estorage,ram=eram,price=eprice,stock=estock)
+        data.save()
+        return redirect("edit_details",pid=pid)
+    else:
+        data=Details.objects.filter(pro=pid)
+        data1=Product.objects.get(pk=pid)
+        return render(req,'shop/edit_details.html',{'data':data,'data1':data1})
+def delete_details(req,pid):
+    data=Details.objects.get(pk=pid)
+    data.delete()
+    return redirect(edit_details)
 #----------USER------------
 def user_reg(req):
     if req.method=='POST':
