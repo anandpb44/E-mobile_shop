@@ -137,7 +137,7 @@ def edit_details(req,pid):
 def delete_details(req,pid):
     data=Details.objects.get(pk=pid)
     data.delete()
-    return redirect(edit_details)
+    return redirect(shop_home)
 #----------USER------------
 def user_reg(req):
     if req.method=='POST':
@@ -155,4 +155,7 @@ def user_reg(req):
     else:
         return render(req,'user/register.html')
 def user_home(req):
-    return render(req,'user/user_home.html')
+     if 'user' in req.session:
+        products=Product.objects.all()
+        details=Details.objects.all()
+        return render(req,'user/user_home.html',{'products':products,'details':details})
