@@ -59,7 +59,10 @@ body {
     height: 4px;
     background-color: white;
 }
+.card{
+    align-items: center;
 
+}
 /* Mobile Styles (Default) */
 @media (max-width: 768px) {
     .navbar-menu {

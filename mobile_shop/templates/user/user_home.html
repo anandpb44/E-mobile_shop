@@ -41,22 +41,23 @@
             &#9776; <!-- Hamburger icon -->
         </div>
     </nav>
-    <div class="container-fluid mt-2">
-        <div class="row">
+    <div class="container mt-2">
+        <div class="row" style="gap: 50px;">
           {% for p in products %}
-          <div class="col-lg-4">
-            <a href="user_view/{{p.id}}">
-              <div class="card mt-5" style="width:400px">
-                <img class="card-img-top" src="{{p.img.url}}" alt="Card image" style="width:100%; height:500px;">
+          <div class="col-lg-3">
+            <a href="user_view/{{p.pk}}">
+              <div class="card mt-5" style="width:350px;height: 500px;">
+                <img class="card-img-top" src="{{p.img.url}}" alt="Card image" style="width:250px; height:300px;">
                 <div class="card-body">
                   <h4 class="card-title">{{p.pname}}</h4>
-                  {% for d in details %}
+                  <h5 class="card-title">{{p.pdis}}</h5>
+                  <!-- {% for d in details %}
                   {% if d.pro == p %}
                   <p class="card-text">Color:{{d.color}}</p>
                   <p class="card-text">Storage:{{d.storage}}</p> <p class="card-text">RAM:{{d.ram}}</p>
                   <p class="card-text">Price:{{d.price}}₹</p>
                   {% endif %}
-                  {% endfor %}
+                  {% endfor %} -->
                 </div>
               </div>
             </a>

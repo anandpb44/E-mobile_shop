@@ -71,7 +71,18 @@ body {
     font-size: 28px;
     cursor: pointer;
 }
-
+.card{
+    align-items: center;
+}
+.row a{
+    text-decoration: none;
+}
+.card:hover{
+  transform: translateY(4px);  
+}
+.card{
+    border: solid rgb(238, 152, 152);
+}
 /* Mobile View */
 @media (max-width: 768px) {
     .navbar {

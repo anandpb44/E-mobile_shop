@@ -19,3 +19,8 @@ class Details(models.Model):
     ram=models.TextField()
     img=models.FileField()
     pro=models.ForeignKey(Product,on_delete=models.CASCADE)
+
+class Cart(models.Model):
+    details=models.ForeignKey(Details,on_delete=models.CASCADE)
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    qty=models.IntegerField()

@@ -80,7 +80,7 @@ def details(req):
         price=req.POST['price']
         stock=req.POST['stock']
         products=req.POST['p_id']
-        dt=Details.objects.create(color=color,storage=storage,ram=ram,price=price,stock=stock,pro=Product.objects.get(pname=products))
+        dt=Details.objects.create(color=color,storage=storage,ram=ram,price=price,stock=stock,pro=Product.objects.get(pk=products))
         dt.save()
         return redirect(shop_home)
     else:
@@ -159,3 +159,29 @@ def user_home(req):
         products=Product.objects.all()
         details=Details.objects.all()
         return render(req,'user/user_home.html',{'products':products,'details':details})
+     
+def user_view(req,pid):
+    data=Product.objects.get(pk=pid)
+    data1=Details.objects.filter(pro=pid)
+    return render(req,'user/user_view.html',{'data':data,'data1':data1})
+
+
+#-------------------------------------------------------
+
+def add_cart(req,cid):
+        
+        detail=Details.objects(pk=cid)
+        user=User.objects.get(username=req.session['user'])
+        try:
+            cart=Cart.objects.get(details=detail,user=user)
+            cart.qty+=1
+            cart.save()
+        except:
+            data=Cart.objects.create(details=detail,user=user,qty=1)
+            data.save()
+            return redirect(view_cart)
+    
+def view_cart(req):
+    user=User.objects.get(username=req.session['user'])
+    data=Cart.objects.filter(user=user)
+    return render(req,'user/cart.html',{'cart':data})

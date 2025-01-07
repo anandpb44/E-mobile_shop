@@ -33,6 +33,8 @@ urlpatterns = [
     path('edit_pro/<pid>',views.edit_pro),
     path('edit_details/<pid>',views.edit_details,name="edit_details"),
     path('delete_details/<pid>',views.delete_details),
+    path('user_view/<pid>',views.user_view),
+    path('add_cart/<cid>',views.add_cart),
     
 ]
 if settings.DEBUG:
