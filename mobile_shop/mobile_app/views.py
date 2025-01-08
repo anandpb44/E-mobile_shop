@@ -170,16 +170,16 @@ def user_view(req,pid):
 
 def add_cart(req,cid):
         
-        detail=Details.objects(pk=cid)
-        user=User.objects.get(username=req.session['user'])
-        try:
-            cart=Cart.objects.get(details=detail,user=user)
-            cart.qty+=1
-            cart.save()
-        except:
-            data=Cart.objects.create(details=detail,user=user,qty=1)
-            data.save()
-            return redirect(view_cart)
+    detail=Details.objects.get(pk=cid)
+    user=User.objects.get(username=req.session['user'])
+    try:
+        cart=Cart.objects.get(details=detail,user=user)
+        cart.qty+=1
+        cart.save()
+    except:
+        data=Cart.objects.create(details=detail,user=user,qty=1)
+        data.save()
+    return redirect(view_cart)
     
 def view_cart(req):
     user=User.objects.get(username=req.session['user'])
