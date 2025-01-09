@@ -155,15 +155,24 @@ def user_reg(req):
     else:
         return render(req,'user/register.html')
 def user_home(req):
-     if 'user' in req.session:
+    if 'user' in req.session:
         products=Product.objects.all()
         details=Details.objects.all()
         return render(req,'user/user_home.html',{'products':products,'details':details})
-     
+    else:
+        return redirect(shop_log)
 def user_view(req,pid):
     data=Product.objects.get(pk=pid)
     data1=Details.objects.filter(pro=pid)
-    return render(req,'user/user_view.html',{'data':data,'data1':data1})
+    data2=Details.objects.get(pro=pid,pk=data1[0].pk)
+    ram=data2.ram
+    if req.GET.get('ram'):
+        ram=req.GET.get('ram')
+        data2=Details.objects.get(pro=pid,pk=ram)
+        if req.GET.get('storage'):
+            storage=req.GET.get('storage')
+            data2=Details.objects.get(pro=pid,pk=storage)
+    return render(req,'user/user_view.html',{'data':data,'data1':data1,'data2':data2,'ram':ram})
 
 
 #-------------------------------------------------------
@@ -185,3 +194,40 @@ def view_cart(req):
     user=User.objects.get(username=req.session['user'])
     data=Cart.objects.filter(user=user)
     return render(req,'user/cart.html',{'cart':data})
+
+def qty_incr(req,cid):
+    if 'user' in req.session:
+        data=Cart.objects.get(pk=cid)
+        stock=int(data.details.stock)
+        if stock >0:
+            data.qty+=1
+            data.save()
+        return redirect(view_cart)
+    else:
+        return redirect(shop_log)
+def qty_decr(req,cid):
+    data=Cart.objects.get(pk=cid)
+    data.qty-=1
+    data.save()
+    if data.qty==0:
+        data.delete()
+    return redirect(view_cart)
+def buy_now(req,pid):
+    detail=Details.objects.get(pk=pid)
+    user=User.objects.get(username=req.session['user'])
+    qty=1
+    price=detail.price
+    buy=Buy.objects.create(product=detail,user=user,qty=qty,t_price=price)
+    buy.save()
+    return redirect(user_bookings)
+def cart_buy(req,cid):
+    cart=Cart.objects.get(pk=cid)
+    cprice=int(cart.details.price)
+    tprice=cart.qty*cprice
+    buy=Buy.objects.create(product=cart.details,user=cart.user,qty=cart.qty,t_price=tprice)
+    buy.save()
+    return redirect(user_bookings)
+def user_bookings(req):
+    user=User.objects.get(username=req.session['user'])
+    booking=Buy.objects.filter(user=user)[::-1]
+    return render(req,'user/booking.html',{'booking':booking})

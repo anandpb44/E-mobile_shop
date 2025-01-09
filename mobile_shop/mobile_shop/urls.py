@@ -36,6 +36,11 @@ urlpatterns = [
     path('user_view/<pid>',views.user_view),
     path('add_cart/<cid>',views.add_cart),
     path('view_cart',views.view_cart),
+    path('qty_incr/<cid>',views.qty_incr),
+    path('qty_decr/<cid>',views.qty_decr),
+    path('buy_now/<pid>',views.buy_now),
+    path('cart_buy/<cid>',views.cart_buy),
+    path('user_booking',views.user_bookings),
     
 ]
 if settings.DEBUG:
