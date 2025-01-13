@@ -24,6 +24,7 @@ urlpatterns = [
     path('',views.shop_log),
     path('logout',views.shop_logout),
     path('register',views.user_reg),
+    path('validate/<name>/<password>/<email>/<otp>',views.validate,name="validate"),
     path('shop_home',views.shop_home),
     path('user_home',views.user_home),
     path('category',views.category),

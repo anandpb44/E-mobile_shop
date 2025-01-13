@@ -6,6 +6,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from .models import *
 import os
+import math,random
 
 # Create your views here.
 
@@ -139,21 +140,46 @@ def delete_details(req,pid):
     data.delete()
     return redirect(shop_home)
 #----------USER------------
+
+def OTP(req):
+    digits= "0123456789"
+    OTP= ""
+    for i in range(6):
+        OTP += digits[math.floor(random.random()*10)]
+    return OTP
 def user_reg(req):
     if req.method=='POST':
         uname=req.POST['username']
         email=req.POST['email']
         pswd=req.POST['password']
-        try:
-            data=User.objects.create_user(first_name=uname,email=email,username=email,password=pswd)
-            data.save()
-            
-            return redirect(shop_log)
-        except:
-            messages.warning(req,'Email Already Exit')
+        otp=OTP(req)
+        if User.objects.filter(email=email).exists():
+            messages.error(req,"Email is already Exits")
             return redirect(user_reg)
+        else:
+            send_mail('Your OTP for Registaion',f"OTP for Registration {otp}",settings.EMAIL_HOST_USER,[email])
+            messages.success(req,"Registration Successfull.Check OTP")
+            return redirect("validate",name=uname,password=pswd,email=email,otp=otp)
+
     else:
         return render(req,'user/register.html')
+    
+def validate(req,name,password,email,otp):
+    if req.method=='POST':
+        Otp=req.POST['Otp']
+        if Otp==otp:
+            data=User.objects.create_user(first_name=name,email=email,password=password,username=email)
+            data.save()
+            messages.success(req,"OTP verified Successfully")
+            return redirect(shop_log)
+        else:
+            messages.error(req,"invalid Otp")
+            return redirect("validate",name=name,password=password,email=email,otp=otp)
+    else:
+        return render(req,'user/validate.html',{'name':name,"pass":password,'emai':email,'otp':otp})
+
+
+
 def user_home(req):
     if 'user' in req.session:
         products=Product.objects.all()
