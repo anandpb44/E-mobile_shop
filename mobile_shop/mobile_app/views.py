@@ -187,18 +187,44 @@ def user_home(req):
         return render(req,'user/user_home.html',{'products':products,'details':details})
     else:
         return redirect(shop_log)
-def user_view(req,pid):
-    data=Product.objects.get(pk=pid)
-    data1=Details.objects.filter(pro=pid)
-    data2=Details.objects.get(pro=pid,pk=data1[0].pk)
-    ram=data2.ram
-    if req.GET.get('ram'):
-        ram=req.GET.get('ram')
-        data2=Details.objects.get(pro=pid,pk=ram)
-        if req.GET.get('storage'):
-            storage=req.GET.get('storage')
-            data2=Details.objects.get(pro=pid,pk=storage)
-    return render(req,'user/user_view.html',{'data':data,'data1':data1,'data2':data2,'ram':ram})
+# def user_view(req,pid):
+#     data=Product.objects.get(pk=pid)
+#     data1=Details.objects.filter(pro=pid)
+#     data2=Details.objects.get(pro=pid,pk=data1[0].pk)
+#     ram=data2.ram
+#     if req.GET.get('ram'):
+#         ram=req.GET.get('ram')
+#         data2=Details.objects.get(pro=pid,pk=ram)
+#         if req.GET.get('storage'):
+#             storage=req.GET.get('storage')
+#             data2=Details.objects.get(pro=pid,pk=storage)
+#     return render(req,'user/user_view.html',{'data':data,'data1':data1,'data2':data2,'ram':ram})
+def user_view(req, pid):
+    data = Product.objects.get(pk=pid)  # Get the product
+    data1 = Details.objects.filter(pro=pid)  # Get all related details for the product
+    
+    # Default data2 to the first detail object
+    data2 = data1[0] if data1.exists() else None  # Assuming data1 has at least one item
+
+    # Get selected RAM from GET request, if available
+    ram = req.GET.get('ram')
+    if ram:
+        data2 = data1.filter(ram=ram).first()  # Filter based on selected RAM
+
+    # Get selected storage from GET request, if available
+    storage = req.GET.get('storage')
+    if storage and data2:
+        data2 = data1.filter(ram=data2.ram, storage=storage).first()  # Filter based on both RAM and storage
+
+    # Render the page with the correct context
+    return render(req, 'user/user_view1.html', {
+        'data': data,
+        'data1': data1,
+        'data2': data2,
+        'ram': ram,
+        'storage': storage,
+    })
+
 
 
 #-------------------------------------------------------

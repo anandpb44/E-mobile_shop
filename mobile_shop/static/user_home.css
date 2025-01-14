@@ -83,6 +83,7 @@ body {
 .card{
     border: solid rgb(238, 152, 152);
 }
+
 /* Mobile View */
 @media (max-width: 768px) {
     .navbar {
