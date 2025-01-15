@@ -18,7 +18,7 @@
                     <div class="card-body">
                         <h4 class="card-title">{{ data.pname }}</h4>
                         <h5 class="card-title">{{ data.pdis }}</h5>
-
+                        <h5>Price: {{ data2.price }}₹</h5>
                         <!-- Dropdown for RAM -->
                         <label for="ram">Select RAM:</label>
                         <select id="ram" class="form-select" onchange="updatePrice()">
@@ -40,7 +40,7 @@
                         </select>
 
                         <br>
-                        <p>Price: {{ data2.price }}</p>
+                      
 
                         <a href="../buy_now/{{ data2.pk }}" class="btn btn-primary">Buy Now</a>
                         <a href="../add_cart/{{ data2.pk }}" class="btn btn-primary">Add to Cart</a>

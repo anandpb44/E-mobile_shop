@@ -1,0 +1,54 @@
+/* General Styling */
+body {
+    background-color: #f4f7fa;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+/* Form Styling */
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+form .form-control {
+    border-radius: 8px;
+}
+
+/* Card Styling */
+.card {
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card-title {
+    font-weight: bold;
+}
+
+.card-text {
+    color: #555;
+}
+
+/* Responsive Adjustments for small screens */
+@media (max-width: 576px) {
+    .container {
+        padding: 10px;
+    }
+
+    .card-body {
+        padding: 10px;
+    }
+
+    form {
+        padding: 15px;
+    }
+}

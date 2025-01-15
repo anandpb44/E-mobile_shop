@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Products</title>
     {% load static%}
-    <link rel="stylesheet" href="{% static 'shop_add.css' %}">
+    <link rel="stylesheet" href="{% static 'add_pro.css' %}">
 </head>
 
 <body>
@@ -32,45 +32,53 @@
 </html>
 
 
-<!-- <!DOCTYPE html>
+ -->
+
+ <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Add Product - Mobile Shop</title>
-  <link rel="stylesheet" href="{% static 'shop_add.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Products</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'add_pro.css' %}">
 </head>
+
 <body>
-  <div class="container">
-    <h2>Add New Mobile Product</h2>
-    <form action="#" method="POST" class="add-product-form">
-      {% csrf_token %}
-        <div class="form-group">
-            <label for="product-name">Product ID</label>
-            <input type="text" id="product-name" name="aid" placeholder="Enter product name" required>
-          </div>
-      <div class="form-group">
-        <label for="product-name">Product Name</label>
-        <input type="text" id="product-name" name="aname" placeholder="Enter product name" required>
-      </div>
-      <div class="form-group">
-        <label for="product-description">Product Description</label>
-        <textarea id="product-description" name="adis" placeholder="Enter product description" rows="4" required></textarea>
-      </div>
-      <div class="form-group">
-        <label for="product-price">Product Price ($)</label>
-        <input type="number" id="product-price" name="aprice" placeholder="Enter product price" required>
-      </div>
-      <div class="form-group">
-        <label for="product-price">Product  Stock</label>
-        <input type="number" id="product-price" name="astock" placeholder="Enter product price" required>
-      </div>
-      <div class="form-group">
-        <label for="product-image">Product Image</label>
-        <input type="file" id="product-image" name="aimg" accept="image/*" required>
-      </div>
-      <button type="submit" class="submit-btn">Add Product</button>
-    </form>
-  </div>
+    <div class="form-container">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="cat">Category</label>
+                <select name="cat" id="cat" required>
+                    {% for i in data %}
+                    <option value="{{i.cname}}">{{i.cname}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <input type="text" name="aid" id="aid" placeholder="Product Id" required>
+            </div>
+
+            <div class="form-group">
+                <input type="text" name="aname" id="aname" placeholder="Product Name" required>
+            </div>
+
+            <div class="form-group">
+                <input type="text" name="adis" id="adis" placeholder="Product Description" required>
+            </div>
+
+            <div class="form-group">
+                <label for="aimg">Upload Image</label>
+                <input type="file" name="aimg" id="aimg" required>
+            </div>
+
+            <button type="submit" class="submit-btn">Add Product</button>
+        </form>
+    </div>
 </body>
-</html> -->
+
+</html>
+

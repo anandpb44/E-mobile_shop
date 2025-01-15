@@ -4,6 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Category</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'category.css' %}">
+</head>
+<body>
+    
+    <div class="container">
+        <h2>Category Management</h2>
+
+        <!-- Category Dropdown -->
+        <div class="form-group">
+            <label for="category">Select Category</label>
+            <select name="category" id="category">
+                {% for i in data %}
+                <option value="{{i.cname}}">{{i.cname}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <!-- Brand Name Form -->
+        <form action="" method="post" class="brand-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="bname">Brand Name</label>
+                <input type="text" name="bname" id="bname" placeholder="Enter Brand Name" required>
+            </div>
+
+            <button type="submit" class="submit-btn">Add Brand</button>
+        </form>
+    </div>
+</body>
+</html>
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'category.css' %}">
 </head>
 <body>
     
@@ -19,4 +60,4 @@
         <input type="submit" value="Add">
     </form>
 </body>
-</html>
+</html> -->
