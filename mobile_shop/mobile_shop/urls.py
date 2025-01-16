@@ -42,6 +42,8 @@ urlpatterns = [
     path('buy_now/<pid>',views.buy_now),
     path('cart_buy/<cid>',views.cart_buy),
     path('user_booking',views.user_bookings),
+    path('address',views.address),
+    path('place_order/<detail>/<data>/<qty>/<price>',views.place_order,name="place_order"),
     
 ]
 if settings.DEBUG:

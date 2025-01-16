@@ -202,6 +202,8 @@ def user_home(req):
 def user_view(req, pid):
     data = Product.objects.get(pk=pid)  # Get the product
     data1 = Details.objects.filter(pro=pid)  # Get all related details for the product
+    ram_options = data1.values_list('ram', flat=True).distinct()  # Get distinct RAM values
+    storage_options = data1.values_list('storage', flat=True).distinct() 
     
     # Default data2 to the first detail object
     data2 = data1[0] if data1.exists() else None  # Assuming data1 has at least one item
@@ -221,6 +223,8 @@ def user_view(req, pid):
         'data': data,
         'data1': data1,
         'data2': data2,
+        'ram_options':ram_options,
+        'storage_options':storage_options,
         'ram': ram,
         'storage': storage,
     })
@@ -264,14 +268,50 @@ def qty_decr(req,cid):
     if data.qty==0:
         data.delete()
     return redirect(view_cart)
+
 def buy_now(req,pid):
-    detail=Details.objects.get(pk=pid)
-    user=User.objects.get(username=req.session['user'])
-    qty=1
-    price=detail.price
-    buy=Buy.objects.create(product=detail,user=user,qty=qty,t_price=price)
-    buy.save()
-    return redirect(user_bookings)
+    if 'user' in req.session:
+        detail=Details.objects.get(pk=pid)
+        user=User.objects.get(username=req.session['user'])
+        qty=1
+        price=detail.price
+        data=Address.objects.filter(user=user)
+        if data:
+            return redirect('place_order',detail=detail.pk,data=data.first().pk,qty=qty,price=price)
+        else:
+            if req.method=='POST':
+                user=User.objects.get(username=req.session['user'])
+                name=req.POST['name']
+                phn=req.POST['phn']
+                house=req.POST['house']
+                street=req.POST['street']
+                pin=req.POST['pin']
+                state=req.POST['state']
+                data=Address.objects.create(user=user,name=name,phn=phn,house=house,street=street,pin=pin,state=state)
+                data.save()
+                return redirect("place_order",detail=detail.pk,data=data.pk,qty=qty,price=price)
+            else:
+                return redirect(user_bookings)
+    else:
+        return redirect(shop_log)
+    
+def place_order(req,detail,data,qty,price):
+    if 'user' in req.session:
+        detail=Details.objects.get(pk=detail)
+        user=User.objects.get(username=req.session['user'])
+        data=Address.objects.filter(user=user)
+
+        if req.method=='POST':
+            address=req.POST['address']
+            addr=Address.objects.get(user=user,pk=address)
+        else:
+            return render(req,'user/order.html',{'details':detail,'data':data,'price':price})
+        
+        addr=addr.pk
+        return redirect("payment",pid=detail.pk,address=addr)
+    else:
+        return redirect(shop_log)
+
 def cart_buy(req,cid):
     cart=Cart.objects.get(pk=cid)
     cprice=int(cart.details.price)
@@ -279,6 +319,32 @@ def cart_buy(req,cid):
     buy=Buy.objects.create(product=cart.details,user=cart.user,qty=cart.qty,t_price=tprice)
     buy.save()
     return redirect(user_bookings)
+
+def address(req):
+    if 'user' in req.session:
+        user=User.objects.get(username=req.session['user'])
+        data=Address.objects.filter(user=user)
+        if req.method=='POST':
+            user=User.objects.get(username=req.session['user'])
+            name=req.POST['name']
+            phn=req.POST['phn']
+            house=req.POST['house']
+            street=req.POST['street']
+            pin=req.POST['pin']
+            state=req.POST['state']
+            data=Address.objects.create(user=user,name=name,phn=phn,house=house,street=street,pin=pin,state=state)
+            data.save()
+            return redirect(address)
+        else:
+
+            return render(req,'user/address.html')
+    else:
+        return redirect(shop_log)
+
+
+def payment(req):
+    return render(req,'user/payment.html')
+
 def user_bookings(req):
     user=User.objects.get(username=req.session['user'])
     booking=Buy.objects.filter(user=user)[::-1]

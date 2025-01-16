@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Address Form</title>
+    <link rel="stylesheet" href="{% static 'address.css' %}">
+</head>
+<body>
+    <h1>Address Form</h1>
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div>
+            <label for="name">Name:</label>
+            <textarea id="name" name="name" rows="2" cols="30" required></textarea>
+        </div>
+
+        <div>
+            <label for="phn">Phone Number:</label>
+            <input type="text" id="phn" name="phn" maxlength="15" required>
+        </div>
+
+        <div>
+            <label for="house">House:</label>
+            <textarea id="house" name="house" rows="2" cols="30" required></textarea>
+        </div>
+
+        <div>
+            <label for="street">Street:</label>
+            <textarea id="street" name="street" rows="2" cols="30" required></textarea>
+        </div>
+
+        <div>
+            <label for="pin">PIN Code:</label>
+            <input type="number" id="pin" name="pin" required>
+        </div>
+
+        <div>
+            <label for="state">State:</label>
+            <textarea id="state" name="state" rows="2" cols="30" required></textarea>
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

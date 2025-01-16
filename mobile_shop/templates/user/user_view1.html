@@ -19,7 +19,7 @@
                         <h4 class="card-title">{{ data.pname }}</h4>
                         <h5 class="card-title">{{ data.pdis }}</h5>
                         <h5>Price: {{ data2.price }}₹</h5>
-                        <!-- Dropdown for RAM -->
+                       
                         <label for="ram">Select RAM:</label>
                         <select id="ram" class="form-select" onchange="updatePrice()">
                             
@@ -28,7 +28,7 @@
                             {% endfor %}
                         </select>
                         
-                        <!-- Dropdown for Storage -->
+                       
                         <label for="storage">Select Storage:</label>
                         <select id="storage" class="form-select" onchange="updatePrice()">
                           
@@ -52,16 +52,19 @@
 
     <script>
         function updatePrice() {
-            // Get the selected RAM and storage values
+           
             var ram = document.getElementById('ram').value;
             var storage = document.getElementById('storage').value;
 
-            // Construct the new URL with the selected RAM and storage values
+            
             var url = window.location.pathname + "?ram=" + ram + "&storage=" + storage;
 
-            // Redirect to the new URL to update the page
+            
             window.location.href = url;
         }
     </script>
 </body>
 </html>
+
+
+

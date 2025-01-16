@@ -24,9 +24,20 @@ class Cart(models.Model):
     details=models.ForeignKey(Details,on_delete=models.CASCADE)
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     qty=models.IntegerField()
+
+class Address(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    name=models.TextField()
+    phn=models.IntegerField()
+    house=models.TextField()
+    street=models.TextField()
+    pin=models.IntegerField()
+    state=models.TextField()
+
 class Buy(models.Model):
     product=models.ForeignKey(Details,on_delete=models.CASCADE)
     user=models.ForeignKey(User,on_delete=models.CASCADE)
+    address=models.ForeignKey(Address,on_delete=models.CASCADE)
     qty=models.IntegerField()
     t_price=models.IntegerField()
     date=models.DateField(auto_now_add=True)
