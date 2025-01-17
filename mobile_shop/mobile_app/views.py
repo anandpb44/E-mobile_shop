@@ -269,6 +269,43 @@ def qty_decr(req,cid):
         data.delete()
     return redirect(view_cart)
 
+def cart_buy(req,cid):
+    cart=Cart.objects.get(pk=cid)
+    cprice=int(cart.details.price)
+    tprice=cart.qty*cprice
+    buy=Buy.objects.create(product=cart.details,user=cart.user,qty=cart.qty,t_price=tprice)
+    buy.save()
+    return redirect(user_bookings)
+
+def add_address(req):
+    if 'user' in req.session:
+        user=User.objects.get(username=req.session['user'])
+        data=Address.objects.filter(user=user)
+        if req.method=='POST':
+            user=User.objects.get(username=req.session['user'])
+            name=req.POST['name']
+            phn=req.POST['phn']
+            house=req.POST['house']
+            street=req.POST['street']
+            pin=req.POST['pin']
+            state=req.POST['state']
+            data=Address.objects.create(user=user,name=name,phn=phn,house=house,street=street,pin=pin,state=state)
+            data.save()
+            return redirect(add_address)
+        else:
+
+            return render(req,'user/address.html',{'data':data})
+    else:
+        return redirect(shop_log)
+
+def delete_address(req, pid):
+    if 'user' in req.session:
+        data=Address.objects.get(pk=pid)
+        data.delete()
+        return redirect(add_address)
+    else:
+        return redirect(shop_log)
+    
 def buy_now(req,pid):
     if 'user' in req.session:
         detail=Details.objects.get(pk=pid)
@@ -291,7 +328,7 @@ def buy_now(req,pid):
                 data.save()
                 return redirect("place_order",detail=detail.pk,data=data.pk,qty=qty,price=price)
             else:
-                return redirect(user_bookings)
+                return render(req,'user/address.html')
     else:
         return redirect(shop_log)
     
@@ -312,38 +349,30 @@ def place_order(req,detail,data,qty,price):
     else:
         return redirect(shop_log)
 
-def cart_buy(req,cid):
-    cart=Cart.objects.get(pk=cid)
-    cprice=int(cart.details.price)
-    tprice=cart.qty*cprice
-    buy=Buy.objects.create(product=cart.details,user=cart.user,qty=cart.qty,t_price=tprice)
-    buy.save()
-    return redirect(user_bookings)
-
-def address(req):
+def payment(req,pid,address):
     if 'user' in req.session:
+        data=Details.objects.get(pk=pid)
+        price=data.price
+        addr=Address.objects.get(pk=address)
+        return render(req,'user/payment.html',{'price':price,'data':data,'address':addr})
+    else:
+        return redirect(shop_log)
+    
+def bookings(req,pid,address):
+    if 'user' in req.session:
+        detail=Details.objects.get(pk=pid)
         user=User.objects.get(username=req.session['user'])
-        data=Address.objects.filter(user=user)
-        if req.method=='POST':
-            user=User.objects.get(username=req.session['user'])
-            name=req.POST['name']
-            phn=req.POST['phn']
-            house=req.POST['house']
-            street=req.POST['street']
-            pin=req.POST['pin']
-            state=req.POST['state']
-            data=Address.objects.create(user=user,name=name,phn=phn,house=house,street=street,pin=pin,state=state)
-            data.save()
-            return redirect(address)
-        else:
-
-            return render(req,'user/address.html')
+        data=Buy.objects.create(user=user,pro=detail,qty=1,price=detail.price,address=Address.objects.get(pk=address))
+        data.save()
+        detail.stock-=1
+        detail.save()
+        return redirect(user_bookings)
     else:
         return redirect(shop_log)
 
 
-def payment(req):
-    return render(req,'user/payment.html')
+
+
 
 def user_bookings(req):
     user=User.objects.get(username=req.session['user'])

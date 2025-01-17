@@ -42,9 +42,11 @@ urlpatterns = [
     path('buy_now/<pid>',views.buy_now),
     path('cart_buy/<cid>',views.cart_buy),
     path('user_booking',views.user_bookings),
-    path('address',views.address),
+    path('address',views.add_address),
     path('place_order/<detail>/<data>/<qty>/<price>',views.place_order,name="place_order"),
-    
+    path('payment/<pid>/<address>',views.payment,name="payment"),
+    path('delete_address/<pid>',views.delete_address),
+    path('bookings/<pid>/<address>',views.bookings),
 ]
 if settings.DEBUG:
     urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

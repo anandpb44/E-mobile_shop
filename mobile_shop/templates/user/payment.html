@@ -6,6 +6,15 @@
     <title>Document</title>
 </head>
 <body>
-    <button type="submit">conform</button>
+    <h3 >{{price}}₹</h3>
+    <h3>Shipping Address : </h3> 
+    <h4>{{address.name}}</h4>
+    <h4>{{address.house}}</h4>
+    <h4>{{address.street}}</h4>
+    <h4>{{address.state}}</h4>
+    <h4>{{address.pin}}</h4>
+    <h4>{{address.phn}}</h4>
+    <a class="btn btn-primary" href="../../../../bookings/{{data.pk}}/{{address.pk}}">CONFIRM PAYMENT</a>
+
 </body>
 </html>
