@@ -18,9 +18,11 @@
         <!-- Navbar Links -->
         <ul id="navbar-links">
             <li><a href="user_home">Home</a></li>
-            <li><a href=""> Brands  <select name="" id="">
-              <option value="{{brand.cname}}">{{.cname}}</option>
-            </select> </a></li>
+            {% for i in data %}
+            <li>
+              <a href="{% url 'brand_products' brand_id=i.pk %}">{{i.cname}}</a>
+          </li>
+          {% endfor %}
             <li><a href="user_booking">Bookings</a></li>
             <li><a href="#">Contact</a></li>
             <li><a href="address">Address</a></li>

@@ -27,6 +27,7 @@ urlpatterns = [
     path('validate/<name>/<password>/<email>/<otp>',views.validate,name="validate"),
     path('shop_home',views.shop_home),
     path('user_home',views.user_home),
+    path('brand/<int:brand_id>/', views.brand_products, name='brand_products'),
     path('category',views.category),
     path('add_pro',views.add_pro),
     path('details',views.details),
@@ -34,9 +35,10 @@ urlpatterns = [
     path('edit_pro/<pid>',views.edit_pro),
     path('edit_details/<pid>',views.edit_details,name="edit_details"),
     path('delete_details/<pid>',views.delete_details),
-    path('user_view/<pid>',views.user_view),
+    path('user_view/<int:pid>',views.user_view,name="user_view"),
     path('add_cart/<cid>',views.add_cart),
     path('view_cart',views.view_cart),
+    path('delete_cart/<pid>',views.deleteCart),
     path('qty_incr/<cid>',views.qty_incr),
     path('qty_decr/<cid>',views.qty_decr),
     path('buy_now/<pid>',views.buy_now),
@@ -47,6 +49,7 @@ urlpatterns = [
     path('payment/<pid>/<address>',views.payment,name="payment"),
     path('delete_address/<pid>',views.delete_address),
     path('bookings/<pid>/<address>',views.bookings),
+    path('place_order2/<cart>/<qty>/<price>/<tprice>',views.place_order2,name="place_order2"),
 ]
 if settings.DEBUG:
     urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

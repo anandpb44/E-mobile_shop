@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -184,9 +184,19 @@ def user_home(req):
     if 'user' in req.session:
         products=Product.objects.all()
         details=Details.objects.all()
-        return render(req,'user/user_home.html',{'products':products,'details':details})
+        data=Category.objects.all()
+        return render(req,'user/user_home.html',{'products':products,'details':details,'data':data})
     else:
         return redirect(shop_log)
+def brand_products(req, brand_id):
+    # Get the category (brand) using the brand_id
+    brand = get_object_or_404(Category, pk=brand_id)
+    
+    # Fetch all products for this brand
+    products = Product.objects.filter(cate=brand)
+    
+    # Pass the products to the template
+    return render(req, 'user/brand_products.html', {'brand': brand, 'products': products})
 # def user_view(req,pid):
 #     data=Product.objects.get(pk=pid)
 #     data1=Details.objects.filter(pro=pid)
@@ -233,50 +243,6 @@ def user_view(req, pid):
 
 #-------------------------------------------------------
 
-def add_cart(req,cid):
-        
-    detail=Details.objects.get(pk=cid)
-    user=User.objects.get(username=req.session['user'])
-    try:
-        cart=Cart.objects.get(details=detail,user=user)
-        cart.qty+=1
-        cart.save()
-    except:
-        data=Cart.objects.create(details=detail,user=user,qty=1)
-        data.save()
-    return redirect(view_cart)
-    
-def view_cart(req):
-    user=User.objects.get(username=req.session['user'])
-    data=Cart.objects.filter(user=user)
-    return render(req,'user/cart.html',{'cart':data})
-
-def qty_incr(req,cid):
-    if 'user' in req.session:
-        data=Cart.objects.get(pk=cid)
-        stock=int(data.details.stock)
-        if stock >0:
-            data.qty+=1
-            data.save()
-        return redirect(view_cart)
-    else:
-        return redirect(shop_log)
-def qty_decr(req,cid):
-    data=Cart.objects.get(pk=cid)
-    data.qty-=1
-    data.save()
-    if data.qty==0:
-        data.delete()
-    return redirect(view_cart)
-
-def cart_buy(req,cid):
-    cart=Cart.objects.get(pk=cid)
-    cprice=int(cart.details.price)
-    tprice=cart.qty*cprice
-    buy=Buy.objects.create(product=cart.details,user=cart.user,qty=cart.qty,t_price=tprice)
-    buy.save()
-    return redirect(user_bookings)
-
 def add_address(req):
     if 'user' in req.session:
         user=User.objects.get(username=req.session['user'])
@@ -305,6 +271,50 @@ def delete_address(req, pid):
         return redirect(add_address)
     else:
         return redirect(shop_log)
+
+def add_cart(req,cid):
+        
+    detail=Details.objects.get(pk=cid)
+    user=User.objects.get(username=req.session['user'])
+    try:
+        cart=Cart.objects.get(details=detail,user=user)
+        cart.qty+=1
+        cart.save()
+    except:
+        data=Cart.objects.create(details=detail,user=user,qty=1)
+        data.save()
+    return redirect(view_cart)
+    
+def view_cart(req):
+    user=User.objects.get(username=req.session['user'])
+    data=Cart.objects.filter(user=user)
+    return render(req,'user/cart.html',{'cart':data})
+def deleteCart(req,pid):
+    if 'user' in req.session:
+        data=Cart.objects.get(pk=pid)
+        data.delete()
+        return redirect(view_cart)
+    else:
+        return redirect(shop_log) 
+
+def qty_incr(req,cid):
+    if 'user' in req.session:
+        data=Cart.objects.get(pk=cid)
+        stock=int(data.details.stock)
+        if stock >0:
+            data.qty+=1
+            data.save()
+        return redirect(view_cart)
+    else:
+        return redirect(shop_log)
+def qty_decr(req,cid):
+    data=Cart.objects.get(pk=cid)
+    data.qty-=1
+    data.save()
+    if data.qty==0:
+        data.delete()
+    return redirect(view_cart)
+
     
 def buy_now(req,pid):
     if 'user' in req.session:
@@ -332,6 +342,34 @@ def buy_now(req,pid):
     else:
         return redirect(shop_log)
     
+def cart_buy(req,cid):
+    if 'user' in req.session:
+        user=User.objects.get(username=req.session['user'])
+        cart=Cart.objects.get(pk=cid)
+        cqty=cart.qty
+        cprice=int(cart.details.price)
+        tprice=cart.qty*cprice
+        data=Address.objects.filter(user=user)
+        if data:
+            return redirect('place_order2',cart=cart.pk,qty=cqty,price=cprice,tprice=tprice)
+        else:
+            if req.method=='POST':
+                user=User.objects.get(username=req.session['user'])
+                name=req.POST['name']
+                phn=req.POST['phn']
+                house=req.POST['house']
+                street=req.POST['street']
+                pin=req.POST['pin']
+                state=req.POST['state']
+                data=Address.objects.create(user=user,name=name,phn=phn,house=house,street=street,pin=pin,state=state)
+                data.save()
+                return redirect('place_order2',cart=cart.pk,qty=cqty,price=cprice,tprice=tprice)
+            else:
+                return render(req,'user/address.html')
+    else:
+        return redirect(shop_log)
+    
+    
 def place_order(req,detail,data,qty,price):
     if 'user' in req.session:
         detail=Details.objects.get(pk=detail)
@@ -346,6 +384,23 @@ def place_order(req,detail,data,qty,price):
         
         addr=addr.pk
         return redirect("payment",pid=detail.pk,address=addr)
+    else:
+        return redirect(shop_log)
+    
+
+def place_order2(req,cart,qty,price,tprice):
+    if 'user' in req.session:
+        user=User.objects.get(username=req.session['user'])
+        data=Address.objects.filter(user=user)
+        cart=Cart.objects.get(pk=cart)
+        cart=Cart.objects.filter(user=user)
+        if req.method=='POST':
+            address=req.POST['address']
+            addr=Address.objects.get(user=user,pk=address)
+        else:
+            return render(req,'user/order2.html',{'cart':cart,'data':data,'qty':qty,'tprice':tprice})
+        addr=addr.pk
+        return redirect("payment2",address=addr)
     else:
         return redirect(shop_log)
 
@@ -372,9 +427,7 @@ def bookings(req,pid,address):
 
 
 
-
-
 def user_bookings(req):
     user=User.objects.get(username=req.session['user'])
     booking=Buy.objects.filter(user=user)[::-1]
-    return render(req,'user/booking.html',{'booking':booking})
+    return render(req,'user/user_booking.html',{'booking':booking})
