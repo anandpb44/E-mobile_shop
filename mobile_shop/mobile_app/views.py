@@ -7,6 +7,11 @@ from django.conf import settings
 from .models import *
 import os
 import math,random
+from django.http import JsonResponse
+import razorpay
+import json
+from django.views.decorators.csrf import csrf_exempt
+
 
 # Create your views here.
 
@@ -382,8 +387,8 @@ def place_order(req,detail,data,qty,price):
         else:
             return render(req,'user/order.html',{'details':detail,'data':data,'price':price})
         
-        addr=addr.pk
-        return redirect("payment",pid=detail.pk,address=addr)
+        req.session['address']=addr.pk
+        return redirect("order_payment",pid=detail.pk,address=addr)
     else:
         return redirect(shop_log)
     
@@ -400,19 +405,140 @@ def place_order2(req,cart,qty,price,tprice):
         else:
             return render(req,'user/order2.html',{'cart':cart,'data':data,'qty':qty,'tprice':tprice})
         addr=addr.pk
-        return redirect("payment2",address=addr)
+        return redirect("order_payment2",address=addr)
     else:
         return redirect(shop_log)
 
-def payment(req,pid,address):
+# def payment(req,pid,address):
+#     if 'user' in req.session:
+#         data=Details.objects.get(pk=pid)
+#         price=data.price
+#         addr=Address.objects.get(pk=address)
+#         return render(req,'user/payment.html',{'price':price,'data':data,'address':addr})
+#     else:
+#         return redirect(shop_log)
+def order_payment(req,pid,address):
     if 'user' in req.session:
+        user = User.objects.get(username=req.session['user'])
+        address=Address.objects.get(pk=req.session['address'])
+        print(address.name)
+        name = user.first_name
         data=Details.objects.get(pk=pid)
-        price=data.price
-        addr=Address.objects.get(pk=address)
-        return render(req,'user/payment.html',{'price':price,'data':data,'address':addr})
+        amount = data.price
+        client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+        razorpay_order = client.order.create(
+            {"amount": int(amount) * 100, "currency": "INR", "payment_capture": "1"}
+        )
+        order_id=razorpay_order['id']
+        order = Order.objects.create(
+            name=name, amount=amount, provider_order_id=order_id
+        )
+        order.save()
+        return render(
+            req,
+            "user/payment.html",
+            {
+                "callback_url": "http://127.0.0.1:8000/callback",
+                "razorpay_key": settings.RAZORPAY_KEY_ID,
+                "order": order,
+            },
+        )
     else:
-        return redirect(shop_log)
+        return render(shop_log)
     
+@csrf_exempt
+def callback(request):
+
+    def verify_signature(response_data):
+        client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+        return client.utility.verify_payment_signature(response_data)
+
+    if "razorpay_signature" in request.POST:
+        payment_id = request.POST.get("razorpay_payment_id", "")
+        provider_order_id = request.POST.get("razorpay_order_id", "")
+        signature_id = request.POST.get("razorpay_signature", "")
+        order = Order.objects.get(provider_order_id=provider_order_id)
+        order.payment_id = payment_id
+        order.signature_id = signature_id
+        order.save()
+        if not verify_signature(request.POST):
+            order.status = PaymentStatus.SUCCESS
+            order.save()
+            return render(request, "callback.html", context={"status": order.status})  
+        
+        else:
+            order.status = PaymentStatus.FAILURE
+            order.save()
+            # return render(request, "callback.html", context={"status": order.status}) 
+            return redirect(user_bookings)
+        
+        
+
+    else:
+        payment_id = json.loads(request.POST.get("error[metadata]")).get("payment_id")
+        provider_order_id = json.loads(request.POST.get("error[metadata]")).get(
+            "order_id"
+        )
+        order = Order.objects.get(provider_order_id=provider_order_id)
+        order.payment_id = payment_id
+        order.status = PaymentStatus.FAILURE
+        order.save()
+        return render(request, "callback.html", context={"status": order.status})  
+        
+    
+
+def order_payment2(req,address):
+    if 'user' in req.session:
+        user = User.objects.get(username=req.session['user'])
+        name = user.first_name
+        data=Details.objects.get(pk=address)
+        cart=Cart.objects.filter(user=user)
+        amount=0
+        for i in cart:
+            amount +=(i.details.price)*i.qty
+        client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+        razorpay_order = client.order.create(
+            {"amount": int(amount) * 100, "currency": "INR", "payment_capture": "1"}
+        )
+        order_id=razorpay_order['id']
+        order = Order.objects.create(
+            name=name, amount=amount, provider_order_id=order_id
+        )
+        order.save()
+        return render(
+            req,
+            "user/payment.html",
+            {
+                "callback_url": "http://" + "127.0.0.1:8000" + "razorpay/callback",
+                "razorpay_key": settings.RAZORPAY_KEY_ID,
+                "order": order,
+            },
+        )
+    else:
+        return render(shop_log)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def bookings(req,pid,address):
     if 'user' in req.session:
         detail=Details.objects.get(pk=pid)

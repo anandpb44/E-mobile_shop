@@ -23,7 +23,7 @@
                   <p class="card-text">Color:{{i.details.color}}</p>
                   <p class="card-text">Storage:{{i.details.storage}}</p> <p class="card-text">RAM:{{i.details.ram}}</p>
                   <p class="card-text">Price:{{i.details.price}}₹</p>
-                  <p > <a href="qty_decr/{{i.pk}}" style="text-decoration: none;">-</a> qty:{{i.qty}} <a href="qty_incr/{{i.pk}}" style="text-decoration: none;">+</a></p>
+                  <p class="card-title"> <a href="qty_decr/{{i.pk}}" style="text-decoration: none;" class="btn btn-dark">-</a> qty:{{i.qty}} <a href="qty_incr/{{i.pk}}" style="text-decoration: none;"  class="btn btn-dark">+</a></p>
                   <a href="../cart_buy/{{i.pk}}" class="btn btn-primary">Buy Now</a>
                   <a href="../delete_cart/{{i.pk}}" class="btn btn-primary">Remove</a>
               

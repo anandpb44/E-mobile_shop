@@ -136,3 +136,6 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER =' anandpb44@gmail.com'
 EMAIL_HOST_PASSWORD = 'reab sxce jspt wbyi'
+
+RAZORPAY_KEY_ID='rzp_test_BmbxOBqviZxQxc'
+RAZORPAY_KEY_SECRET='i3shWB16AhbKcOR9sKBOXRY9'

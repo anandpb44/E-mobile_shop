@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Payment Gateway</title>
 </head>
 <body>
     <!-- <h3 >{{price}}₹</h3>
@@ -16,5 +16,40 @@
     <h4>{{address.phn}}</h4>
     <a class="btn btn-primary" href="../../../../bookings/{{data.pk}}/{{address.pk}}">CONFIRM PAYMENT</a> -->
 
+    {% block content %}
+  <div class="pay">
+    <!-- <a class="btn" href="../../book/{{data.pk}}/{{address.pk}}">CONFIRM PAYMENT</a> -->
+    <form method="POST">
+      <script src="https://checkout.razorpay.com/v1/checkout.js"></script>  
+      <script>
+      var options = {
+          key: "{{razorpay_key}}",
+          amount: "{{order.amount}}",
+          currency: "INR",
+          name: "{{order.name}}",
+          description: "Test Transaction",
+          image: "https://example.com/your_logo",
+          order_id: "{{order.provider_order_id}}",
+          callback_url: "{{callback_url}}",
+          redirect: true,
+          prefill: {
+              "name": "Gaurav Kumar",
+              "email": "gaurav.kumar@example.com",
+              "contact": "9999999999"
+          },
+          notes: {
+              "address": "Razorpay Corporate Office"
+          },
+          theme: {
+              "color": "#3399cc"
+          }
+      };
+      var rzp1 = new Razorpay(options);
+      rzp1.open();
+      </script>
+      <input type="hidden" custom="Hidden Element" name="hidden">
+  </form>
+  {% endblock %}
+  </div>
 </body>
 </html>
