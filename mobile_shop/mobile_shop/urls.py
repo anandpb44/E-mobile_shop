@@ -42,16 +42,20 @@ urlpatterns = [
     path('qty_incr/<cid>',views.qty_incr),
     path('qty_decr/<cid>',views.qty_decr),
     path('buy_now/<pid>',views.buy_now),
-    path('cart_buy/<cid>',views.cart_buy),
+    path('cart_buy',views.cart_buy),
     path('user_booking',views.user_bookings),
+    path('deletebookings/<pid>',views.delete_bookings),
     path('address',views.add_address),
     path('place_order/<detail>/<data>/<qty>/<price>',views.place_order,name="place_order"),
-    path('payment/<pid>/<address>',views.order_payment,name="order_payment"),
+    path('payment/<pid>',views.order_payment,name="order_payment"),
     path('delete_address/<pid>',views.delete_address),
-    path('bookings/<pid>/<address>',views.bookings),
-    path('place_order2/<cart>/<qty>/<price>/<tprice>',views.place_order2,name="place_order2"),
-    path('payment2/<address>',views.order_payment2,name="order_payment2"),
+    path('bookings',views.bookings),
+    path('bookings',views.bookings2),
+    path('place_order2/<qty>/<tprice>/<total>',views.place_order2,name="place_order2"),
+    path('payment2',views.order_payment2,name="order_payment2"),
     path('callback',views.callback),
+    path('callback2',views.callback2),
+
 ]
 if settings.DEBUG:
     urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

@@ -347,40 +347,12 @@ def buy_now(req,pid):
     else:
         return redirect(shop_log)
     
-def cart_buy(req,cid):
-    if 'user' in req.session:
-        user=User.objects.get(username=req.session['user'])
-        cart=Cart.objects.get(pk=cid)
-        cqty=cart.qty
-        cprice=int(cart.details.price)
-        tprice=cart.qty*cprice
-        data=Address.objects.filter(user=user)
-        if data:
-            return redirect('place_order2',cart=cart.pk,qty=cqty,price=cprice,tprice=tprice)
-        else:
-            if req.method=='POST':
-                user=User.objects.get(username=req.session['user'])
-                name=req.POST['name']
-                phn=req.POST['phn']
-                house=req.POST['house']
-                street=req.POST['street']
-                pin=req.POST['pin']
-                state=req.POST['state']
-                data=Address.objects.create(user=user,name=name,phn=phn,house=house,street=street,pin=pin,state=state)
-                data.save()
-                return redirect('place_order2',cart=cart.pk,qty=cqty,price=cprice,tprice=tprice)
-            else:
-                return render(req,'user/address.html')
-    else:
-        return redirect(shop_log)
-    
-    
 def place_order(req,detail,data,qty,price):
     if 'user' in req.session:
         detail=Details.objects.get(pk=detail)
         user=User.objects.get(username=req.session['user'])
         data=Address.objects.filter(user=user)
-
+        req.session['pid']=detail.pk
         if req.method=='POST':
             address=req.POST['address']
             addr=Address.objects.get(user=user,pk=address)
@@ -388,40 +360,14 @@ def place_order(req,detail,data,qty,price):
             return render(req,'user/order.html',{'details':detail,'data':data,'price':price})
         
         req.session['address']=addr.pk
-        return redirect("order_payment",pid=detail.pk,address=addr)
+        return redirect("order_payment",pid=detail.pk)
     else:
         return redirect(shop_log)
     
-
-def place_order2(req,cart,qty,price,tprice):
-    if 'user' in req.session:
-        user=User.objects.get(username=req.session['user'])
-        data=Address.objects.filter(user=user)
-        cart=Cart.objects.get(pk=cart)
-        cart=Cart.objects.filter(user=user)
-        if req.method=='POST':
-            address=req.POST['address']
-            addr=Address.objects.get(user=user,pk=address)
-        else:
-            return render(req,'user/order2.html',{'cart':cart,'data':data,'qty':qty,'tprice':tprice})
-        addr=addr.pk
-        return redirect("order_payment2",address=addr)
-    else:
-        return redirect(shop_log)
-
-# def payment(req,pid,address):
-#     if 'user' in req.session:
-#         data=Details.objects.get(pk=pid)
-#         price=data.price
-#         addr=Address.objects.get(pk=address)
-#         return render(req,'user/payment.html',{'price':price,'data':data,'address':addr})
-#     else:
-#         return redirect(shop_log)
-def order_payment(req,pid,address):
+def order_payment(req,pid):
     if 'user' in req.session:
         user = User.objects.get(username=req.session['user'])
         address=Address.objects.get(pk=req.session['address'])
-        print(address.name)
         name = user.first_name
         data=Details.objects.get(pk=pid)
         amount = data.price
@@ -470,7 +416,7 @@ def callback(request):
             order.status = PaymentStatus.FAILURE
             order.save()
             # return render(request, "callback.html", context={"status": order.status}) 
-            return redirect(user_bookings)
+            return redirect(bookings)
         
         
 
@@ -484,18 +430,90 @@ def callback(request):
         order.status = PaymentStatus.FAILURE
         order.save()
         return render(request, "callback.html", context={"status": order.status})  
-        
+
+def bookings(req):
+    if 'user' in req.session:
+        address=Address.objects.get(pk=req.session['address'])
+        detail=Details.objects.get(pk=req.session['pid'])
+        user=User.objects.get(username=req.session['user'])
+        data=Buy.objects.create(user=user,product=detail,qty=1,t_price=detail.price,address=Address.objects.get(pk=address.pk))
+        data.save()
+        stock=int(detail.stock)
+        stock-=1
+        detail.save()
+        return redirect(user_bookings)
+    else:
+        return redirect(shop_log) 
+    
+def cart_buy(req):
+    if 'user' in req.session:
+        user=User.objects.get(username=req.session['user'])
+        cart=Cart.objects.filter(user=user)
+        total=0
+        for i in cart:
+            qty=i.qty
+            cprice=int(i.details.price)
+            tprice=qty*cprice
+            total+=tprice
+        data=Address.objects.filter(user=user)
+        if data:
+            return redirect('place_order2',qty=qty,tprice=tprice,total=total)
+        else:
+            if req.method=='POST':
+                user=User.objects.get(username=req.session['user'])
+                name=req.POST['name']
+                phn=req.POST['phn']
+                house=req.POST['house']
+                street=req.POST['street']
+                pin=req.POST['pin']
+                state=req.POST['state']
+                data=Address.objects.create(user=user,name=name,phn=phn,house=house,street=street,pin=pin,state=state)
+                data.save()
+                return redirect('place_order2',qty=qty,tprice=tprice,total=total)
+            else:
+                return render(req,'user/address.html')
+    else:
+        return redirect(shop_log)
+    
     
 
-def order_payment2(req,address):
+    
+
+def place_order2(req,qty,tprice,total):
+    if 'user' in req.session:
+        user=User.objects.get(username=req.session['user'])
+        data=Address.objects.filter(user=user)
+        cart=Cart.objects.filter(user=user)
+        if req.method=='POST':
+            address=req.POST['address']
+            addr=Address.objects.get(user=user,pk=address)
+        else:
+            return render(req,'user/order2.html',{'cart':cart,'data':data,'qty':qty,'tprice':tprice,'total':total})
+        req.session['address']=addr.pk
+        return redirect("order_payment2")
+    else:
+        return redirect(shop_log)
+
+# def payment(req,pid,address):
+#     if 'user' in req.session:
+#         data=Details.objects.get(pk=pid)
+#         price=data.price
+#         addr=Address.objects.get(pk=address)
+#         return render(req,'user/payment.html',{'price':price,'data':data,'address':addr})
+#     else:
+#         return redirect(shop_log)
+
+    
+
+def order_payment2(req):
     if 'user' in req.session:
         user = User.objects.get(username=req.session['user'])
         name = user.first_name
-        data=Details.objects.get(pk=address)
+        # data=Details.objects.get(pk=address)
         cart=Cart.objects.filter(user=user)
         amount=0
         for i in cart:
-            amount +=(i.details.price)*i.qty
+            amount +=float(i.details.price)*i.qty
         client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
         razorpay_order = client.order.create(
             {"amount": int(amount) * 100, "currency": "INR", "payment_capture": "1"}
@@ -509,7 +527,7 @@ def order_payment2(req,address):
             req,
             "user/payment.html",
             {
-                "callback_url": "http://" + "127.0.0.1:8000" + "razorpay/callback",
+                "callback_url": "http://127.0.0.1:8000/callback2",
                 "razorpay_key": settings.RAZORPAY_KEY_ID,
                 "order": order,
             },
@@ -517,43 +535,67 @@ def order_payment2(req,address):
     else:
         return render(shop_log)
 
+@csrf_exempt
+def callback2(request):
+    def verify_signature(response_data):
+        client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+        return client.utility.verify_payment_signature(response_data)
 
+    if "razorpay_signature" in request.POST:
+        payment_id = request.POST.get("razorpay_payment_id", "")
+        provider_order_id = request.POST.get("razorpay_order_id", "")
+        signature_id = request.POST.get("razorpay_signature", "")
+        order = Order.objects.get(provider_order_id=provider_order_id)
+        order.payment_id = payment_id
+        order.signature_id = signature_id
+        order.save()
+        if not verify_signature(request.POST):
+            order.status = PaymentStatus.SUCCESS
+            order.save()
+            # return render(request, "callback.html", context={"status": order.status})  
+            return redirect(bookings2)
+        
+        else:
+            order.status = PaymentStatus.FAILURE
+            order.save()
+            # return render(request, "callback.html", context={"status": order.status}) 
+            return redirect(bookings2)
+        
+        
 
+    else:
+        payment_id = json.loads(request.POST.get("error[metadata]")).get("payment_id")
+        provider_order_id = json.loads(request.POST.get("error[metadata]")).get(
+            "order_id"
+        )
+        order = Order.objects.get(provider_order_id=provider_order_id)
+        order.payment_id = payment_id
+        order.status = PaymentStatus.FAILURE
+        order.save()
+        return render(request, "callback.html", context={"status": order.status})  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def bookings(req,pid,address):
+def bookings2(req):
     if 'user' in req.session:
-        detail=Details.objects.get(pk=pid)
+        address=Address.objects.get(pk=req.session['address'])
         user=User.objects.get(username=req.session['user'])
-        data=Buy.objects.create(user=user,pro=detail,qty=1,price=detail.price,address=Address.objects.get(pk=address))
-        data.save()
-        detail.stock-=1
-        detail.save()
+        cart=Cart.objects.filter(user=user)
+        for i in cart:
+            data=Buy.objects.create(user=i.user,product=i.details,qty=i.qty,address=Address.objects.get(pk=address.pk))
+            data.save()
+        cart.delete()
         return redirect(user_bookings)
     else:
-        return redirect(shop_log)
-
+        return redirect(shop_log) 
 
 
 def user_bookings(req):
     user=User.objects.get(username=req.session['user'])
     booking=Buy.objects.filter(user=user)[::-1]
     return render(req,'user/user_booking.html',{'booking':booking})
+def delete_bookings(req,pid):
+    if 'user' in req.session:
+        data=Buy.objects.get(pk=pid)
+        data.delete()
+        return redirect(user_bookings)
+    else:
+        return redirect(shop_log)

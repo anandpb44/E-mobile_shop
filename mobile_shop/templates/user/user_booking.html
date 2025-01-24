@@ -32,9 +32,14 @@
             <img src="{{i.product.pro.img.url}}" alt="Card Image" class="card-img">
             <div class="card-content">
                 <h2 class="card-title">{{i.product.pro.pname}}</h2>
+                <p>qty:{{i.qty}}</p>
                 <p class="card-text">Total:{{i.t_price}}</p>
                 <p>Date:{{i.date}}</p>
-                <p>qty:{{i.qty}}</p>
+                <h4>Shopping Address</h4>
+                <select name="" id="">
+                    <option value="{{i.pk}}">{{i.address.name}},{{i.address.house}},{{i..address.street}},{{i.address.pin}},{{i.address.state}}</option>
+                </select>
+                <a href="deletebookings/{{i.pk}}" class="btn btn-primary" >Remove</a>
                 <!-- <a href="#" class="card-button">Read More</a> -->
             </div>
         </div>
