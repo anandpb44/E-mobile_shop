@@ -50,7 +50,7 @@ urlpatterns = [
     path('payment/<pid>',views.order_payment,name="order_payment"),
     path('delete_address/<pid>',views.delete_address),
     path('bookings',views.bookings),
-    path('bookings',views.bookings2),
+    path('bookings2',views.bookings2),
     path('place_order2/<qty>/<tprice>/<total>',views.place_order2,name="place_order2"),
     path('payment2',views.order_payment2,name="order_payment2"),
     path('callback',views.callback),

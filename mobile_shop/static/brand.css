@@ -1,0 +1,154 @@
+/* Basic styling for the body and navbar */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+}
+
+/* Navbar styling */
+nav.navbar {
+    background-color: #343a40;
+    padding: 10px 20px;
+    color: white;
+}
+
+nav.navbar .logo img {
+    width: 100px;
+    height: 100px;
+}
+
+#navbar-links {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+#navbar-links li {
+    display: inline;
+}
+
+#navbar-links a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+}
+
+#navbar-links a:hover {
+    background-color: #495057;
+    border-radius: 5px;
+}
+
+/* Navbar responsive adjustments */
+.menu-icon {
+    display: none;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+}
+
+.navbar-toggler {
+    display: none;
+}
+
+.navbar-nav {
+    display: flex;
+}
+
+/* Container and Product Cards */
+.container {
+    margin-top: 30px;
+    padding: 0 20px;
+}
+
+.card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 10px;
+}
+
+.card-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0;
+}
+
+.card-text {
+    font-size: 0.9em;
+    color: #555;
+}
+
+/* Grid system for products */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+/* Column sizes for different breakpoints */
+.col-lg-3,
+.col-md-4,
+.col-sm-6 {
+    flex: 1 1 22%;  /* Default for large screens */
+    margin-bottom: 30px;
+}
+
+@media screen and (max-width: 992px) {
+    .col-lg-3 {
+        flex: 1 1 48%; /* Medium screens - two columns */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .col-md-4 {
+        flex: 1 1 48%; /* Small screens - two columns */
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .col-sm-6 {
+        flex: 1 1 100%; /* Extra small screens - one column */
+    }
+
+    #navbar-links {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .menu-icon {
+        display: block;
+    }
+
+    .navbar-toggler {
+        display: block;
+    }
+
+    .navbar-nav {
+        display: block;
+    }
+
+    .navbar-nav a {
+        padding: 15px 0;
+    }
+
+    #navbar-links.active {
+        display: flex;
+    }
+}

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     {% load static %}
@@ -67,4 +67,91 @@
 </html>
 
 
+ -->
 
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product view Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="{% static 'user_view.css' %}">
+</head>
+<body>
+    
+    <div class="container mt-4">
+        <div class="product-container">
+            <div class="product-card">
+                
+                <img class="product-img" src="{{ data.img.url }}" alt="Product Image" title="Click to view larger image">
+              
+                <div class="product-details">
+                    <div class="product-title">{{ data.pname }}</div>
+                    <div class="product-description">{{ data.pdis }}</div>
+
+                    <label for="ram-selection">Select RAM:</label>
+                    <div class="form-check">
+                        {% for ram_option in ram_options %}
+                            <input class="form-check-input" type="radio" name="ram" id="ram{{ forloop.counter }}" value="{{ ram_option }}" 
+                                   {% if ram == ram_option %}checked{% endif %} onchange="get_correct_price()" data-bs-toggle="tooltip" title="This is {{ ram_option }} RAM">
+                            <label class="form-check-label" for="ram{{ forloop.counter }}">
+                                {{ ram_option }}
+                            </label>
+                        {% endfor %}
+                    </div>
+
+                    {% if ram %}
+                        <label for="storage-selection">Select Storage:</label>
+                        <div class="form-check">
+                            {% for storage_option in storage_options %}
+                                <input class="form-check-input" type="radio" name="storage" id="storage{{ forloop.counter }}" 
+                                       value="{{ storage_option }}" {% if storage == storage_option %}checked{% endif %} onchange="get_correct_price2()" data-bs-toggle="tooltip" title="This is {{ storage_option }} storage">
+                                <label class="form-check-label" for="storage{{ forloop.counter }}">
+                                    {{ storage_option }}
+                                </label>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                   
+                    {% if not valid_combination %}
+                        <div class="alert alert-warning mt-3">
+                            The combination is not available.
+                        </div>
+                    {% else %}
+                        <p class="mt-3">Price: {{ data2.price }}₹</p>
+                        <div class="product-actions">
+                            <a href="../buy_now/{{ data2.pk }}" class="btn btn-primary">Buy Now</a>
+                            <a href="../add_cart/{{ data2.pk }}" class="btn btn-secondary">Add to Cart</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Bootstrap tooltips
+        document.addEventListener('DOMContentLoaded', function () {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            })
+        });
+
+        function get_correct_price() {
+            const ram = document.querySelector('input[name="ram"]:checked').value;
+            const storage = document.querySelector('input[name="storage"]:checked') ? document.querySelector('input[name="storage"]:checked').value : '';
+            window.location.href = window.location.pathname + `?ram=${ram}&storage=${storage}`;
+        }
+
+        function get_correct_price2() {
+            const storage = document.querySelector('input[name="storage"]:checked').value;
+            window.location.href = window.location.pathname + `?ram={{ ram }}&storage=${storage}`;
+        }
+    </script>
+</html>

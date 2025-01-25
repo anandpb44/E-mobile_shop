@@ -193,15 +193,16 @@ def user_home(req):
         return render(req,'user/user_home.html',{'products':products,'details':details,'data':data})
     else:
         return redirect(shop_log)
+    
+
 def brand_products(req, brand_id):
-    # Get the category (brand) using the brand_id
     brand = get_object_or_404(Category, pk=brand_id)
-    
-    # Fetch all products for this brand
     products = Product.objects.filter(cate=brand)
-    
-    # Pass the products to the template
     return render(req, 'user/brand_products.html', {'brand': brand, 'products': products})
+
+
+#----------------------------------------------------
+
 # def user_view(req,pid):
 #     data=Product.objects.get(pk=pid)
 #     data1=Details.objects.filter(pro=pid)
@@ -214,37 +215,64 @@ def brand_products(req, brand_id):
 #             storage=req.GET.get('storage')
 #             data2=Details.objects.get(pro=pid,pk=storage)
 #     return render(req,'user/user_view.html',{'data':data,'data1':data1,'data2':data2,'ram':ram})
+
+# def user_view(req, pid):
+#     data = Product.objects.get(pk=pid)  
+#     data1 = Details.objects.filter(pro=pid)  
+#     ram_options = data1.values_list('ram', flat=True).distinct() 
+#     storage_options = data1.values_list('storage', flat=True).distinct() 
+#     data2 = data1[0] if data1.exists() else None  
+#     ram = req.GET.get('ram')
+#     if ram:
+#         data2 = data1.filter(ram=ram).first() 
+
+#     storage = req.GET.get('storage')
+
+#     if storage and data2:
+#         data2 = data1.filter(ram=data2.ram, storage=storage).first() 
+
+#     return render(req, 'user/user_view1.html', {
+#         'data': data,
+#         'data1': data1,
+#         'data2': data2,
+#         'ram_options':ram_options,
+#         'storage_options':storage_options,
+#         'ram': ram,
+#         'storage': storage,
+#     })
+
 def user_view(req, pid):
-    data = Product.objects.get(pk=pid)  # Get the product
-    data1 = Details.objects.filter(pro=pid)  # Get all related details for the product
-    ram_options = data1.values_list('ram', flat=True).distinct()  # Get distinct RAM values
+    data = Product.objects.get(pk=pid)  
+    data1 = Details.objects.filter(pro=pid)  
+    ram_options = data1.values_list('ram', flat=True).distinct() 
     storage_options = data1.values_list('storage', flat=True).distinct() 
-    
-    # Default data2 to the first detail object
-    data2 = data1[0] if data1.exists() else None  # Assuming data1 has at least one item
-
-    # Get selected RAM from GET request, if available
+    data2 = data1[0] if data1.exists() else None  
     ram = req.GET.get('ram')
-    if ram:
-        data2 = data1.filter(ram=ram).first()  # Filter based on selected RAM
-
-    # Get selected storage from GET request, if available
     storage = req.GET.get('storage')
-    if storage and data2:
-        data2 = data1.filter(ram=data2.ram, storage=storage).first()  # Filter based on both RAM and storage
 
-    # Render the page with the correct context
+    # Filter based on the selected RAM and storage
+    if ram:
+        data2 = data1.filter(ram=ram).first()
+    
+    if storage and data2:
+        data2 = data1.filter(ram=data2.ram, storage=storage).first()
+
+    # Check if the selected combination is valid
+    valid_combination = data2 is not None
+
     return render(req, 'user/user_view1.html', {
         'data': data,
         'data1': data1,
         'data2': data2,
-        'ram_options':ram_options,
-        'storage_options':storage_options,
+        'ram_options': ram_options,
+        'storage_options': storage_options,
         'ram': ram,
         'storage': storage,
+        'valid_combination': valid_combination,
     })
 
 
+   
 
 #-------------------------------------------------------
 
@@ -579,8 +607,10 @@ def bookings2(req):
         address=Address.objects.get(pk=req.session['address'])
         user=User.objects.get(username=req.session['user'])
         cart=Cart.objects.filter(user=user)
+
         for i in cart:
-            data=Buy.objects.create(user=i.user,product=i.details,qty=i.qty,address=Address.objects.get(pk=address.pk))
+            price=float(i.details.price)*i.qty
+            data=Buy.objects.create(user=i.user,product=i.details,t_price=price,qty=i.qty,address=Address.objects.get(pk=address.pk))
             data.save()
         cart.delete()
         return redirect(user_bookings)
