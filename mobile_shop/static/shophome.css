@@ -1,120 +1,133 @@
-/* Custom Styles for Shop Home Page */
-
-/* Body and Container */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
     margin: 0;
     padding: 0;
+    background-color: #f4f4f4;
 }
 
-/* Navbar Styling */
-.navbar {
-    padding: 15px;
+header {
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
 }
 
 .navbar-logo img {
-    max-width: 100%;
-    height: auto;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
 }
 
-.navbar-nav .nav-item {
-    margin-right: 15px;
+/* Navbar Styles */
+.navbar {
+    padding: 15px 30px;
+}
+
+.navbar-nav {
+    margin-left: auto;
 }
 
 .navbar-nav .nav-link {
+    color: #555 !important;
+    font-weight: bold;
+    padding: 8px 15px;
+    transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+.navbar-toggler {
+    border: none;
+    outline: none;
+}
+
+.navbar-toggler-icon {
+    background-color: #555;
+}
+
+/* Dropdown Button Design */
+.dropdown-menu {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-menu a {
+    color: #555;
+    font-weight: 500;
+}
+
+.dropdown-menu a:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Card Styles */
+.card {
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card-title {
+    font-size: 1.2rem;
     font-weight: bold;
     color: #333;
 }
 
-.navbar-nav .nav-link:hover {
-    color: #007bff;
-}
-
-/* Card Styling */
-.card {
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border: none;
-}
-
-.card-img-top {
-    height: 300px;
-    object-fit: cover;
-    border-radius: 8px 8px 0 0;
-}
-
-.card-body {
-    padding: 20px;
-}
-
-.card-title {
-    font-weight: bold;
-}
-
 .card-text {
-    color: #555;
+    color: #777;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
 }
 
-.card-text p {
-    margin-bottom: 10px;
+.btn {
+    font-size: 0.9rem;
 }
 
-/* Buttons */
-.btn-primary {
-    background-color: #007bff;
-    border: none;
-    font-weight: bold;
+/* Grid Layout for Products */
+.container {
+    padding: 30px 15px;
 }
 
-.btn-danger {
-    background-color: #dc3545;
-    border: none;
-    font-weight: bold;
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.col-lg-6 {
+    width: 48%;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .col-lg-6 {
+        width: 100%;
+    }
+
     .navbar-nav {
+        margin-top: 10px;
         text-align: center;
     }
 
     .navbar-nav .nav-item {
-        margin-right: 0;
         margin-bottom: 10px;
-    }
-
-    .navbar-toggler {
-        display: block;
-    }
-
-    .navbar-collapse {
-        display: none;
-    }
-
-    .navbar-collapse.active {
-        display: block;
-    }
-}
-
-@media (max-width: 576px) {
-    .card-img-top {
-        height: 250px;
-    }
-
-    .card-body {
-        padding: 15px;
-    }
-
-    .card-title {
-        font-size: 1.2rem;
-    }
-
-    .card-text {
-        font-size: 0.9rem;
-    }
-
-    .btn {
-        font-size: 0.9rem;
     }
 }

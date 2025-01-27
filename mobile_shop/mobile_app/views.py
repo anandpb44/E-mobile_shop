@@ -50,7 +50,8 @@ def shop_home(req):
     if 'mshop' in req.session:
         product=Product.objects.all()
         details=Details.objects.all()
-        return render(req,'shop/shop_home.html',{'product':product,'details':details})
+        data=Category.objects.all()
+        return render(req,'shop/shop_home.html',{'product':product,'details':details,'data':data})
     else:
         return redirect(shop_log)
 
@@ -68,6 +69,14 @@ def add_pro(req):
         data=Category.objects.all()
         return render(req,'shop/add_pro.html',{'data':data})
 
+def admin_view(req,pid):
+    if 'mshop' in req.session:
+        pro=Product.objects.filter(pk=pid)
+        detail=Details.objects.filter(pro=pid)
+        category=Category.objects.all()
+        return render(req,'shop/view.html',{'pro':pro,'details':detail,'cat':category})
+    else:
+        return redirect(shop_log)
 def category(req):
     if req.method=='POST':
         name=req.POST['bname']
@@ -244,9 +253,12 @@ def brand_products(req, brand_id):
 def user_view(req, pid):
     data = Product.objects.get(pk=pid)  
     data1 = Details.objects.filter(pro=pid)  
+    data3=Category.objects.all()
+    sto=Details.objects.get(pro=pid,pk=data1[0].pk)
     ram_options = data1.values_list('ram', flat=True).distinct() 
     storage_options = data1.values_list('storage', flat=True).distinct() 
     data2 = data1[0] if data1.exists() else None  
+    color=req.GET.get('color')
     ram = req.GET.get('ram')
     storage = req.GET.get('storage')
 
@@ -264,6 +276,8 @@ def user_view(req, pid):
         'data': data,
         'data1': data1,
         'data2': data2,
+        'data3':data3,
+        'stock':sto,
         'ram_options': ram_options,
         'storage_options': storage_options,
         'ram': ram,

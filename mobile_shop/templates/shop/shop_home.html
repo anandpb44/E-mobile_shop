@@ -90,13 +90,12 @@
 
 <body>
 
-    <!-- Navbar -->
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="navbar-logo">
                 <a href="#"><img src="{% static 'img/logo.png' %}" alt="Logo" width="100" height="100"></a>
             </div>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu"
+            <button class="navbar-toggler" id="navbarToggle" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu"
                 aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -104,6 +103,16 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="add_pro">Add Product</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Brands
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {% for i in data %}
+                            <li><a href="{% url 'brand_products' brand_id=i.pk %}" class="dropdown-item">{{i.cname}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
                     <li class="nav-item"><a class="nav-link" href="category">Category</a></li>
                     <li class="nav-item"><a class="nav-link" href="logout">LogOut</a></li>
                 </ul>
@@ -116,23 +125,15 @@
         <div class="row">
             {% for p in product %}
             <div class="col-lg-6 col-md-12 mb-4">
-                <div class="card">
-                    <img class="card-img-top" src="{{ p.img.url }}" alt="Card image" style="height: 300px; object-fit: cover;">
-                    <div class="card-body">
-                        <h4 class="card-title">{{ p.pname }}</h4>
-                        <p class="card-text">{{ p.pdis }}</p>
-                        {% for d in details %}
-                        {% if d.pro == p %}
-                        <p class="card-text">Color: {{ d.color }}</p>
-                        <p class="card-text">Storage: {{ d.storage }}</p>
-                        <p class="card-text">RAM: {{ d.ram }}</p>
-                        <p class="card-text">Price: ₹{{ d.price }}</p>
-                        {% endif %}
-                        {% endfor %}
-                        <a href="edit_pro/{{ p.pk }}" class="btn btn-primary">Edit</a>
-                        <a href="delete/{{ p.pk }}" class="btn btn-danger">Delete</a>
+                <a href="view/{{p.pk}}">
+                    <div class="card">
+                        <img class="card-img-top" src="{{ p.img.url }}" alt="Card image">
+                        <div class="card-body">
+                            <h4 class="card-title">{{ p.pname }}</h4>
+                            <p class="card-text">{{ p.pdis }}</p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
             {% endfor %}
         </div>
@@ -149,5 +150,4 @@
     </script>
 
 </body>
-
 </html>

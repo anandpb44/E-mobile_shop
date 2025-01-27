@@ -30,6 +30,7 @@ urlpatterns = [
     path('brand/<int:brand_id>/', views.brand_products, name='brand_products'),
     path('category',views.category),
     path('add_pro',views.add_pro),
+    path('view/<pid>',views.admin_view),
     path('details',views.details),
     path('delete/<pid>',views.delete),
     path('edit_pro/<pid>',views.edit_pro),

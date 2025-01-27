@@ -1,3 +1,71 @@
+.navbar {
+    background-color: #c71313;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar .logo {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* Navbar Links */
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 15px;
+}
+
+.navbar ul li {
+    display: inline-block;
+}
+
+.navbar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 8px 15px;
+    border-radius: 5px;
+}
+
+.navbar ul li a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* Search Bar */
+.navbar .search-bar input {
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    width: 200px;
+}
+
+.navbar .cart-icon {
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Hamburger Menu */
+.navbar .menu-icon {
+    display: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+
+
 .form-check-input {
     display: none;
 }
@@ -31,6 +99,43 @@
 
 /* Responsive design */
 @media (max-width: 768px) {
+
+    .navbar {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .navbar ul {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .navbar ul li a {
+        padding: 10px;
+        font-size: 18px;
+    }
+
+    .navbar ul.show {
+        display: block;
+    }
+
+    .navbar .search-bar input {
+        width: 80%;
+        margin-top: 10px;
+    }
+
+    .navbar .cart-icon {
+        font-size: 28px;
+        margin-top: 10px;
+    }
+
+    .navbar .menu-icon {
+        display: block;
+    }
+
+
     .product-container {
         text-align: center;
     }
