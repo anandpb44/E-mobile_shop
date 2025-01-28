@@ -66,6 +66,9 @@
         <h2 class="mb-4">Edit Product Details</h2>
         <form action="" method="post">
             {% csrf_token %}
+            <div>
+                <input type="file" name="ed_img">
+            </div>
             <div class="mb-3">
                 <input type="text" name="product" class="form-control" value="{{ data1.pk }}" readonly>
             </div>

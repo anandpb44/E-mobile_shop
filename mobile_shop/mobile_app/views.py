@@ -136,13 +136,14 @@ def edit_pro(req,pid):
     
 def edit_details(req,pid):
     if req.method=='POST':
+        eimg=req.POST['ed_img']
         product=req.POST['product']
         ecolor=req.POST['ed_color']
         estorage=req.POST['ed_storage']
         eram=req.POST['ed_ram']
         eprice=req.POST['ed_price']
         estock=req.POST['ed_stock']
-        data=Details.objects.create(pro=Product.objects.get(pk=product),color=ecolor,storage=estorage,ram=eram,price=eprice,stock=estock)
+        data=Details.objects.create(pro=Product.objects.get(pk=product),img=eimg,color=ecolor,storage=estorage,ram=eram,price=eprice,stock=estock)
         data.save()
         return redirect("edit_details",pid=pid)
     else:
@@ -258,17 +259,16 @@ def user_view(req, pid):
     ram_options = data1.values_list('ram', flat=True).distinct() 
     storage_options = data1.values_list('storage', flat=True).distinct() 
     data2 = data1[0] if data1.exists() else None  
+    img=req.GET.get('img')
     color=req.GET.get('color')
     ram = req.GET.get('ram')
     storage = req.GET.get('storage')
-
     # Filter based on the selected RAM and storage
     if ram:
         data2 = data1.filter(ram=ram).first()
     
     if storage and data2:
         data2 = data1.filter(ram=data2.ram, storage=storage).first()
-
     # Check if the selected combination is valid
     valid_combination = data2 is not None
 
@@ -277,7 +277,7 @@ def user_view(req, pid):
         'data1': data1,
         'data2': data2,
         'data3':data3,
-        'stock':sto,
+        'sto':sto,
         'ram_options': ram_options,
         'storage_options': storage_options,
         'ram': ram,
@@ -320,17 +320,22 @@ def delete_address(req, pid):
         return redirect(shop_log)
 
 def add_cart(req,cid):
-        
-    detail=Details.objects.get(pk=cid)
-    user=User.objects.get(username=req.session['user'])
-    try:
-        cart=Cart.objects.get(details=detail,user=user)
-        cart.qty+=1
-        cart.save()
-    except:
-        data=Cart.objects.create(details=detail,user=user,qty=1)
-        data.save()
-    return redirect(view_cart)
+    if 'user' in req.session:   
+        detail=Details.objects.get(pk=cid)
+        user=User.objects.get(username=req.session['user'])
+        try:
+            cart=Cart.objects.get(details=detail,user=user)
+            cart.qty+=1
+            cart.save()
+        except:
+            data=Cart.objects.create(details=detail,user=user,qty=1)
+            data.save()
+        stock=int(detail.stock)
+        stock-=1
+        detail.save()
+        return redirect(view_cart)
+    else:
+        return redirect(shop_log)
     
 def view_cart(req):
     user=User.objects.get(username=req.session['user'])
@@ -397,12 +402,17 @@ def place_order(req,detail,data,qty,price):
         req.session['pid']=detail.pk
         if req.method=='POST':
             address=req.POST['address']
+            pay=req.POST['pay']
             addr=Address.objects.get(user=user,pk=address)
         else:
             return render(req,'user/order.html',{'details':detail,'data':data,'price':price})
-        
         req.session['address']=addr.pk
-        return redirect("order_payment",pid=detail.pk)
+        
+        if pay == 'paynow' :
+           return redirect("order_payment",pid=detail.pk)
+        else:
+            return redirect(bookings)
+       
     else:
         return redirect(shop_log)
     

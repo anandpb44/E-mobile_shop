@@ -1,41 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    {% load static %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Place Order</title>
-    <link rel="stylesheet" href="{% static 'order.css' %}">
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Place Order</title>
+  <link rel="stylesheet" href="{% static 'order.css' %}">
 </head>
+
 <body>
-    <h2>Place Order</h2>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4">
-                <img src="{{details.pro.img.url}}" alt="" width="300px" height="300px">
-            </div>
-            <div class="col-lg-8">
-              <form action="" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <label for="">Shipping address : </label><br>
-                <select name="address" id="address">
-                  {% for i in data %}
-                    <option value="{{i.pk}}">{{i.name}},{{i.house}},{{i.street}},{{i.pin}},{{i.state}}</option>
-                  {% endfor %}
-                </select>
-                <a href="../../../../address">Add new address + </a>
-                <h3>{{details.pro.pname}}</h3>
-                <h3 class="price">Amount :{{details.price}}₹</h3>
-                  <label class="rad">Order Now
-                    <input type="radio" checked="checked" name="radio">
-                  </label>
-                  <label class="rad">Order Later
-                    <input type="radio" checked="checked" name="radio">
-                  </label>
-                <button type="submit" class="btn btn-primary">CONFIRM</button>
-              </form>             
-            </div>
-        </div>
+  <h2>Place Order</h2>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4">
+        <img src="{{details.pro.img.url}}" alt="" width="300px" height="300px">
+      </div>
+      <div class="col-lg-8">
+        <form action="" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <label for="">Shipping address : </label><br>
+          <select name="address" id="address">
+            {% for i in data %}
+            <option value="{{i.pk}}">{{i.name}},{{i.house}},{{i.street}},{{i.pin}},{{i.state}}</option>
+            {% endfor %}
+          </select>
+          <a href="../../../../address">Add new address + </a>
+          <h3>{{details.pro.pname}}</h3>
+          <h3 class="price">Amount :{{details.price}}₹</h3>
+
+          <div class="payment-options">
+            <label for="paynow" class="payment-option">
+              <input type="radio" name="pay" id="paynow" value="paynow"> Pay Now
+            </label>
+            <label for="paylater" class="payment-option">
+              <input type="radio" name="pay" id="paylater" value="paylater"> Pay Later
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary">CONFIRM</button>
+        </form>
+      </div>
     </div>
+  </div>
 </body>
+
 </html>

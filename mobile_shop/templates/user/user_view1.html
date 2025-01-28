@@ -172,7 +172,7 @@
 <body>
     <nav class="navbar">
         <!-- Logo -->
-        <a href="#" class="logo"><img src="static/img/logo.png" alt="" width="100" height="100"></a>
+        <a href="#" class="logo"><img src="../static/img/logo.png" alt="" width="100" height="100" style="baccolor: white;"></a>
 
         <!-- Navbar Links -->
         <ul id="navbar-links">
@@ -210,11 +210,6 @@
                     <div class="product-title">{{ data.pname }}</div>
                     <div class="product-description">{{ data.pdis }}</div>
                     <div class="product-description">COLOR :{{ data2.color }}</div>
-                    {% if stock.stock > 0 %}
-                    <h4 class=" stock"> ONLY {{data2.stock}} LEFT</h4>
-                    {% else %}
-                    <h4 class="stock">OUT OF STOCK </h4>
-                    {% endif %}
                     <label for="ram-selection">RAM:</label>
                     <div class="form-check">
                         {% for ram_option in ram_options %}
@@ -243,16 +238,24 @@
                     </div>
                     {% endif %}
 
-                    {% if not valid_combination %}
+                    {% if sto.stock > 0 %}
+                    <h4 > ONLY {{data2.stock}} LEFT</h4>
+                    <div class="product-actions">
+                        <a href="../buy_now/{{ data2.pk }}" class="btn btn-primary">Buy Now</a>
+                        <a href="../add_cart/{{ data2.pk }}" class="btn btn-secondary">Add to Cart</a>
+                    </div>
+                    {% else %}
+                    <h4 class="stock">OUT OF STOCK </h4>
+                    
+                    {% endif %}
+
+                    {% if not valid_combination and sto.stock > 0 %}
                     <div class="alert alert-warning mt-3">
                         The combination is not available.
                     </div>
                     {% else %}
                     <p class="mt-3">Price: {{ data2.price }}₹</p>
-                    <div class="product-actions">
-                        <a href="../buy_now/{{ data2.pk }}" class="btn btn-primary">Buy Now</a>
-                        <a href="../add_cart/{{ data2.pk }}" class="btn btn-secondary">Add to Cart</a>
-                    </div>
+                   
                     {% endif %}
                 </div>
             </div>
