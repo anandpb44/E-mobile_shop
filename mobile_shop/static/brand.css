@@ -1,6 +1,7 @@
 /* Basic styling for the body and navbar */
 body {
     font-family: Arial, sans-serif;
+    font-style: italic;
     margin: 0;
     padding: 0;
     background-color: #f8f9fa;
@@ -8,9 +9,13 @@ body {
 
 /* Navbar styling */
 nav.navbar {
-    background-color: #343a40;
+    background-color: #0069d1;
     padding: 10px 20px;
-    color: white;
+    color: rgb(240, 235, 235);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
 }
 
 nav.navbar .logo img {
@@ -23,7 +28,6 @@ nav.navbar .logo img {
     padding: 0;
     margin: 0;
     display: flex;
-    justify-content: flex-end;
     gap: 20px;
 }
 
@@ -38,7 +42,7 @@ nav.navbar .logo img {
 }
 
 #navbar-links a:hover {
-    background-color: #495057;
+    background-color: #43bdd3;
     border-radius: 5px;
 }
 
@@ -148,7 +152,65 @@ nav.navbar .logo img {
         padding: 15px 0;
     }
 
-    #navbar-links.active {
+    #navbar-links.show {
+        display: flex;
+    }
+}
+
+/* Additional tweaks for responsiveness */
+.container h2 {
+    font-size: 1.5em;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 200px; /* Adjust height for responsiveness */
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card-title {
+    font-size: 1em;
+}
+
+.card-text {
+    font-size: 0.8em;
+    color: #777;
+}
+
+/* Navbar toggle functionality */
+#navbar-links {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+.menu-icon {
+    display: none;
+}
+
+.navbar-toggler {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    #navbar-links {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .menu-icon {
+        display: block;
+        cursor: pointer;
+    }
+
+    #navbar-links.show {
         display: flex;
     }
 }

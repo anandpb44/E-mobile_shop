@@ -19,6 +19,8 @@ from django.views.decorators.csrf import csrf_exempt
 def shop_log(req):
     if 'mshop' in req.session:
         return redirect(shop_home)
+    if 'user' in req.session:
+        return redirect(user_home)
     if req.method=='POST':
         uname=req.POST['username']
         password=req.POST['password']
@@ -255,7 +257,7 @@ def user_view(req, pid):
     data = Product.objects.get(pk=pid)  
     data1 = Details.objects.filter(pro=pid)  
     data3=Category.objects.all()
-    sto=Details.objects.get(pro=pid,pk=data1[0].pk)
+    data4=Details.objects.get(pro=pid,pk=data1[0].pk)
     ram_options = data1.values_list('ram', flat=True).distinct() 
     storage_options = data1.values_list('storage', flat=True).distinct() 
     data2 = data1[0] if data1.exists() else None  
@@ -277,7 +279,8 @@ def user_view(req, pid):
         'data1': data1,
         'data2': data2,
         'data3':data3,
-        'sto':sto,
+        'data4':data4,
+
         'ram_options': ram_options,
         'storage_options': storage_options,
         'ram': ram,
@@ -294,6 +297,7 @@ def add_address(req):
     if 'user' in req.session:
         user=User.objects.get(username=req.session['user'])
         data=Address.objects.filter(user=user)
+        data2=Category.objects.all()
         if req.method=='POST':
             user=User.objects.get(username=req.session['user'])
             name=req.POST['name']
@@ -307,7 +311,7 @@ def add_address(req):
             return redirect(add_address)
         else:
 
-            return render(req,'user/address.html',{'data':data})
+            return render(req,'user/address.html',{'data':data,'data2':data2})
     else:
         return redirect(shop_log)
 
@@ -340,7 +344,8 @@ def add_cart(req,cid):
 def view_cart(req):
     user=User.objects.get(username=req.session['user'])
     data=Cart.objects.filter(user=user)
-    return render(req,'user/cart.html',{'cart':data})
+    data2=Category.objects.all()
+    return render(req,'user/cart.html',{'cart':data,'data2':data2})
 def deleteCart(req,pid):
     if 'user' in req.session:
         data=Cart.objects.get(pk=pid)
@@ -538,11 +543,16 @@ def place_order2(req,qty,tprice,total):
         cart=Cart.objects.filter(user=user)
         if req.method=='POST':
             address=req.POST['address']
+            pay=req.POST['pay']
             addr=Address.objects.get(user=user,pk=address)
         else:
             return render(req,'user/order2.html',{'cart':cart,'data':data,'qty':qty,'tprice':tprice,'total':total})
         req.session['address']=addr.pk
-        return redirect("order_payment2")
+        if pay == 'paynow' :
+           return redirect("order_payment",pid=detail.pk)
+        else:
+            return redirect(bookings)
+        
     else:
         return redirect(shop_log)
 
@@ -643,9 +653,13 @@ def bookings2(req):
 
 
 def user_bookings(req):
-    user=User.objects.get(username=req.session['user'])
-    booking=Buy.objects.filter(user=user)[::-1]
-    return render(req,'user/user_booking.html',{'booking':booking})
+    if 'user' in req.session:
+        user=User.objects.get(username=req.session['user'])
+        booking=Buy.objects.filter(user=user)[::-1]
+        data=Category.objects.all()
+        return render(req,'user/user_booking.html',{'booking':booking,'data':data})
+    else:
+        return redirect(shop_log)
 def delete_bookings(req,pid):
     if 'user' in req.session:
         data=Buy.objects.get(pk=pid)

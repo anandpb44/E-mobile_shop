@@ -6,12 +6,129 @@
 }
 
 /* Body and overall styling */
+
 body {
     font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
     background-color: #f4f4f4;
-    color: #333;
-    padding: 20px;
 }
+
+/* Navbar Styling */
+.navbar {
+    background-color: #144434;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar .logo {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* Navbar Links */
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 15px;
+}
+
+.navbar ul li {
+    display: inline-block;
+}
+
+.navbar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 8px 15px;
+    border-radius: 5px;
+}
+
+.navbar ul li a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* Search Bar */
+.navbar .search-bar input {
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    width: 200px;
+}
+
+.navbar .cart-icon {
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Hamburger Menu */
+.navbar .menu-icon {
+    display: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+
+.nav-item.dropdown {
+    position: relative;
+}
+
+.nav-item .dropdown-toggle {
+    /* background-color: #674a88 ; */
+    color: white;
+    border: none;
+    font-size: 16px;
+    padding: 10px;
+    cursor: pointer;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.nav-item .dropdown-toggle:hover {
+    color: #000000;
+    background-color: #f3f2f2;
+}
+
+.nav-item .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #144434;
+    min-width: 150px;
+    padding: 10px;
+    z-index: 1000;
+}
+
+.nav-item:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-item {
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    display: block;
+    font-size: 14px;
+}
+
+.dropdown-item:hover {
+    background-color: #fffdfd;
+    color: #ffffff;
+}
+
 
 /* Header Styling */
 h1 {
@@ -114,6 +231,40 @@ button:hover {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .navbar ul {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .navbar ul li a {
+        padding: 10px;
+        font-size: 18px;
+    }
+
+    .navbar ul.show {
+        display: block;
+    }
+
+    .navbar .search-bar input {
+        width: 80%;
+        margin-top: 10px;
+    }
+
+    .navbar .cart-icon {
+        font-size: 28px;
+        margin-top: 10px;
+    }
+
+    .navbar .menu-icon {
+        display: block;
+    }
     form {
         padding: 15px;
     }

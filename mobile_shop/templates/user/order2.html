@@ -31,7 +31,14 @@
                 <h3 class="price">Amount :{{i.details.price}}₹</h3>
                 <h3 class="price">qty: {{i.qty}}</h3>
                 {% endfor %}
-                 
+                <div class="payment-options">
+                  <label for="paynow" class="payment-option">
+                    <input type="radio" name="pay" id="paynow" value="paynow"> Pay Now
+                  </label>
+                  <label for="paylater" class="payment-option">
+                    <input type="radio" name="pay" id="paylater" value="paylater"> Pay Later
+                  </label>
+                </div>
                 <button type="submit" class="btn btn-primary">CONFIRM</button>
               </form>             
             </div>

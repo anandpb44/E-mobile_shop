@@ -12,10 +12,10 @@
 <body>
 
     <nav class="navbar">
-        <!-- Logo -->
+     
         <a href="#" class="logo"><img src="static/img/logo.png" alt="" width="80" height="100"></a>
 
-        <!-- Navbar Links -->
+       
         <ul id="navbar-links">
             <li><a href="user_home">Home</a></li>
            
@@ -36,12 +36,8 @@
             <li><a href="logout">LogOut</a></li>
         </ul>
 
-
-        <!-- Cart Icon -->
-       
-        <!-- Hamburger Menu Icon (for mobile) -->
         <div class="menu-icon" id="menu-icon">
-            &#9776; <!-- Hamburger icon -->
+            &#9776;
         </div>
     </nav>
     <div class="container mt-2">
@@ -54,13 +50,6 @@
                 <div class="card-body">
                   <h4 class="card-title">{{p.pname}}</h4>
                   <h5 class="card-title">{{p.pdis}}</h5>
-                  <!-- {% for d in details %}
-                  {% if d.pro == p %}
-                  <p class="card-text">Color:{{d.color}}</p>
-                  <p class="card-text">Storage:{{d.storage}}</p> <p class="card-text">RAM:{{d.ram}}</p>
-                  <p class="card-text">Price:{{d.price}}₹</p>
-                  {% endif %}
-                  {% endfor %} -->
                 </div>
               </div>
             </a>
@@ -70,16 +59,7 @@
       </div>
     
 
-
-
-
-
-
-
-
-
     <script>
-        // JavaScript to Toggle Navbar on Mobile View
         const menuIcon = document.getElementById('menu-icon');
         const navbarLinks = document.getElementById('navbar-links');
 

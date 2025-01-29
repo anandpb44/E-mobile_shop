@@ -12,21 +12,37 @@
 </head>
 
 <body>
-    <!-- <div class="container mt-4">
-        <a href="">
-        <div class="row" style="gap: 10px;">
-            {%for i in booking %}
-            <div class="col-lg-4">
-                <img src="{{i.product.pro.img.url}}" alt="" width="400px" height="400px">
-                <p>{{i.product.pro.pname}}</p>
-                <p>Total:{{i.t_price}}</p>
-                <p>qty:{{i.qty}}</p>
-            </div>
-            {% endfor %}
+    
+    <nav class="navbar">
+     
+        <a href="#" class="logo"><img src="static/img/logo.png" alt="" width="80" height="100"></a>
+
+       
+        <ul id="navbar-links">
+            <li><a href="user_home">Home</a></li>
+           
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Brands
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% for i in data %}
+                    <li><a href="{% url 'brand_products' brand_id=i.pk %}" class="dropdown-item">{{i.cname}}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+         
+            <li><a href="address">Address</a></li>
+           <li><a href="view_cart">🛒</a></li>
+            <li><a href="logout">LogOut</a></li>
+        </ul>
+
+        <div class="menu-icon" id="menu-icon">
+            &#9776;
         </div>
-    </a>
-    </div> -->
-    <div class="card-container">
+    </nav>
+
+    <div class="card-container mt-5">
         {% for i in booking%}
         <div class="card">
             <img src="{{i.product.pro.img.url}}" alt="Card Image" class="card-img">
@@ -46,7 +62,14 @@
         {% endfor %}
     </div>
 
-    <a href="user_home" class="btn btn-primary" >BACK</a>
+    <script>
+        const menuIcon = document.getElementById('menu-icon');
+        const navbarLinks = document.getElementById('navbar-links');
+
+        menuIcon.addEventListener('click', () => {
+            navbarLinks.classList.toggle('show');
+        });
+    </script>
 </body>
     
 </html>

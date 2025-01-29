@@ -178,17 +178,20 @@
         <ul id="navbar-links">
             <li><a href="../user_home">Home</a></li>
 
-            <li>
-                {% for i in data3 %}
-                <a href="{% url 'brand_products' brand_id=i.pk %}">{{i.cname}}</a>
-                {% endfor %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Brands
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% for i in data3 %}
+                    <li><a href="{% url 'brand_products' brand_id=i.pk %}" class="dropdown-item">{{i.cname}}</a></li>
+                    {% endfor %}
+                </ul>
             </li>
-
-            <li><a href="user_booking">Bookings</a></li>
-            <li><a href="#">Contact</a></li>
-            <li><a href="address">Address</a></li>
-            <li><a href="view_cart">🛒</a></li>
-            <li><a href="logout">LogOut</a></li>
+            <li><a href="../user_booking">Bookings</a></li>
+            <li><a href="../address">Address</a></li>
+            <li><a href="../view_cart">🛒</a></li>
+            <li><a href="../logout">LogOut</a></li>
         </ul>
 
 
@@ -238,15 +241,15 @@
                     </div>
                     {% endif %}
 
-                    {% if sto.stock > 0 %}
+                    {% if data4.stock > 0 %}
                     <h4 > ONLY {{data2.stock}} LEFT</h4>
+                    
+                    {% else %}
+                    <h4 class="stock">OUT OF STOCK </h4>
                     <div class="product-actions">
                         <a href="../buy_now/{{ data2.pk }}" class="btn btn-primary">Buy Now</a>
                         <a href="../add_cart/{{ data2.pk }}" class="btn btn-secondary">Add to Cart</a>
                     </div>
-                    {% else %}
-                    <h4 class="stock">OUT OF STOCK </h4>
-                    
                     {% endif %}
 
                     {% if not valid_combination and sto.stock > 0 %}
@@ -263,6 +266,14 @@
     </div>
 
     <script>
+        const menuIcon = document.getElementById('menu-icon');
+        const navbarLinks = document.getElementById('navbar-links');
+
+        menuIcon.addEventListener('click', () => {
+            navbarLinks.classList.toggle('show');
+        });
+
+
         // Initialize Bootstrap tooltips
         document.addEventListener('DOMContentLoaded', function () {
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))

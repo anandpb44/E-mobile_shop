@@ -7,7 +7,7 @@ body {
 
 /* Navbar Styling */
 .navbar {
-    background-color: #333;
+    background-color: #674a88;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -71,21 +71,52 @@ body {
     font-size: 28px;
     cursor: pointer;
 }
-.dropdown-menu {
-    background-color: #f8f9fa;
-    border-radius: 5px;
-    border: none;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+.nav-item.dropdown {
+    position: relative;
 }
 
-.dropdown-menu a {
-    color: #555;
-    font-weight: 500;
-}
-
-.dropdown-menu a:hover {
-    background-color: #007bff;
+.nav-item .dropdown-toggle {
+    /* background-color: #674a88 ; */
     color: white;
+    border: none;
+    font-size: 16px;
+    padding: 10px;
+    cursor: pointer;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.nav-item .dropdown-toggle:hover {
+    color: #000000;
+    background-color: #f3f2f2;
+}
+
+.nav-item .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #674a88;
+    min-width: 150px;
+    padding: 10px;
+    z-index: 1000;
+}
+
+.nav-item:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-item {
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    display: block;
+    font-size: 14px;
+}
+
+.dropdown-item:hover {
+    background-color: #fffdfd;
+    color: #ffffff;
 }
 
 .card{
