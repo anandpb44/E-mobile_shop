@@ -253,41 +253,91 @@ def brand_products(req, brand_id):
 #         'storage': storage,
 #     })
 
+# def user_view(req, pid):
+#     data = Product.objects.get(pk=pid)  
+#     data1 = Details.objects.filter(pro=pid)  
+#     data3=Category.objects.all()
+#     data4=Details.objects.get(pro=pid,pk=data1[0].pk)
+#     ram_options = data1.values_list('ram', flat=True).distinct() 
+#     storage_options = data1.values_list('storage', flat=True).distinct() 
+#     data2 = data1[0] if data1.exists() else None  
+#     img=req.GET.get('img')
+#     color=req.GET.get('color')
+#     ram = req.GET.get('ram')
+#     storage = req.GET.get('storage')
+#     # Filter based on the selected RAM and storage
+#     if ram:
+#         data2 = data1.filter(ram=ram).first()
+    
+#     if storage and data2:
+#         data2 = data1.filter(ram=data2.ram, storage=storage).first()
+#     # Check if the selected combination is valid
+#     valid_combination = data2 is not None
+#     if req.GET.get('color'):
+#         color=req.GET.get('color')
+       
+#     return render(req, 'user/user_view1.html', {
+#         'data': data,
+#         'data1': data1,
+#         'data2': data2,
+#         'data3':data3,
+#         'data4':data4,
+
+#         'ram_options': ram_options,
+#         'storage_options': storage_options,
+#         'ram': ram,
+#         'storage': storage,
+#         'valid_combination': valid_combination,
+#     })
+
+
 def user_view(req, pid):
-    data = Product.objects.get(pk=pid)  
-    data1 = Details.objects.filter(pro=pid)  
-    data3=Category.objects.all()
-    data4=Details.objects.get(pro=pid,pk=data1[0].pk)
-    ram_options = data1.values_list('ram', flat=True).distinct() 
-    storage_options = data1.values_list('storage', flat=True).distinct() 
-    data2 = data1[0] if data1.exists() else None  
-    img=req.GET.get('img')
-    color=req.GET.get('color')
-    ram = req.GET.get('ram')
-    storage = req.GET.get('storage')
-    # Filter based on the selected RAM and storage
+    data = Product.objects.get(pk=pid)
+    data1 = Details.objects.filter(pro=pid)
+    data3 = Category.objects.all()
+    
+    # Fetch details for the first product in data1 (this could be optimized based on your model design)
+    data4 = data1.first()  # Use the first matching record
+    
+    # Get unique RAM and storage options
+    ram_options = data1.values_list('ram', flat=True).distinct()
+    storage_options = data1.values_list('storage', flat=True).distinct()
+    color_options=data1.values_list('color', flat=True).distinct
+    # Get selected parameters (color, ram, storage) from GET
+    color = req.GET.get('color', '')  # Default to empty string if not set
+    ram = req.GET.get('ram', '')
+    storage = req.GET.get('storage', '')
+    
+    # Filter based on the selected RAM, storage, and color
     if ram:
-        data2 = data1.filter(ram=ram).first()
+        data2 = data1.filter(ram=ram).first()  # Find the first matching RAM
+    else:
+        data2 = data1.first()  # Default to first option if RAM isn't selected
     
     if storage and data2:
-        data2 = data1.filter(ram=data2.ram, storage=storage).first()
-    # Check if the selected combination is valid
-    valid_combination = data2 is not None
-
+        data2 = data1.filter(ram=data2.ram, storage=storage).first()  # Filter by storage as well
+    
+    if color and data2:
+        data2 = data1.filter(ram=data2.ram, storage=data2.storage, color=color).first()  # Filter by color
+    stock=int(data4.stock)
+    # Check if the combination is valid
+    valid_combination = data2 is not None and stock > 0
+    
+    # Pass all data to the template
     return render(req, 'user/user_view1.html', {
         'data': data,
         'data1': data1,
         'data2': data2,
-        'data3':data3,
-        'data4':data4,
-
+        'data3': data3,
+        'data4': data4,
         'ram_options': ram_options,
         'storage_options': storage_options,
+        'color_options': color_options,
         'ram': ram,
         'storage': storage,
-        'valid_combination': valid_combination,
+        'color': color,
+        'valid_combination': valid_combination,  # This will control if the combination is valid
     })
-
 
    
 
@@ -362,6 +412,7 @@ def qty_incr(req,cid):
             data.qty+=1
             data.save()
         return redirect(view_cart)
+
     else:
         return redirect(shop_log)
 def qty_decr(req,cid):
