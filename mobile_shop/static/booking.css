@@ -16,7 +16,7 @@ body {
 
 /* Navbar Styling */
 .navbar {
-    background-color: #0aecfc;
+    background-color: #242525;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -106,7 +106,7 @@ body {
     position: absolute;
     top: 100%;
     left: 0;
-    background-color:#0aecfc;
+    background-color: #242525;
     min-width: 150px;
     padding: 10px;
     z-index: 1000;
@@ -193,7 +193,7 @@ body {
     background-color: #0056b3;
 }
 .footer {
-    background-color: #674a88;
+    background-color: #242525;
     color: #fff;
     padding: 30px 0;
     font-family: Arial, sans-serif;
