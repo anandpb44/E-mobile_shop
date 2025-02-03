@@ -9,7 +9,7 @@ body {
 
 /* Navbar styling */
 nav.navbar {
-    background-color: #0069d1;
+    background-color: #123252;
     padding: 10px 20px;
     color: rgb(240, 235, 235);
     display: flex;
@@ -113,7 +113,7 @@ nav.navbar .logo img {
 }
 
 .footer {
-    background-color: #674a88;
+    background-color:#123252;
     color: #fff;
     padding: 30px 0;
     font-family: Arial, sans-serif;

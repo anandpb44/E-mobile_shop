@@ -134,7 +134,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER =' anandpb44@gmail.com'
+EMAIL_HOST_USER =' afamobileshop@gmail.com'
 EMAIL_HOST_PASSWORD = 'reab sxce jspt wbyi'
 
 RAZORPAY_KEY_ID='rzp_test_BmbxOBqviZxQxc'
