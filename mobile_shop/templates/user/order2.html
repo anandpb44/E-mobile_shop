@@ -5,44 +5,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Place Order</title>
-    <link rel="stylesheet" href="{% static 'order.css' %}">
+    <link rel="stylesheet" href="{% static 'order2.css' %}">
 </head>
 <body>
     <h2>Place Order</h2>
     <div class="container">
-        <div class="row">
-            {% for i in cart%}
-            <div class="col-lg-4">
-                <img src="{{i.details.pro.img.url}}" alt="" width="300px" height="300px">
+      <div class="row">
+        <!-- Cart Items Section -->
+        <div class="col-lg-4 col-md-6 col-sm-12 cart-items">
+          {% for i in cart %}
+          <div class="cart-item">
+            <img src="{{i.details.pro.img.url}}" alt="{{i.details.pro.pname}}" class="product-image">
+            <h4>{{i.details.pro.pname}}</h4>
+            <p class="price">{{i.details.price}}₹</p>
+            <p class="qty">Qty: {{i.qty}}</p>
+          </div>
+          {% endfor %}
+        </div>
+    
+        <!-- Payment and Address Section -->
+        <div class="col-lg-8 col-md-6 col-sm-12 payment-section">
+          <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="address">Shipping Address:</label>
+            <select name="address" id="address" class="form-control">
+              {% for i in data %}
+              <option value="{{i.pk}}">{{i.name}}, {{i.house}}, {{i.street}}, {{i.pin}}, {{i.state}}</option>
+              {% endfor %}
+            </select>
+            <a href="../../../../address" class="add-new-address">Add new address +</a>
+    
+            {% for i in cart %}
+            <div class="cart-summary">
+              <h3>{{i.details.pro.pname}}</h3>
+              <p class="price">Amount: {{i.details.price}}₹</p>
+              <p class="qty">Qty: {{i.qty}}</p>
             </div>
             {% endfor %}
-            <div class="col-lg-8">
-              <form action="" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <label for="">Shipping address : </label><br>
-                <select name="address" id="address">
-                  {% for i in data %}
-                    <option value="{{i.pk}}">{{i.name}},{{i.house}},{{i.street}},{{i.pin}},{{i.state}}</option>
-                  {% endfor %}
-                </select>
-                <a href="../../../../address">Add new address + </a>
-                {% for i in cart %}
-                <h3>{{i.details.pro.pname}}</h3>
-                <h3 class="price">Amount :{{i.details.price}}₹</h3>
-                <h3 class="price">qty: {{i.qty}}</h3>
-                {% endfor %}
-                <div class="payment-options">
-                  <label for="paynow" class="payment-option">
-                    <input type="radio" name="pay" id="paynow" value="paynow"> Pay Now
-                  </label>
-                  <label for="paylater" class="payment-option">
-                    <input type="radio" name="pay" id="paylater" value="paylater"> Pay Later
-                  </label>
-                </div>
-                <button type="submit" class="btn btn-primary">CONFIRM</button>
-              </form>             
+    
+            <!-- Payment Options -->
+            <div class="payment-options">
+              <label class="payment-option">
+                <input type="radio" name="pay" id="paynow" value="paynow"> Pay Now
+              </label>
+              <label class="payment-option">
+                <input type="radio" name="pay" id="paylater" value="paylater"> Pay Later
+              </label>
             </div>
+    
+            <button type="submit" class="btn btn-primary confirm-button">Confirm</button>
+          </form>
         </div>
+      </div>
     </div>
+    
 </body>
 </html>

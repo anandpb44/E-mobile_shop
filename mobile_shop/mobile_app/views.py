@@ -292,52 +292,56 @@ def brand_products(req, brand_id):
 
 
 def user_view(req, pid):
-    data = Product.objects.get(pk=pid)
-    data1 = Details.objects.filter(pro=pid)
-    data3 = Category.objects.all()
-    
-    # Fetch details for the first product in data1 (this could be optimized based on your model design)
-    data4 = data1.first()  # Use the first matching record
-    
-    # Get unique RAM and storage options
-    ram_options = data1.values_list('ram', flat=True).distinct()
-    storage_options = data1.values_list('storage', flat=True).distinct()
-    color_options=data1.values_list('color', flat=True).distinct
-    # Get selected parameters (color, ram, storage) from GET
-    color = req.GET.get('color', '')  # Default to empty string if not set
-    ram = req.GET.get('ram', '')
-    storage = req.GET.get('storage', '')
-    
-    # Filter based on the selected RAM, storage, and color
-    if ram:
-        data2 = data1.filter(ram=ram).first()  # Find the first matching RAM
+    if 'user' in req.session:
+        data = Product.objects.get(pk=pid)
+        data1 = Details.objects.filter(pro=pid)
+        data3 = Category.objects.all()
+        
+        # Fetch details for the first product in data1 (this could be optimized based on your model design)
+        data4 = data1.first()  # Use the first matching record
+        
+        # Get unique RAM and storage options
+        ram_options = data1.values_list('ram', flat=True).distinct()
+        storage_options = data1.values_list('storage', flat=True).distinct()
+        color_options=data1.values_list('color', flat=True).distinct
+        # Get selected parameters (color, ram, storage) from GET
+        color = req.GET.get('color', '')  # Default to empty string if not set
+        ram = req.GET.get('ram', '')
+        storage = req.GET.get('storage', '')
+        
+        # Filter based on the selected RAM, storage, and color
+        if ram:
+            data2 = data1.filter(ram=ram).first()  # Find the first matching RAM
+        else:
+            data2 = data1.first()  # Default to first option if RAM isn't selected
+        
+        if storage and data2:
+            data2 = data1.filter(ram=data2.ram, storage=storage).first()  # Filter by storage as well
+        
+        if color and data2:
+            data2 = data1.filter(ram=data2.ram, storage=data2.storage, color=color).first()  # Filter by color
+        stock=int(data4.stock)
+        # Check if the combination is valid
+        valid_combination = data2 is not None and stock > 0
+        
+        # Pass all data to the template
+        return render(req, 'user/user_view1.html', {
+            'data': data,
+            'data1': data1,
+            'data2': data2,
+            'data3': data3,
+            'data4': data4,
+            'ram_options': ram_options,
+            'storage_options': storage_options,
+            'color_options': color_options,
+            'ram': ram,
+            'storage': storage,
+            'color': color,
+            'stock':stock,
+            'valid_combination': valid_combination,  # This will control if the combination is valid
+        })
     else:
-        data2 = data1.first()  # Default to first option if RAM isn't selected
-    
-    if storage and data2:
-        data2 = data1.filter(ram=data2.ram, storage=storage).first()  # Filter by storage as well
-    
-    if color and data2:
-        data2 = data1.filter(ram=data2.ram, storage=data2.storage, color=color).first()  # Filter by color
-    stock=int(data4.stock)
-    # Check if the combination is valid
-    valid_combination = data2 is not None and stock > 0
-    
-    # Pass all data to the template
-    return render(req, 'user/user_view1.html', {
-        'data': data,
-        'data1': data1,
-        'data2': data2,
-        'data3': data3,
-        'data4': data4,
-        'ram_options': ram_options,
-        'storage_options': storage_options,
-        'color_options': color_options,
-        'ram': ram,
-        'storage': storage,
-        'color': color,
-        'valid_combination': valid_combination,  # This will control if the combination is valid
-    })
+        return redirect(shop_log)
 
    
 
@@ -392,10 +396,13 @@ def add_cart(req,cid):
         return redirect(shop_log)
     
 def view_cart(req):
-    user=User.objects.get(username=req.session['user'])
-    data=Cart.objects.filter(user=user)
-    data2=Category.objects.all()
-    return render(req,'user/cart.html',{'cart':data,'data2':data2})
+    if 'user' in req.session:
+        user=User.objects.get(username=req.session['user'])
+        data=Cart.objects.filter(user=user)
+        data2=Category.objects.all()
+        return render(req,'user/cart.html',{'cart':data,'data2':data2})
+    else:
+        return redirect(shop_log)
 def deleteCart(req,pid):
     if 'user' in req.session:
         data=Cart.objects.get(pk=pid)
@@ -589,6 +596,7 @@ def cart_buy(req):
 
 def place_order2(req,qty,tprice,total):
     if 'user' in req.session:
+       
         user=User.objects.get(username=req.session['user'])
         data=Address.objects.filter(user=user)
         cart=Cart.objects.filter(user=user)
@@ -600,9 +608,9 @@ def place_order2(req,qty,tprice,total):
             return render(req,'user/order2.html',{'cart':cart,'data':data,'qty':qty,'tprice':tprice,'total':total})
         req.session['address']=addr.pk
         if pay == 'paynow' :
-           return redirect("order_payment",pid=detail.pk)
+           return redirect("order_payment2")
         else:
-            return redirect(bookings)
+            return redirect(bookings2)
         
     else:
         return redirect(shop_log)

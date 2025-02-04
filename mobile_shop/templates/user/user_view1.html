@@ -251,12 +251,16 @@
                     <!-- Combination Validation -->
                     {% if not valid_combination %}
                         <div class="alert alert-warning mt-3">
-                            The selected combination of RAM, Storage, and Color is not available.
+                            The combination Not Available
                         </div>
                     {% endif %}
                     
                     {% if valid_combination %}
-                        <h4 class="mt-3">ONLY {{ data4.stock }} LEFT</h4>
+                       {% if stock > 0 %}
+                       <h4 class="mt-3">ONLY {{ stock }} LEFT</h4>
+                       {% else %}
+                       <h4 class="mt-3">OUT OF STOCK</h4>
+                       {% endif %}
                         <p class="mt-3">Price: {{ data2.price }}₹</p>
                         <div class="product-actions">
                             <a href="../buy_now/{{ data2.pk }}" class="btn btn-primary">Buy Now</a>
@@ -268,7 +272,7 @@
         </div>
     </div>
   
-    <footer class="footer">
+    <footer class="footer mt-5">
         <div class="container">
           <div class="row">
             <div class="col-md-6">

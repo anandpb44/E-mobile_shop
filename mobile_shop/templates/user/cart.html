@@ -39,31 +39,35 @@
     </nav>
 
     <div class="container mt-5">
-        <div class="row">
-          {% for i in cart %}
-          <div class="col-lg-4">
-              <div class="card" style="width:350px">
-               
-                <img class="card-img-top" src="{{i.details.pro.img.url}}" alt="Card image" style="width:250px; height:300px;">
-                <div class="card-body">
-                  <h4 class="card-title">{{i.details.pro.pname}}</h4>
-                  <h5 class="card-title">{{i.detail.pro.pdis}}</h5>
-                  <p class="card-text">Color:{{i.details.color}}</p>
-                  <p class="card-text">Storage:{{i.details.storage}}</p> <p class="card-text">RAM:{{i.details.ram}}</p>
-                  <p class="card-text">Price:{{i.details.price}}₹</p>
-                  <p class="card-title"> <a href="qty_decr/{{i.pk}}" style="text-decoration: none;" class="btn btn-dark">-</a> qty:{{i.qty}} <a href="qty_incr/{{i.pk}}" style="text-decoration: none;"  class="btn btn-dark">+</a></p>
-                  <a href="../cart_buy" class="btn btn-primary">Buy Now</a>
-                  <a href="../delete_cart/{{i.pk}}" class="btn btn-primary">Remove</a>
-              
-                </div>
+      <div class="row">
+        {% for i in cart %}
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+          <div class="cart-card">
+            <img class="card-img" src="{{i.details.pro.img.url}}" alt="Card image">
+            <div class="card-body">
+              <h4 class="card-title">{{i.details.pro.pname}}</h4>
+              <!-- <h5 class="card-description">{{i.details.pro.pdis}}</h5> -->
+              <p class="card-text">Color: {{i.details.color}}</p>
+              <p class="card-text">Storage: {{i.details.storage}}</p>
+              <p class="card-text">RAM: {{i.details.ram}}</p>
+              <p class="card-text">Price: ₹{{i.details.price}}</p>
+              <div class="quantity-buttons">
+                <a href="qty_decr/{{i.pk}}" class="btn btn-dark">-</a>
+                <span>Qty: {{i.qty}}</span>
+                <a href="qty_incr/{{i.pk}}" class="btn btn-dark">+</a>
               </div>
+              <a href="../delete_cart/{{i.pk}}" class="btn btn-danger remove-btn">Remove</a>
+            </div>
           </div>
-          {% endfor %}
         </div>
+        {% endfor %}
       </div>
+      <a href="../cart_buy" class="btn btn-primary buy-btn">Buy Now</a>
+    </div>
+    
 
 
-      <footer class="footer">
+      <footer class="footer mt-5 fixed-bottom">
         <div class="container">
           <div class="row">
             <div class="col-md-6">
