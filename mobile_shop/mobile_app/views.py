@@ -7,7 +7,7 @@ from django.conf import settings
 from .models import *
 import os
 import math,random
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 import razorpay
 import json
 from django.views.decorators.csrf import csrf_exempt
@@ -438,6 +438,10 @@ def buy_now(req,pid):
         qty=1
         price=detail.price
         data=Address.objects.filter(user=user)
+        stock=int(detail.stock)
+        stock-=1
+        detail.stock=str(stock)
+        detail.save()
         if data:
             return redirect('place_order',detail=detail.pk,data=data.first().pk,qty=qty,price=price)
         else:
@@ -564,6 +568,7 @@ def cart_buy(req):
     if 'user' in req.session:
         user=User.objects.get(username=req.session['user'])
         cart=Cart.objects.filter(user=user)
+        
         total=0
         for i in cart:
             qty=i.qty
@@ -571,6 +576,7 @@ def cart_buy(req):
             tprice=qty*cprice
             total+=tprice
         data=Address.objects.filter(user=user)
+        
         if data:
             return redirect('place_order2',qty=qty,tprice=tprice,total=total)
         else:
@@ -607,6 +613,8 @@ def place_order2(req,qty,tprice,total):
         else:
             return render(req,'user/order2.html',{'cart':cart,'data':data,'qty':qty,'tprice':tprice,'total':total})
         req.session['address']=addr.pk
+
+
         if pay == 'paynow' :
            return redirect("order_payment2")
         else:
