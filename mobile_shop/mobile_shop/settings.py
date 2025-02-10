@@ -135,7 +135,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER =' afamobileshop@gmail.com'
-EMAIL_HOST_PASSWORD = 'reab sxce jspt wbyi'
+EMAIL_HOST_PASSWORD ='uqwn tqyn uynq unmw'
 
 RAZORPAY_KEY_ID='rzp_test_BmbxOBqviZxQxc'
 RAZORPAY_KEY_SECRET='i3shWB16AhbKcOR9sKBOXRY9'
