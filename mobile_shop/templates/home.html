@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    {% load static%}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking</title>
+    <title>AFA-Android mobile shop</title>
+    {% load static %}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="{% static 'booking.css' %}">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="{% static 'user_home.css' %}">
 </head>
-
 <body>
-    
+
     <nav class="navbar">
      
         <a href="#" class="logo"><img src="static/img/logo.png" alt="" width="80" height="100"></a>
@@ -22,49 +20,49 @@
             <li><a href="user_home">Home</a></li>
            
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Brands
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    {% for i in data %}
-                    <li><a href="{% url 'brand_products' brand_id=i.pk %}" class="dropdown-item">{{i.cname}}</a></li>
-                    {% endfor %}
-                </ul>
-            </li>
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Brands
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  {% for i in data %}
+                  <li><a href="{% url 'brand_products' brand_id=i.pk %}" class="dropdown-item">{{i.cname}}</a></li>
+                  {% endfor %}
+              </ul>
+          </li>
          
+            <li><a href="user_booking">Bookings</a></li>
             <li><a href="address">Address</a></li>
            <li><a href="view_cart">🛒</a></li>
-            <li><a href="logout">LogOut</a></li>
+            <li><a href="login">Login</a></li>
         </ul>
 
         <div class="menu-icon" id="menu-icon">
             &#9776;
         </div>
     </nav>
-
-    <div class="card-container mt-5">
-        {% for i in booking%}
-        <div class="card">
-            <img src="{{i.product.pro.img.url}}" alt="Card Image" class="card-img">
-            <div class="card-content">
-                <h2 class="card-title">{{i.product.pro.pname}}</h2>
-                <p>{{i.product.color}},{{i.product.ram}},{{i.product.storage}}</p>
-
-                <p>qty:{{i.qty}}</p>
-                <p class="card-text">Total:{{i.t_price}}</p>
-                <p>Date:{{i.date}}</p>
-                <h4>Shopping Address</h4>
-                <select name="" id="">
-                    <option value="{{i.pk}}">{{i.address.name}},{{i.address.house}},{{i..address.street}},{{i.address.pin}},{{i.address.state}}</option>
-                </select>
-                <a href="deletebookings/{{i.pk}}" class="btn btn-primary" >Remove</a>
-                <!-- <a href="#" class="card-button">Read More</a> -->
-            </div>
-        </div>
-        {% endfor %}
+    <div class="image1">
+      <img src="static/img/img1.webp" alt="imageeeeee" width="100%" height="400">
     </div>
-    
-    <footer class="footer mt-5  mt-5">
+    <div class="container mt-1">
+        <div class="row" style="gap: 50px;">
+          {% for p in products %}
+          <div class="col-lg-3">
+            <a href="user_view/{{p.pk}}">
+              <div class="card mt-5" style="width:350px;height: 500px;">
+                <img class="card-img-top" src="{{p.img.url}}" alt="Card image" style="width:250px; height:300px;">
+                <div class="card-body">
+                  <h4 class="card-title">{{p.pname}}</h4>
+                  <h5 class="card-title">{{p.pdis}}</h5>
+                </div>
+              </div>
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+
+      <footer class="footer mt-5">
         <div class="container">
           <div class="row">
             <div class="col-md-6">
@@ -110,6 +108,7 @@
           </div>
         </div>
       </footer>
+      
 
     <script>
         const menuIcon = document.getElementById('menu-icon');
@@ -119,6 +118,7 @@
             navbarLinks.classList.toggle('show');
         });
     </script>
+
+
 </body>
-    
 </html>

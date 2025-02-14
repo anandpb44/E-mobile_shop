@@ -15,7 +15,16 @@ from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
+def home(req):
+    if 'user' in req.session:
+        return redirect(user_home)
+    if 'mshop' in req.session:
+        return redirect(shop_home)
 
+    products=Product.objects.all()
+    details=Details.objects.all()
+    data=Category.objects.all()
+    return render(req,'home.html',{'products':products,'details':details,'data':data})
 def shop_log(req):
     if 'mshop' in req.session:
         return redirect(shop_home)
@@ -156,6 +165,11 @@ def delete_details(req,pid):
     data=Details.objects.get(pk=pid)
     data.delete()
     return redirect(shop_home)
+
+def ad_booking(req):
+    data=Buy.objects.all()[::-1]
+    return render(req,'shop/bookings.html',{'booking':data})
+
 #----------USER------------
 
 def OTP(req):
