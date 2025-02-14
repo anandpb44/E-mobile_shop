@@ -14,8 +14,11 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
-
-
+def front(req):
+    products=Product.objects.all()
+    details=Details.objects.all()
+    data=Category.objects.all()
+    return render(req,'front.html',{'products':products,'details':details,'data':data})
 def shop_log(req):
     if 'mshop' in req.session:
         return redirect(shop_home)
@@ -38,8 +41,8 @@ def shop_log(req):
             return redirect(shop_log)
     else:
        return render(req,'shop_login.html')
- 
- 
+
+
 def shop_logout(req):
     logout(req)
     req.session.flush()
@@ -103,7 +106,7 @@ def details(req):
     else:
         data=Product.objects.all()
         return render(req,'shop/details.html',{'data1':data})
-    
+
 def delete(req,pid):
     data=Product.objects.get(pk=pid)
     file=data.img.url
@@ -129,13 +132,13 @@ def edit_pro(req,pid):
             else:
                 Product.objects.filter(pk=pid).update(pname=ename,pdis=edis)
             return redirect(shop_home)
-        
+
         else:
             data=Product.objects.get(pk=pid)
             return render(req,'shop/edit_pro.html',{'epro':data})
     else:
         return redirect(shop_log)
-    
+
 def edit_details(req,pid):
     if req.method=='POST':
         eimg=req.POST['ed_img']
@@ -180,7 +183,7 @@ def user_reg(req):
 
     else:
         return render(req,'user/register.html')
-    
+
 def validate(req,name,password,email,otp):
     if req.method=='POST':
         Otp=req.POST['Otp']
@@ -205,7 +208,7 @@ def user_home(req):
         return render(req,'user/user_home.html',{'products':products,'details':details,'data':data})
     else:
         return redirect(shop_log)
-    
+
 
 def brand_products(req, brand_id):
     brand = get_object_or_404(Category, pk=brand_id)
@@ -229,19 +232,19 @@ def brand_products(req, brand_id):
 #     return render(req,'user/user_view.html',{'data':data,'data1':data1,'data2':data2,'ram':ram})
 
 # def user_view(req, pid):
-#     data = Product.objects.get(pk=pid)  
-#     data1 = Details.objects.filter(pro=pid)  
-#     ram_options = data1.values_list('ram', flat=True).distinct() 
-#     storage_options = data1.values_list('storage', flat=True).distinct() 
-#     data2 = data1[0] if data1.exists() else None  
+#     data = Product.objects.get(pk=pid)
+#     data1 = Details.objects.filter(pro=pid)
+#     ram_options = data1.values_list('ram', flat=True).distinct()
+#     storage_options = data1.values_list('storage', flat=True).distinct()
+#     data2 = data1[0] if data1.exists() else None
 #     ram = req.GET.get('ram')
 #     if ram:
-#         data2 = data1.filter(ram=ram).first() 
+#         data2 = data1.filter(ram=ram).first()
 
 #     storage = req.GET.get('storage')
 
 #     if storage and data2:
-#         data2 = data1.filter(ram=data2.ram, storage=storage).first() 
+#         data2 = data1.filter(ram=data2.ram, storage=storage).first()
 
 #     return render(req, 'user/user_view1.html', {
 #         'data': data,
@@ -254,13 +257,13 @@ def brand_products(req, brand_id):
 #     })
 
 # def user_view(req, pid):
-#     data = Product.objects.get(pk=pid)  
-#     data1 = Details.objects.filter(pro=pid)  
+#     data = Product.objects.get(pk=pid)
+#     data1 = Details.objects.filter(pro=pid)
 #     data3=Category.objects.all()
 #     data4=Details.objects.get(pro=pid,pk=data1[0].pk)
-#     ram_options = data1.values_list('ram', flat=True).distinct() 
-#     storage_options = data1.values_list('storage', flat=True).distinct() 
-#     data2 = data1[0] if data1.exists() else None  
+#     ram_options = data1.values_list('ram', flat=True).distinct()
+#     storage_options = data1.values_list('storage', flat=True).distinct()
+#     data2 = data1[0] if data1.exists() else None
 #     img=req.GET.get('img')
 #     color=req.GET.get('color')
 #     ram = req.GET.get('ram')
@@ -268,14 +271,14 @@ def brand_products(req, brand_id):
 #     # Filter based on the selected RAM and storage
 #     if ram:
 #         data2 = data1.filter(ram=ram).first()
-    
+
 #     if storage and data2:
 #         data2 = data1.filter(ram=data2.ram, storage=storage).first()
 #     # Check if the selected combination is valid
 #     valid_combination = data2 is not None
 #     if req.GET.get('color'):
 #         color=req.GET.get('color')
-       
+
 #     return render(req, 'user/user_view1.html', {
 #         'data': data,
 #         'data1': data1,
@@ -292,54 +295,59 @@ def brand_products(req, brand_id):
 
 
 def user_view(req, pid):
-    data = Product.objects.get(pk=pid)
-    data1 = Details.objects.filter(pro=pid)
-    data3 = Category.objects.all()
-    
-    # Fetch details for the first product in data1 (this could be optimized based on your model design)
-    data4 = data1.first()  # Use the first matching record
-    
-    # Get unique RAM and storage options
-    ram_options = data1.values_list('ram', flat=True).distinct()
-    storage_options = data1.values_list('storage', flat=True).distinct()
-    color_options=data1.values_list('color', flat=True).distinct
-    # Get selected parameters (color, ram, storage) from GET
-    color = req.GET.get('color', '')  # Default to empty string if not set
-    ram = req.GET.get('ram', '')
-    storage = req.GET.get('storage', '')
-    
-    # Filter based on the selected RAM, storage, and color
-    if ram:
-        data2 = data1.filter(ram=ram).first()  # Find the first matching RAM
-    else:
-        data2 = data1.first()  # Default to first option if RAM isn't selected
-    
-    if storage and data2:
-        data2 = data1.filter(ram=data2.ram, storage=storage).first()  # Filter by storage as well
-    
-    if color and data2:
-        data2 = data1.filter(ram=data2.ram, storage=data2.storage, color=color).first()  # Filter by color
-    stock=int(data4.stock)
-    # Check if the combination is valid
-    valid_combination = data2 is not None and stock > 0
-    
-    # Pass all data to the template
-    return render(req, 'user/user_view1.html', {
-        'data': data,
-        'data1': data1,
-        'data2': data2,
-        'data3': data3,
-        'data4': data4,
-        'ram_options': ram_options,
-        'storage_options': storage_options,
-        'color_options': color_options,
-        'ram': ram,
-        'storage': storage,
-        'color': color,
-        'valid_combination': valid_combination,  # This will control if the combination is valid
-    })
+    if 'user' in req.session:
+        data = Product.objects.get(pk=pid)
+        data1 = Details.objects.filter(pro=pid)
+        data3 = Category.objects.all()
 
-   
+        # Fetch details for the first product in data1 (this could be optimized based on your model design)
+        data4 = data1.first()  # Use the first matching record
+
+        # Get unique RAM and storage options
+        ram_options = data1.values_list('ram', flat=True).distinct()
+        storage_options = data1.values_list('storage', flat=True).distinct()
+        color_options=data1.values_list('color', flat=True).distinct
+        # Get selected parameters (color, ram, storage) from GET
+        color = req.GET.get('color', '')  # Default to empty string if not set
+        ram = req.GET.get('ram', '')
+        storage = req.GET.get('storage', '')
+
+        # Filter based on the selected RAM, storage, and color
+        if ram:
+            data2 = data1.filter(ram=ram).first()  # Find the first matching RAM
+        else:
+            data2 = data1.first()  # Default to first option if RAM isn't selected
+
+        if storage and data2:
+            data2 = data1.filter(ram=data2.ram, storage=storage).first()  # Filter by storage as well
+
+        if color and data2:
+            data2 = data1.filter(ram=data2.ram, storage=data2.storage, color=color).first()  # Filter by color
+        stock=int(data4.stock)
+        # Check if the combination is valid
+        valid_combination = data2 is not None and stock > 0
+
+        # Pass all data to the template
+        return render(req, 'user/user_view1.html', {
+            'data': data,
+            'data1': data1,
+            'data2': data2,
+            'data3': data3,
+            'data4': data4,
+            'ram_options': ram_options,
+            'storage_options': storage_options,
+            'color_options': color_options,
+            'ram': ram,
+            'storage': storage,
+            'color': color,
+            'stock':stock,
+            'valid_combination': valid_combination,  # This will control if the combination is valid
+        })
+    else:
+        return redirect(shop_log)
+
+
+
 
 #-------------------------------------------------------
 
@@ -374,7 +382,7 @@ def delete_address(req, pid):
         return redirect(shop_log)
 
 def add_cart(req,cid):
-    if 'user' in req.session:   
+    if 'user' in req.session:
         detail=Details.objects.get(pk=cid)
         user=User.objects.get(username=req.session['user'])
         try:
@@ -390,19 +398,22 @@ def add_cart(req,cid):
         return redirect(view_cart)
     else:
         return redirect(shop_log)
-    
+
 def view_cart(req):
-    user=User.objects.get(username=req.session['user'])
-    data=Cart.objects.filter(user=user)
-    data2=Category.objects.all()
-    return render(req,'user/cart.html',{'cart':data,'data2':data2})
+    if 'user' in req.session:
+        user=User.objects.get(username=req.session['user'])
+        data=Cart.objects.filter(user=user)
+        data2=Category.objects.all()
+        return render(req,'user/cart.html',{'cart':data,'data2':data2})
+    else:
+        return redirect(shop_log)
 def deleteCart(req,pid):
     if 'user' in req.session:
         data=Cart.objects.get(pk=pid)
         data.delete()
         return redirect(view_cart)
     else:
-        return redirect(shop_log) 
+        return redirect(shop_log)
 
 def qty_incr(req,cid):
     if 'user' in req.session:
@@ -416,14 +427,17 @@ def qty_incr(req,cid):
     else:
         return redirect(shop_log)
 def qty_decr(req,cid):
-    data=Cart.objects.get(pk=cid)
-    data.qty-=1
-    data.save()
-    if data.qty==0:
-        data.delete()
-    return redirect(view_cart)
+    if 'user' in req.session:
+        data=Cart.objects.get(pk=cid)
+        data.qty-=1
+        data.save()
+        if data.qty==0:
+            data.delete()
+        return redirect(view_cart)
 
-    
+    else:
+        return redirect(shop_log)
+
 def buy_now(req,pid):
     if 'user' in req.session:
         detail=Details.objects.get(pk=pid)
@@ -431,6 +445,10 @@ def buy_now(req,pid):
         qty=1
         price=detail.price
         data=Address.objects.filter(user=user)
+        stock=int(detail.stock)
+        stock-=1
+        detail.stock=str(stock)
+        detail.save()
         if data:
             return redirect('place_order',detail=detail.pk,data=data.first().pk,qty=qty,price=price)
         else:
@@ -449,7 +467,7 @@ def buy_now(req,pid):
                 return render(req,'user/address.html')
     else:
         return redirect(shop_log)
-    
+
 def place_order(req,detail,data,qty,price):
     if 'user' in req.session:
         detail=Details.objects.get(pk=detail)
@@ -463,15 +481,15 @@ def place_order(req,detail,data,qty,price):
         else:
             return render(req,'user/order.html',{'details':detail,'data':data,'price':price})
         req.session['address']=addr.pk
-        
+
         if pay == 'paynow' :
            return redirect("order_payment",pid=detail.pk)
         else:
             return redirect(bookings)
-       
+
     else:
         return redirect(shop_log)
-    
+
 def order_payment(req,pid):
     if 'user' in req.session:
         user = User.objects.get(username=req.session['user'])
@@ -499,7 +517,7 @@ def order_payment(req,pid):
         )
     else:
         return render(shop_log)
-    
+
 @csrf_exempt
 def callback(request):
 
@@ -518,15 +536,15 @@ def callback(request):
         if not verify_signature(request.POST):
             order.status = PaymentStatus.SUCCESS
             order.save()
-            return render(request, "callback.html", context={"status": order.status})  
-        
+            return render(request, "callback.html", context={"status": order.status})
+
         else:
             order.status = PaymentStatus.FAILURE
             order.save()
-            # return render(request, "callback.html", context={"status": order.status}) 
+            # return render(request, "callback.html", context={"status": order.status})
             return redirect(bookings)
-        
-        
+
+
 
     else:
         payment_id = json.loads(request.POST.get("error[metadata]")).get("payment_id")
@@ -537,7 +555,7 @@ def callback(request):
         order.payment_id = payment_id
         order.status = PaymentStatus.FAILURE
         order.save()
-        return render(request, "callback.html", context={"status": order.status})  
+        return render(request, "callback.html", context={"status": order.status})
 
 def bookings(req):
     if 'user' in req.session:
@@ -551,8 +569,8 @@ def bookings(req):
         detail.save()
         return redirect(user_bookings)
     else:
-        return redirect(shop_log) 
-    
+        return redirect(shop_log)
+
 def cart_buy(req):
     if 'user' in req.session:
         user=User.objects.get(username=req.session['user'])
@@ -582,10 +600,10 @@ def cart_buy(req):
                 return render(req,'user/address.html')
     else:
         return redirect(shop_log)
-    
-    
 
-    
+
+
+
 
 def place_order2(req,qty,tprice,total):
     if 'user' in req.session:
@@ -603,7 +621,7 @@ def place_order2(req,qty,tprice,total):
            return redirect("order_payment",pid=detail.pk)
         else:
             return redirect(bookings)
-        
+
     else:
         return redirect(shop_log)
 
@@ -616,7 +634,7 @@ def place_order2(req,qty,tprice,total):
 #     else:
 #         return redirect(shop_log)
 
-    
+
 
 def order_payment2(req):
     if 'user' in req.session:
@@ -665,16 +683,16 @@ def callback2(request):
         if not verify_signature(request.POST):
             order.status = PaymentStatus.SUCCESS
             order.save()
-            # return render(request, "callback.html", context={"status": order.status})  
+            # return render(request, "callback.html", context={"status": order.status})
             return redirect(bookings2)
-        
+
         else:
             order.status = PaymentStatus.FAILURE
             order.save()
-            # return render(request, "callback.html", context={"status": order.status}) 
+            # return render(request, "callback.html", context={"status": order.status})
             return redirect(bookings2)
-        
-        
+
+
 
     else:
         payment_id = json.loads(request.POST.get("error[metadata]")).get("payment_id")
@@ -685,7 +703,7 @@ def callback2(request):
         order.payment_id = payment_id
         order.status = PaymentStatus.FAILURE
         order.save()
-        return render(request, "callback.html", context={"status": order.status})  
+        return render(request, "callback.html", context={"status": order.status})
 
 def bookings2(req):
     if 'user' in req.session:
@@ -700,7 +718,7 @@ def bookings2(req):
         cart.delete()
         return redirect(user_bookings)
     else:
-        return redirect(shop_log) 
+        return redirect(shop_log)
 
 
 def user_bookings(req):

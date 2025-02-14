@@ -74,6 +74,7 @@ body {
 
 .nav-item.dropdown {
     position: relative;
+    margin-top:-10px;
 }
 
 .nav-item .dropdown-toggle {
@@ -123,25 +124,25 @@ body {
 }
 .card{
     align-items: center;
-   
+
 }
 .row a{
     text-decoration: none;
 }
 .card:hover{
 
-  transform: translateY(-5px);  
+  transform: translateY(-5px);
   box-shadow: #f30303;
-  
-}   
+
+}
 .card{
     border-radius: 5px;
     border: solid rgb(0, 0, 0);
-  
+
 }
 
 .footer {
-   
+
   background-color: #674a88;
   color: #fff;
   padding: 30px 0;

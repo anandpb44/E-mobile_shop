@@ -21,7 +21,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.shop_log),
+    path('',views.front),
+    path('login',views.shop_log),
     path('logout',views.shop_logout),
     path('register',views.user_reg),
     path('validate/<name>/<password>/<email>/<otp>',views.validate,name="validate"),

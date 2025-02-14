@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-1)f=ay9az9@%a@#i%%5*_vg5e*9u1$hf5d6q5p3ghu2pvqwlw5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['afamobileshop.pythonanywhere.com']
 
 
 # Application definition
@@ -134,8 +134,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER =' anandpb44@gmail.com'
-EMAIL_HOST_PASSWORD = 'reab sxce jspt wbyi'
+EMAIL_HOST_USER =' afamobileshop@gmail.com'
+EMAIL_HOST_PASSWORD ='uqwn tqyn uynq unmw'
 
 RAZORPAY_KEY_ID='rzp_test_BmbxOBqviZxQxc'
 RAZORPAY_KEY_SECRET='i3shWB16AhbKcOR9sKBOXRY9'
