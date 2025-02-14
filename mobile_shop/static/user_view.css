@@ -66,6 +66,7 @@
 
 .nav-item.dropdown {
     position: relative;
+    margin-top: -10px;
 }
 
 .nav-item .dropdown-toggle {

@@ -7,18 +7,32 @@ from django.conf import settings
 from .models import *
 import os
 import math,random
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 import razorpay
 import json
 from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
+<<<<<<< HEAD
 def front(req):
     products=Product.objects.all()
     details=Details.objects.all()
     data=Category.objects.all()
     return render(req,'front.html',{'products':products,'details':details,'data':data})
+=======
+
+def home(req):
+    if 'user' in req.session:
+        return redirect(user_home)
+    if 'mshop' in req.session:
+        return redirect(shop_home)
+
+    products=Product.objects.all()
+    details=Details.objects.all()
+    data=Category.objects.all()
+    return render(req,'home.html',{'products':products,'details':details,'data':data})
+>>>>>>> b7531b00c9686aa5ebebed1a5bc0fe719597a03e
 def shop_log(req):
     if 'mshop' in req.session:
         return redirect(shop_home)
@@ -159,6 +173,11 @@ def delete_details(req,pid):
     data=Details.objects.get(pk=pid)
     data.delete()
     return redirect(shop_home)
+
+def ad_booking(req):
+    data=Buy.objects.all()[::-1]
+    return render(req,'shop/bookings.html',{'booking':data})
+
 #----------USER------------
 
 def OTP(req):
@@ -299,10 +318,17 @@ def user_view(req, pid):
         data = Product.objects.get(pk=pid)
         data1 = Details.objects.filter(pro=pid)
         data3 = Category.objects.all()
+<<<<<<< HEAD
 
         # Fetch details for the first product in data1 (this could be optimized based on your model design)
         data4 = data1.first()  # Use the first matching record
 
+=======
+        
+        # Fetch details for the first product in data1 (this could be optimized based on your model design)
+        data4 = data1.first()  # Use the first matching record
+        
+>>>>>>> b7531b00c9686aa5ebebed1a5bc0fe719597a03e
         # Get unique RAM and storage options
         ram_options = data1.values_list('ram', flat=True).distinct()
         storage_options = data1.values_list('storage', flat=True).distinct()
@@ -311,22 +337,37 @@ def user_view(req, pid):
         color = req.GET.get('color', '')  # Default to empty string if not set
         ram = req.GET.get('ram', '')
         storage = req.GET.get('storage', '')
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> b7531b00c9686aa5ebebed1a5bc0fe719597a03e
         # Filter based on the selected RAM, storage, and color
         if ram:
             data2 = data1.filter(ram=ram).first()  # Find the first matching RAM
         else:
             data2 = data1.first()  # Default to first option if RAM isn't selected
+<<<<<<< HEAD
 
         if storage and data2:
             data2 = data1.filter(ram=data2.ram, storage=storage).first()  # Filter by storage as well
 
+=======
+        
+        if storage and data2:
+            data2 = data1.filter(ram=data2.ram, storage=storage).first()  # Filter by storage as well
+        
+>>>>>>> b7531b00c9686aa5ebebed1a5bc0fe719597a03e
         if color and data2:
             data2 = data1.filter(ram=data2.ram, storage=data2.storage, color=color).first()  # Filter by color
         stock=int(data4.stock)
         # Check if the combination is valid
         valid_combination = data2 is not None and stock > 0
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> b7531b00c9686aa5ebebed1a5bc0fe719597a03e
         # Pass all data to the template
         return render(req, 'user/user_view1.html', {
             'data': data,
@@ -346,8 +387,12 @@ def user_view(req, pid):
     else:
         return redirect(shop_log)
 
+<<<<<<< HEAD
 
 
+=======
+   
+>>>>>>> b7531b00c9686aa5ebebed1a5bc0fe719597a03e
 
 #-------------------------------------------------------
 
@@ -575,6 +620,7 @@ def cart_buy(req):
     if 'user' in req.session:
         user=User.objects.get(username=req.session['user'])
         cart=Cart.objects.filter(user=user)
+        
         total=0
         for i in cart:
             qty=i.qty
@@ -582,6 +628,7 @@ def cart_buy(req):
             tprice=qty*cprice
             total+=tprice
         data=Address.objects.filter(user=user)
+        
         if data:
             return redirect('place_order2',qty=qty,tprice=tprice,total=total)
         else:
@@ -607,6 +654,7 @@ def cart_buy(req):
 
 def place_order2(req,qty,tprice,total):
     if 'user' in req.session:
+       
         user=User.objects.get(username=req.session['user'])
         data=Address.objects.filter(user=user)
         cart=Cart.objects.filter(user=user)
@@ -617,11 +665,18 @@ def place_order2(req,qty,tprice,total):
         else:
             return render(req,'user/order2.html',{'cart':cart,'data':data,'qty':qty,'tprice':tprice,'total':total})
         req.session['address']=addr.pk
+
+
         if pay == 'paynow' :
-           return redirect("order_payment",pid=detail.pk)
+           return redirect("order_payment2")
         else:
+<<<<<<< HEAD
             return redirect(bookings)
 
+=======
+            return redirect(bookings2)
+        
+>>>>>>> b7531b00c9686aa5ebebed1a5bc0fe719597a03e
     else:
         return redirect(shop_log)
 

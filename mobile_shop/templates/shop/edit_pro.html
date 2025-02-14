@@ -10,10 +10,42 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>  
 
     <link rel="stylesheet" href="{% static 'edit_pro.css' %}">
+    <link rel="stylesheet" href="{% static 'nav.css' %}">
 
 </head>
 
 <body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="navbar-logo">
+                <a href="#"><img src="{% static 'img/logo.png' %}" alt="Logo" width="100" height="100"></a>
+            </div>
+            <button class="navbar-toggler" id="navbarToggle" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu"
+                aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="add_pro">Add Product</a></li>
+                    <!-- <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Brands
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {% for i in data %}
+                            <li><a href="{% url 'brand_products' brand_id=i.pk %}" class="dropdown-item">{{i.cname}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li> -->
+                    <li class="nav-item"><a class="nav-link" href="admin_booking">Bookings</a></li>
+                    <li class="nav-item"><a class="nav-link" href="category">Category</a></li>
+                    <li class="nav-item"><a class="nav-link" href="logout">LogOut</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
     <div class="">
         <h4>Edit Product</h4>
         <div class="form">
@@ -23,7 +55,7 @@
                 <input type="text" name="e_pdis" id="" placeholder="Discription">
                 <img src="{{epro.img.url}}" alt="" width="200px" height="300px">
                 <input type="file" name="e_img" id="">
-                <button type="submit" class="btn btn-primary" >UDATE</button>
+                <button type="submit" class="btn btn-primary" >UPDATE</button>
                 <a href="../edit_details/{{epro.pk}}" class="btn btn-primary">EDIT DETAILS</a>
                 {% csrf_token %}
             </form>

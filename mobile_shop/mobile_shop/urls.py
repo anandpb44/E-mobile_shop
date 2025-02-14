@@ -21,7 +21,11 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+<<<<<<< HEAD
     path('',views.front),
+=======
+    path('',views.home),
+>>>>>>> b7531b00c9686aa5ebebed1a5bc0fe719597a03e
     path('login',views.shop_log),
     path('logout',views.shop_logout),
     path('register',views.user_reg),
@@ -37,6 +41,8 @@ urlpatterns = [
     path('edit_pro/<pid>',views.edit_pro),
     path('edit_details/<pid>',views.edit_details,name="edit_details"),
     path('delete_details/<pid>',views.delete_details),
+    path('admin_booking',views.ad_booking),
+
     path('user_view/<int:pid>',views.user_view,name="user_view"),
     path('add_cart/<cid>',views.add_cart),
     path('view_cart',views.view_cart),

@@ -12,7 +12,11 @@
 
   /* Background Styles */
   body {
+<<<<<<< HEAD
 
+=======
+    background-size: cover;
+>>>>>>> b7531b00c9686aa5ebebed1a5bc0fe719597a03e
     display: flex;
     justify-content: center;
     align-items: center;

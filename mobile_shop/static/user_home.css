@@ -74,7 +74,11 @@ body {
 
 .nav-item.dropdown {
     position: relative;
+<<<<<<< HEAD
     margin-top:-10px;
+=======
+    margin-top: -10px;
+>>>>>>> b7531b00c9686aa5ebebed1a5bc0fe719597a03e
 }
 
 .nav-item .dropdown-toggle {

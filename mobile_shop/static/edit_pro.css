@@ -1,37 +1,63 @@
-/* Basic reset and styling */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body{
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-.form{
-  border-radius: 10px;
+/* General container styling */
+.container {
+  max-width: 100%;
+  padding: 0 15px;
+  margin: 0 auto;
 }
-  /* Responsive Styles */
-  @media (max-width: 600px) {
-    .container {
+
+h4 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Form and input styling */
+.form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form input, .form textarea, .form button, .form a {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+/* For image styling */
+.form img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 15px;
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+  .form {
       padding: 15px;
-    }
-  
-    h2 {
-      font-size: 18px;
-    }
-  
-    .form-group input, .form-group textarea {
-      font-size: 16px;
-    }
-  
-    button.submit-btn {
-      font-size: 14px;
-    }
   }
-  
+
+  .form img {
+      width: 100%;
+      height: auto;
+  }
+
+  .form button, .form a {
+      width: 100%;
+  }
+}
+
+/* For smaller screens like mobile phones */
+@media (max-width: 480px) {
+  h4 {
+      font-size: 1.5rem;
+  }
+
+  .form input, .form textarea {
+      font-size: 1rem;
+      padding: 10px;
+  }
+
+  .form button, .form a {
+      font-size: 1rem;
+      padding: 10px;
+  }
+}

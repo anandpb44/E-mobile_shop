@@ -1,112 +1,158 @@
-/* Reset and basic styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* General Styles */
 body {
   font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: #e9ecef;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
 }
 
-/* Form container */
-.form-container {
+header {
   background-color: #fff;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 500px;
-  margin: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 10px 0;
 }
 
-h2 {
-  font-size: 24px;
+.navbar-logo img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+/* Navbar Styles */
+.navbar {
+  padding: 15px 30px;
+  display: flex;
+}
+
+.navbar-nav {
+  margin-left: auto;
+}
+
+.navbar-nav .nav-link {
+  color: #555 !important;
   font-weight: bold;
-  margin-bottom: 20px;
-  text-align: center;
+  padding: 8px 15px;
+  transition: all 0.3s ease;
 }
 
-/* Styling for form groups (input fields, select, etc.) */
+.navbar-nav .nav-link:hover {
+  background-color: #f8f9fa;
+  border-radius: 5px;
+}
+
+.navbar-toggler {
+  border: none;
+  outline: none;
+}
+
+.navbar-toggler-icon {
+  background-color: #555;
+}
+
+
+.form-container {
+  margin: 50px auto;
+  padding: 30px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  max-width: 800px;
+  background-color: white;
+}
+
 .form-group {
   margin-bottom: 20px;
 }
 
 .form-group label {
-  font-size: 16px;
-  color: #333;
+  font-weight: bold;
   display: block;
   margin-bottom: 5px;
 }
 
-.form-group input,
-.form-group select {
+.form-group input, .form-group select {
   width: 100%;
-  padding: 12px;
+  padding: 10px;
   font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  color: #333;
-  transition: border 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
 }
 
-.form-group input:focus,
-.form-group select:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-  outline: none;
-}
-
-/* Style for file input */
-.form-group input[type="file"] {
-  padding: 5px;
-  background-color: transparent;
-  border: 1px solid #ddd;
-}
-
-/* Submit button */
-button.submit-btn {
+.submit-btn {
   width: 100%;
-  padding: 12px;
-  background-color: #007bff;
-  color: #fff;
-  font-size: 16px;
+  padding: 15px;
+  background-color: #28a745;
+  color: white;
   border: none;
-  border-radius: 8px;
+  font-size: 18px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-/* Hover effect for submit button */
-button.submit-btn:hover {
-  background-color: #0056b3;
-  transform: scale(1.05);
+.submit-btn:hover {
+  background-color: #218838;
 }
 
-/* Responsive design */
-@media (max-width: 600px) {
+.error-messages p {
+  color: red;
+  font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar {
+      padding: 0 10px;
+  }
+
+  .navbar-nav {
+      text-align: center;
+      width: 100%;
+  }
+
+  .nav-item {
+      display: block;
+      margin: 10px 0;
+  }
+
   .form-container {
-    padding: 20px;
+      margin: 20px;
+      padding: 20px;
   }
 
-  h2 {
-    font-size: 18px;
+  .form-group input, .form-group select {
+      font-size: 14px;
+      padding: 12px;
   }
 
-  .form-group input,
-  .form-group select {
-    font-size: 14px;
-    padding: 10px;
+  .submit-btn {
+      padding: 12px;
+      font-size: 16px;
   }
 
-  button.submit-btn {
-    font-size: 14px;
+  header .navbar-logo img {
+      width: 80px;
+      height: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-logo img {
+      width: 70px;
+      height: 70px;
+  }
+
+  .form-container {
+      margin: 10px;
+      padding: 15px;
+  }
+
+  .form-group input, .form-group select {
+      font-size: 14px;
+      padding: 10px;
+  }
+
+  .submit-btn {
+      padding: 12px;
+      font-size: 15px;
   }
 }

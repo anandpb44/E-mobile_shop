@@ -48,6 +48,8 @@
             <img src="{{i.product.pro.img.url}}" alt="Card Image" class="card-img">
             <div class="card-content">
                 <h2 class="card-title">{{i.product.pro.pname}}</h2>
+                <p>{{i.product.color}},{{i.product.ram}},{{i.product.storage}}</p>
+
                 <p>qty:{{i.qty}}</p>
                 <p class="card-text">Total:{{i.t_price}}</p>
                 <p>Date:{{i.date}}</p>
@@ -62,7 +64,7 @@
         {% endfor %}
     </div>
     
-    <footer class="footer">
+    <footer class="footer mt-5  mt-5">
         <div class="container">
           <div class="row">
             <div class="col-md-6">
