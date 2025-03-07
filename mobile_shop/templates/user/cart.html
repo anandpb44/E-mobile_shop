@@ -56,6 +56,9 @@
                 <span>Qty: {{i.qty}}</span>
                 <a href="qty_incr/{{i.pk}}" class="btn btn-dark">+</a>
               </div>
+              {% for message in messages %}
+              <p class="message">{{ message }}</p>
+          {% endfor %}
               <a href="../delete_cart/{{i.pk}}" class="btn btn-danger remove-btn">Remove</a>
             </div>
           </div>

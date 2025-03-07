@@ -21,11 +21,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-<<<<<<< HEAD
-    path('',views.front),
-=======
     path('',views.home),
->>>>>>> b7531b00c9686aa5ebebed1a5bc0fe719597a03e
     path('login',views.shop_log),
     path('logout',views.shop_logout),
     path('register',views.user_reg),

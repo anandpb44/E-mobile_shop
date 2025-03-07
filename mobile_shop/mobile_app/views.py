@@ -14,13 +14,12 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
-<<<<<<< HEAD
 def front(req):
     products=Product.objects.all()
     details=Details.objects.all()
     data=Category.objects.all()
     return render(req,'front.html',{'products':products,'details':details,'data':data})
-=======
+
 
 def home(req):
     if 'user' in req.session:
@@ -32,7 +31,6 @@ def home(req):
     details=Details.objects.all()
     data=Category.objects.all()
     return render(req,'home.html',{'products':products,'details':details,'data':data})
->>>>>>> b7531b00c9686aa5ebebed1a5bc0fe719597a03e
 def shop_log(req):
     if 'mshop' in req.session:
         return redirect(shop_home)
@@ -191,7 +189,11 @@ def user_reg(req):
         uname=req.POST['username']
         email=req.POST['email']
         pswd=req.POST['password']
+        confirm_password = req.POST['confirm_password']
         otp=OTP(req)
+        if pswd != confirm_password:
+            messages.error(req, "Passwords do not match!")
+            return redirect(user_reg)
         if User.objects.filter(email=email).exists():
             messages.error(req,"Email is already Exits")
             return redirect(user_reg)
@@ -318,17 +320,12 @@ def user_view(req, pid):
         data = Product.objects.get(pk=pid)
         data1 = Details.objects.filter(pro=pid)
         data3 = Category.objects.all()
-<<<<<<< HEAD
+
 
         # Fetch details for the first product in data1 (this could be optimized based on your model design)
         data4 = data1.first()  # Use the first matching record
+        
 
-=======
-        
-        # Fetch details for the first product in data1 (this could be optimized based on your model design)
-        data4 = data1.first()  # Use the first matching record
-        
->>>>>>> b7531b00c9686aa5ebebed1a5bc0fe719597a03e
         # Get unique RAM and storage options
         ram_options = data1.values_list('ram', flat=True).distinct()
         storage_options = data1.values_list('storage', flat=True).distinct()
@@ -337,37 +334,19 @@ def user_view(req, pid):
         color = req.GET.get('color', '')  # Default to empty string if not set
         ram = req.GET.get('ram', '')
         storage = req.GET.get('storage', '')
-<<<<<<< HEAD
-
-=======
-        
->>>>>>> b7531b00c9686aa5ebebed1a5bc0fe719597a03e
         # Filter based on the selected RAM, storage, and color
         if ram:
             data2 = data1.filter(ram=ram).first()  # Find the first matching RAM
         else:
             data2 = data1.first()  # Default to first option if RAM isn't selected
-<<<<<<< HEAD
-
-        if storage and data2:
-            data2 = data1.filter(ram=data2.ram, storage=storage).first()  # Filter by storage as well
-
-=======
         
         if storage and data2:
             data2 = data1.filter(ram=data2.ram, storage=storage).first()  # Filter by storage as well
-        
->>>>>>> b7531b00c9686aa5ebebed1a5bc0fe719597a03e
         if color and data2:
             data2 = data1.filter(ram=data2.ram, storage=data2.storage, color=color).first()  # Filter by color
         stock=int(data4.stock)
         # Check if the combination is valid
         valid_combination = data2 is not None and stock > 0
-<<<<<<< HEAD
-
-=======
-        
->>>>>>> b7531b00c9686aa5ebebed1a5bc0fe719597a03e
         # Pass all data to the template
         return render(req, 'user/user_view1.html', {
             'data': data,
@@ -386,13 +365,6 @@ def user_view(req, pid):
         })
     else:
         return redirect(shop_log)
-
-<<<<<<< HEAD
-
-
-=======
-   
->>>>>>> b7531b00c9686aa5ebebed1a5bc0fe719597a03e
 
 #-------------------------------------------------------
 
@@ -464,9 +436,18 @@ def qty_incr(req,cid):
     if 'user' in req.session:
         data=Cart.objects.get(pk=cid)
         stock=int(data.details.stock)
+        
         if stock >0:
             data.qty+=1
             data.save()
+
+            stock -= 1
+            data.details.stock = stock  # Decrease stock of the product in inventory
+            data.details.save()
+        else:
+                # If no stock is available, show out of stock message
+                messages.error(req, "Sorry, this item is out of stock.")
+        
         return redirect(view_cart)
 
     else:
@@ -670,13 +651,8 @@ def place_order2(req,qty,tprice,total):
         if pay == 'paynow' :
            return redirect("order_payment2")
         else:
-<<<<<<< HEAD
-            return redirect(bookings)
-
-=======
             return redirect(bookings2)
         
->>>>>>> b7531b00c9686aa5ebebed1a5bc0fe719597a03e
     else:
         return redirect(shop_log)
 

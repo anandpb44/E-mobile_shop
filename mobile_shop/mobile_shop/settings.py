@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-1)f=ay9az9@%a@#i%%5*_vg5e*9u1$hf5d6q5p3ghu2pvqwlw5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['afamobileshop.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
