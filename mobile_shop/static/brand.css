@@ -1,293 +1,135 @@
-/* Basic styling for the body and navbar */
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
-    font-style: italic;
-    margin: 0;
-    padding: 0;
     background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
 }
 
-/* Navbar styling */
-nav.navbar {
-    background-color: #123252;
-    padding: 10px 20px;
-    color: rgb(240, 235, 235);
+/* Navbar */
+.navbar {
+    background-color:#343a40;
+    padding: 15px 20px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    position: relative;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
-nav.navbar .logo img {
-    width: 100px;
-    height: 100px;
+.navbar .logo img {
+    height: 50px;
 }
 
-#navbar-links {
-    list-style-type: none;
+.navbar ul {
+    list-style: none;
+    display: flex;
     padding: 0;
     margin: 0;
-    display: flex;
-    gap: 20px;
 }
 
-#navbar-links li {
-    display: inline;
+.navbar ul li {
+    margin: 0 10px;
 }
 
-#navbar-links a {
+.navbar ul li a {
     color: white;
     text-decoration: none;
     padding: 10px;
+    transition: 0.3s;
 }
 
-#navbar-links a:hover {
-    background-color: #43bdd3;
+.navbar ul li a:hover {
+    background-color: #0056b3;
     border-radius: 5px;
 }
 
-/* Navbar responsive adjustments */
+/* Mobile Navbar */
 .menu-icon {
     display: none;
-    font-size: 30px;
+    font-size: 24px;
     color: white;
     cursor: pointer;
 }
 
-.navbar-toggler {
-    display: none;
-}
-
-.navbar-nav {
-    display: flex;
-}
-
-/* Container and Product Cards */
-.container {
-    margin-top: 30px;
-    padding: 0 20px;
-}
-
-.card {
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.card-img-top {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-}
-
-.card-body {
-    padding: 10px;
-}
-
-.card-title {
-    font-size: 1.2em;
-    font-weight: bold;
-    margin: 0;
-}
-
-.card-text {
-    font-size: 0.9em;
-    color: #555;
-}
-
-/* Grid system for products */
-.row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: space-between;
-}
-
-/* Column sizes for different breakpoints */
-.col-lg-3,
-.col-md-4,
-.col-sm-6 {
-    flex: 1 1 22%;  /* Default for large screens */
-    margin-bottom: 30px;
-}
-
-.footer {
-    background-color:#123252;
-    color: #fff;
-    padding: 30px 0;
-    font-family: Arial, sans-serif;
-  }
-
-  .footer .container {
-    max-width: 1140px;
-    margin: 0 auto;
-    padding: 0 15px;
-  }
-
-  .footer .navbar-brand img {
-    width: 100px;
-    height: auto;
-  }
-
-  .footer .social-icons {
-    display: flex;
-    gap: 20px;
-    list-style: none;
-    padding: 0;
-  }
-
-  .footer .social-icons li a {
-    color: #fff;
-    font-size: 20px;
-    transition: color 0.3s ease;
-  }
-
-  .footer .social-icons li a:hover {
-    color: #1e90ff; /* Change to a light blue on hover */
-  }
-
-  .footer .nav-links {
-    list-style: none;
-    padding: 0;
-  }
-
-  .footer .nav-links li {
-    display: inline-block;
-    margin-right: 20px;
-  }
-
-  .footer .nav-links li a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 14px;
-  }
-
-  .footer .nav-links li a:hover {
-    color: #1e90ff;
-  }
-
-  .footer .copyright {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 12px;
-  }
-
-  .footer .copyright small {
-    color: #888;
-  }
-
-@media screen and (max-width: 992px) {
-    .col-lg-3 {
-        flex: 1 1 48%; /* Medium screens - two columns */
-    }
-}
-
-@media screen and (max-width: 768px) {
-    .col-md-4 {
-        flex: 1 1 48%; /* Small screens - two columns */
-    }
-    .footer-container {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .footer-right ul {
-        flex-direction: column;
-    }
-
-    .footer-right li {
-        margin: 5px 0;
-    }
-}
-
-@media screen and (max-width: 576px) {
-    .col-sm-6 {
-        flex: 1 1 100%; /* Extra small screens - one column */
-    }
-
-    #navbar-links {
+@media (max-width: 768px) {
+    .navbar ul {
         display: none;
         flex-direction: column;
-        gap: 10px;
-        margin-top: 20px;
+        width: 100%;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        background-color: #007bff;
+    }
+
+    .navbar ul.show {
+        display: flex;
+    }
+
+    .navbar ul li {
+        text-align: center;
+        padding: 10px 0;
     }
 
     .menu-icon {
         display: block;
     }
-
-    .navbar-toggler {
-        display: block;
-    }
-
-    .navbar-nav {
-        display: block;
-    }
-
-    .navbar-nav a {
-        padding: 15px 0;
-    }
-
-    #navbar-links.show {
-        display: flex;
-    }
 }
 
-/* Additional tweaks for responsiveness */
-.container h2 {
-    font-size: 1.5em;
-    text-align: center;
-    margin-bottom: 20px;
+/* Product Cards */
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: 0.3s;
+    overflow: hidden;
 }
 
-.card-img-top {
+.card:hover {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card img {
     width: 100%;
-    height: 200px; /* Adjust height for responsiveness */
+    height: 250px;
     object-fit: cover;
+    border-bottom: 1px solid #ddd;
 }
 
 .card-body {
     padding: 15px;
+    text-align: center;
 }
 
 .card-title {
-    font-size: 1em;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
 .card-text {
-    font-size: 0.8em;
-    color: #777;
+    font-size: 14px;
+    color: #666;
 }
 
-/* Navbar toggle functionality */
-#navbar-links {
-    display: flex;
-    justify-content: flex-end;
-    gap: 15px;
+/* Simple Footer */
+.footer {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 14px;
 }
 
-.menu-icon {
-    display: none;
+.footer a {
+    color: white;
+    text-decoration: none;
+    padding: 0 10px;
 }
 
-.navbar-toggler {
-    display: none;
-}
-
-@media screen and (max-width: 768px) {
-    #navbar-links {
-        display: none;
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .menu-icon {
-        display: block;
-        cursor: pointer;
-    }
-
-    #navbar-links.show {
-        display: flex;
-    }
+.footer a:hover {
+    text-decoration: underline;
 }

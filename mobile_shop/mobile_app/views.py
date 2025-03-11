@@ -330,10 +330,12 @@ def user_view(req, pid):
         ram_options = data1.values_list('ram', flat=True).distinct()
         storage_options = data1.values_list('storage', flat=True).distinct()
         color_options=data1.values_list('color', flat=True).distinct
+        image_option=data1.values_list('img',flat=True).distinct()
         # Get selected parameters (color, ram, storage) from GET
         color = req.GET.get('color', '')  # Default to empty string if not set
         ram = req.GET.get('ram', '')
         storage = req.GET.get('storage', '')
+        img=req.GET.get('img','')
         # Filter based on the selected RAM, storage, and color
         if ram:
             data2 = data1.filter(ram=ram).first()  # Find the first matching RAM
@@ -421,6 +423,7 @@ def view_cart(req):
         user=User.objects.get(username=req.session['user'])
         data=Cart.objects.filter(user=user)
         data2=Category.objects.all()
+        total = sum(float(item.details.price) * item.qty for item in data)
         return render(req,'user/cart.html',{'cart':data,'data2':data2})
     else:
         return redirect(shop_log)
