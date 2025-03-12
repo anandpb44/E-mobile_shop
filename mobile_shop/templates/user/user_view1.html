@@ -63,7 +63,7 @@
                             <input class="form-check-input" type="radio" name="ram" id="ram{{ forloop.counter }}" value="{{ ram_option }}" {% if ram == ram_option %}checked{% endif %} onchange="updateSelection()">
                             <label class="form-check-label" for="ram{{ forloop.counter }}">
                                 {{ ram_option }}
-                            </label>
+                            GB</label>
                         {% endfor %}
                     </div>
 
@@ -75,7 +75,7 @@
                                 <input class="form-check-input" type="radio" name="storage" id="storage{{ forloop.counter }}" value="{{ storage_option }}" {% if storage == storage_option %}checked{% endif %} onchange="updateSelection()">
                                 <label class="form-check-label" for="storage{{ forloop.counter }}">
                                     {{ storage_option }}
-                                </label>
+                                GB</label>
                             {% endfor %}
                         </div>
                     {% endif %}

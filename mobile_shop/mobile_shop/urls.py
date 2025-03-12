@@ -59,6 +59,7 @@ urlpatterns = [
     path('payment2',views.order_payment2,name="order_payment2"),
     path('callback',views.callback),
     path('callback2',views.callback2),
+    path('accept_booking/<int:booking_id>/', views.accept_booking, name='accept_booking'),
 
 ]
 if settings.DEBUG:

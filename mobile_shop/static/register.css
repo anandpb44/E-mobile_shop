@@ -1,109 +1,35 @@
-/* Global Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  body, html {
-    height: 100%;
-    font-family: Arial, sans-serif;
-  }
-
-  /* Background Styles */
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-
-  /* Login Container */
-  .reg-container {
-    width: 100%;
-    max-width: 400px;
-    background-color:white; /* White with opacity */
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(136, 137, 223, 0.986);
-
-  }
-  .reg-container:hover {
-    transform: translateY(-20px);
-    box-shadow: 0 4px 8px rgba(11, 69, 230, 0.966);
-  }
-  /* Form Header */
-  .reg-form h2 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-
-  /* Input Fields */
-  .input-group {
-    margin-bottom: 15px;
-  }
-
-  .input-group label {
-    display: block;
-    font-weight: bold;
-  }
-
-  .input-group input {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-  }
-
-  .input-group input:focus {
-    border-color: #007bff;
-    outline: none;
-  }
-
-  /* Submit Button */
-  button {
-    width: 100%;
-    padding: 10px;
-    background-color: rgb(240, 239, 239);
-    color:#000000;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-
-  button:hover {
-    background-color: #0ea1e6c4;
-    color: #fff;
-  }
-
-  /* Create Account Link */
-  .create-account {
-    text-align: center;
-    margin-top: 15px;
-  }
-
-  .create-account p {
-    font-size: 14px;
-  }
-
-  .create-account a {
-    color: #007bff;
-    text-decoration: none;
-  }
-
-  .create-account a:hover {
-    text-decoration: underline;
-  }
-
-  /* Responsive Design */
-  @media (max-width: 600px) {
-    .login-container {
-        width: 90%;
-        padding: 20px;
-    }
-
-    .login-form h2 {
-        font-size: 1.5rem;
-    }
-  }
+body {
+  background-color: #087386;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.card {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  background: #fff;
+}
+.form-control {
+  border-radius: 8px;
+}
+.input-group-text {
+  background: #087386;
+  color: white;
+}
+.btn-primary {
+  background: #087386;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+}
+.btn-primary:hover {
+  background: #065c68;
+}
+.message {
+  color: red;
+  text-align: center;
+}

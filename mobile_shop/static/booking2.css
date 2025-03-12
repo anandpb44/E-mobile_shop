@@ -1,63 +1,84 @@
+* General Styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
 
+        /* Navbar */
+        .navbar {
+            padding: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
 
-.card-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
-}
+        /* Card Container */
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin: 50px auto;
+            max-width: 1200px;
+        }
 
-/* Card Styling */
-.card {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    width: 300px;
-    align-items: center;
-    transition: transform 0.3s ease-in-out;
-}
+        /* Booking Card */
+        .card {
+            display: flex;
+            flex-direction: row;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 600px;
+            transition: transform 0.3s ease-in-out;
+        }
 
-.card:hover {
-    transform: scale(1.05);
-}
+        .card:hover {
+            transform: scale(1.03);
+        }
 
-/* Image Styling */
-.card-img {
-    margin-top: 10px;
-    width: 200px;
-    height: 230px;
-    object-fit: cover;
-}
+        /* Product Image */
+        .card-img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+        }
 
-/* Content Styling */
-.card-content {
-    padding: 20px;
-}
+        /* Card Content */
+        .card-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-/* Title and Text */
-.card-title {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-}
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
 
-.card-text {
-    font-size: 1em;
-    color: #555;
-    margin-bottom: 15px;
-}
+        .card-text {
+            font-size: 16px;
+            color: #555;
+        }
 
-/* Button Styling */
-.card-button {
-    display: inline-block;
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-}
+        /* Address Dropdown */
+        select {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background: #fff;
+        }
 
-.card-button:hover {
-    background-color: #0056b3;
-}
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .card {
+                flex-direction: column;
+                max-width: 100%;
+            }
+            .card-img {
+                width: 100%;
+                height: auto;
+            }
+        }

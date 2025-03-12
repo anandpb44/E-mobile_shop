@@ -133,29 +133,30 @@
             {% for i in booking %}
             <div class="col-md-4">
                 <div class="card shadow-lg border-0 rounded-4">
-                    <img src="{{i.product.pro.img.url}}" alt="Card Image" class="card-img-top">
+                    <img src="{{ i.product.pro.img.url }}" alt="Card Image" class="card-img-top">
                     <div class="card-body text-center">
-                        <h5 class="card-title">{{i.product.pro.pname}}</h5>
-                        <p class="text-muted">{{i.product.color}}, {{i.product.ram}}, {{i.product.storage}}</p>
-                        <p class="fw-bold">Qty: {{i.qty}}</p>
-                        <p class="text-danger fw-bold">Total: ${{i.t_price}}</p>
-                        <p class="text-secondary small">Date: {{i.date}}</p>
-
-                        <h6 class="mt-3">Shipping Address</h6>
-                        <select class="form-select mb-3">
-                            <option value="{{i.pk}}">
-                                {{i.address.name}}, {{i.address.house}}, {{i.address.street}}, {{i.address.pin}}, {{i.address.state}}
-                            </option>
-                        </select>
-
-                        <a href="deletebookings/{{i.pk}}" class="btn btn-danger w-100">Remove</a>
+                        <h5 class="card-title">{{ i.product.pro.pname }}</h5>
+                        <p class="text-muted">{{ i.product.color }}, {{ i.product.ram }}, {{ i.product.storage }}</p>
+                        <p class="fw-bold">Qty: {{ i.qty }}</p>
+                        <p class="text-danger fw-bold">Total: ${{ i.t_price }}</p>
+                        <p class="text-secondary small">Date: {{ i.date }}</p>
+        
+                        <h6 class="mt-3">Shipping Address:</h6>
+                        <p>{{ i.address.name }}, {{ i.address.house }}, {{ i.address.street }},
+                            {{ i.address.pin }}, {{ i.address.state }}</p>
                     </div>
+        
+                    {% if i.is_accepted %}
+                        <p><strong>Delivery Date:</strong> {{ i.delivery_date }}</p>
+                    {% else %}
+                        <p>Your booking is still being processed. Please wait for confirmation.</p>
+                        <a href="deletebookings/{{ i.pk }}" class="btn btn-danger w-100">Remove</a>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
-
     <!-- Footer -->
     <footer class="footer bg-dark text-white text-center py-3 mt-5">
         <p>&copy; 2025. All Rights Reserved.</p>

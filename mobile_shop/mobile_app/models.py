@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.fields import CharField
 from django.utils.translation import gettext_lazy as _
 from .constants import PaymentStatus
+from datetime import timedelta
 # Create your models here.
 class Category(models.Model):
     cname=models.TextField()
@@ -44,6 +45,14 @@ class Buy(models.Model):
     qty=models.IntegerField()
     t_price=models.IntegerField()
     date=models.DateField(auto_now_add=True)
+    is_accepted = models.BooleanField(default=False)
+    delivery_date = models.DateField(null=True, blank=True)
+
+    def set_delivery_date(self):
+        """Set a default delivery date based on acceptance."""
+        if self.is_accepted:
+            self.delivery_date = self.date + timedelta(days=7)  # Example: 7 days after acceptance
+            self.save()
 
 class Order(models.Model):
     name=CharField(_("customer Name"),max_length=254,blank=False,null=False)

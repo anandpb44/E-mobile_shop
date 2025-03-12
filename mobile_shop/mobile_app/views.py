@@ -172,6 +172,17 @@ def delete_details(req,pid):
     data.delete()
     return redirect(shop_home)
 
+def accept_booking(req, booking_id):
+    try:
+        booking = Buy.objects.get(id=booking_id)
+        booking.is_accepted = True
+        booking.set_delivery_date()  # Set the delivery date when accepted
+        booking.save()
+        return redirect(ad_booking)  # Redirect back to the admin bookings page
+    except Buy.DoesNotExist:
+        # Handle error if the booking doesn't exist
+        return render(req, 'shop/bookings.html', {'error': 'Booking not found'})
+    
 def ad_booking(req):
     data=Buy.objects.all()[::-1]
     return render(req,'shop/bookings.html',{'booking':data})
@@ -423,7 +434,9 @@ def view_cart(req):
         user=User.objects.get(username=req.session['user'])
         data=Cart.objects.filter(user=user)
         data2=Category.objects.all()
-        total = sum(float(item.details.price) * item.qty for item in data)
+        total=0
+        for item in data:
+           total += int(item.details.price) * item.qty
         return render(req,'user/cart.html',{'cart':data,'data2':data2})
     else:
         return redirect(shop_log)

@@ -1,52 +1,4 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    {% load static %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EDIT DETAILS</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="{% static 'edit_details.css' %}">
-</head>
-
-<body>
-  
-    <form action="" method="post">
-        {% csrf_token %}
-        <input type="text" name="product" id="" value="{{data1.pk}}" readonly>
-        <input type="text" name="ed_color" id="" placeholder="Device Color">
-        <input type="text" name="ed_storage" id="" placeholder="Device Storage">
-        <input type="text" name="ed_ram" id="" placeholder="Device Ram">
-        <input type="number" name="ed_price" id="" placeholder="Device Price">
-        <input type="number" name="ed_stock" id="" placeholder="Number Of Stock">
-        <button value="submit" class="btn btn-primary">Update</button>
-        <a type="submit" href="../shop_home" class="btn btn-primary">Home</a>
-    </form>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3">
-                {% for i in data %}
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Product Name:{{i.pro.pname}}</h4>
-                        <p class="card-text">color:{{i.color}}</p>
-                        <p class="card-text">Ram:{{i.ram}}</p>
-                        <p class="card-text">Storage:{{i.storage}}</p>
-                        <p class="card-text">Price:{{i.price}}</p>
-                        <p class="card-text">Stock:{{i.stock}}</p>
-                        <a href="../delete_details/{{i.pk}}" class="btn btn-primary">Delete</a>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-</body>
-
-</html> -->
-
+<!-- 
 <!DOCTYPE html>
 <html lang="en">
 
@@ -75,16 +27,6 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="add_pro">Add Product</a></li>
-                    <!-- <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Brands
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            {% for i in data %}
-                            <li><a href="{% url 'brand_products' brand_id=i.pk %}" class="dropdown-item">{{i.cname}}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </li> -->
                     <li class="nav-item"><a class="nav-link" href="admin_booking">Bookings</a></li>
                     <li class="nav-item"><a class="nav-link" href="category">Category</a></li>
                     <li class="nav-item"><a class="nav-link" href="logout">LogOut</a></li>
@@ -94,7 +36,7 @@
     </header>
 
     <div class="container mt-5">
-        <!-- Form to edit device details -->
+        
         <h2 class="mb-4">Edit Product Details</h2>
         <form action="" method="post">
             {% csrf_token %}
@@ -123,7 +65,7 @@
             <a href="../shop_home" class="btn btn-secondary ms-3">Home</a>
         </form>
 
-        <!-- Product details display section -->
+    
         <h3 class="mt-5 mb-3">Product Details</h3>
         <div class="row">
             {% for i in data %}
@@ -143,6 +85,127 @@
             {% endfor %}
         </div>
     </div>
+</body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Product Details</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'edit_details.css' %}">
+
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+            <div class="container">
+                <a href="#" class="navbar-logo">
+                    <img src="{% static 'img/logo.png' %}" alt="Logo" width="80" height="80">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu"
+                    aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarMenu">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="add_pro">Add Product</a></li>
+                        <li class="nav-item"><a class="nav-link" href="admin_booking">Bookings</a></li>
+                        <li class="nav-item"><a class="nav-link" href="category">Category</a></li>
+                        <li class="nav-item"><a class="nav-link btn btn-danger text-white px-3" href="logout">Log Out</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Edit Product Form -->
+    <div class="edit-container">
+        <h2>Edit Product Details</h2>
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label">Upload Image</label>
+                <input type="file" name="ed_img" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Product ID</label>
+                <input type="text" name="product" class="form-control" value="{{ data1.pk }}" readonly>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Device Color</label>
+                <input type="text" name="ed_color" class="form-control" placeholder="Device Color">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Device Storage</label>
+                <input type="text" name="ed_storage" class="form-control" placeholder="Device Storage">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Device RAM</label>
+                <input type="text" name="ed_ram" class="form-control" placeholder="Device RAM">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Device Price</label>
+                <input type="number" name="ed_price" class="form-control" placeholder="Device Price">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Number of Stock</label>
+                <input type="number" name="ed_stock" class="form-control" placeholder="Number Of Stock">
+            </div>
+
+            <!-- Buttons -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-custom">Update</button>
+                <a href="../shop_home" class="btn btn-secondary btn-custom ms-3">Home</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Product Details -->
+    <div class="container mt-5">
+        <h3 class="mb-3">Product Details</h3>
+        <div class="row">
+            {% for i in data %}
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                <div class="card shadow-sm p-3">
+                    <div class="card-body">
+                        <h4 class="card-title">Product Name: {{ i.pro.pname }}</h4>
+                        <p class="card-text"><strong>Color:</strong> {{ i.color }}</p>
+                        <p class="card-text"><strong>RAM:</strong> {{ i.ram }}</p>
+                        <p class="card-text"><strong>Storage:</strong> {{ i.storage }}</p>
+                        <p class="card-text"><strong>Price:</strong> ₹{{ i.price }}</p>
+                        <p class="card-text"><strong>Stock:</strong> {{ i.stock }}</p>
+                        <div class="text-center">
+                            <a href="../delete_details/{{ i.pk }}" class="btn btn-danger btn-custom">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
 </body>
 
 </html>
