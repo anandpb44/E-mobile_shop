@@ -1,109 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    {% load static %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Address Form</title>
-    <link rel="stylesheet" href="{% static 'address.css' %}">
-</head>
-<body>
-    <nav class="navbar">
-     
-        <a href="#" class="logo"><img src="static/img/logo.png" alt="" width="80" height="100"></a>
-
-       
-        <ul id="navbar-links">
-            <li><a href="user_home">Home</a></li>
-           
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Brands
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    {% for i in data2 %}
-                    <li><a href="{% url 'brand_products' brand_id=i.pk %}" class="dropdown-item">{{i.cname}}</a></li>
-                    {% endfor %}
-                </ul>
-            </li>
-         
-            <li><a href="user_booking">Bookings</a></li>
-           <li><a href="view_cart">🛒</a></li>
-            <li><a href="logout">LogOut</a></li>
-        </ul>
-
-        <div class="menu-icon" id="menu-icon">
-            &#9776;
-        </div>
-    </nav>
-
-    <h1>Address Form</h1>
-    <form method="POST">
-        {% csrf_token %}
-        
-        <div>
-            <label for="name">Name:</label>
-            <textarea id="name" name="name" rows="2" cols="30" required></textarea>
-        </div>
-
-        <div>
-            <label for="phn">Phone Number:</label>
-            <input type="text" id="phn" name="phn" maxlength="15" required>
-        </div>
-
-        <div>
-            <label for="house">House:</label>
-            <textarea id="house" name="house" rows="2" cols="30" required></textarea>
-        </div>
-
-        <div>
-            <label for="street">Street:</label>
-            <textarea id="street" name="street" rows="2" cols="30" required></textarea>
-        </div>
-
-        <div>
-            <label for="pin">PIN Code:</label>
-            <input type="number" id="pin" name="pin" required>
-        </div>
-
-        <div>
-            <label for="state">State:</label>
-            <textarea id="state" name="state" rows="2" cols="30" required></textarea>
-        </div>
-
-        <button type="submit">Submit</button>
-    </form>
-    <div class="col-lg-5">
-        {% for i in data %}
-        <div class="card">
-          <div class="card-body">
-              <h4 class="card-title"> NAME : {{i.name}}</h4>
-              <h5 class="card-text"> HOUSE/BIULDING : {{i.house}}</h5>
-              <h5 class="card-text">STREET : {{i.street}}</h5>
-              <h5 class="card-text">PIN : {{i.pin}}</h5>
-              <h5 class="card-text">STATE : {{i.state}}</h5>
-              <h5 class="card-text">PHONE : {{i.phn}}</h5>
-              <a href="delete_address/{{i.pk}}" class="btn btn-danger">Delete</a>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-
-      <footer class="footer bg-dark text-white text-center py-3 mt-5">
-        <p>&copy; 2025. All Rights Reserved.</p>
-    </footer>
-
-      <script>
-        const menuIcon = document.getElementById('menu-icon');
-        const navbarLinks = document.getElementById('navbar-links');
-
-        menuIcon.addEventListener('click', () => {
-            navbarLinks.classList.toggle('show');
-        });
-      </script>
-</body>
-</html> -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -113,34 +7,37 @@
     <title>Address Form</title>
     <link rel="stylesheet" href="{% static 'address.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
 </head>
 <body>
 
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
         <div class="container">
             <a href="#" class="navbar-brand">
-                <img src="{% static 'img/logo.png' %}" alt="Logo" width="80" height="80">
+                <img src="static/img/logo.png" alt="Logo" width="80" height="100">
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+  
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+  
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a href="user_home" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="user_home">Home</a></li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                            Brands
-                        </a>
-                        <ul class="dropdown-menu">
-                            {% for i in data2 %}
-                            <li><a href="{% url 'brand_products' brand_id=i.pk %}" class="dropdown-item">{{i.cname}}</a></li>
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">Brands</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {% for i in data %}
+                            <li><a class="dropdown-item" href="{% url 'brand_products' brand_id=i.pk %}">{{i.cname}}</a></li>
                             {% endfor %}
                         </ul>
                     </li>
-                    <li class="nav-item"><a href="user_booking" class="nav-link">Bookings</a></li>
-                    <li class="nav-item"><a href="view_cart" class="nav-link">🛒</a></li>
-                    <li class="nav-item"><a href="logout" class="nav-link btn btn-danger text-white">Log Out</a></li>
+                    <li class="nav-item"><a class="nav-link" href="user_booking">Bookings</a></li>
+                    <li class="nav-item"><a class="nav-link" href="view_cart">🛒</a></li>
+                    <li class="nav-item"><a class="nav-link" href="logout">LogOut</a></li>
                 </ul>
             </div>
         </div>
@@ -213,7 +110,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="footer bg-dark text-white text-center py-3 mt-5">
+    <footer class="footer text-center py-3 mt-5">
         <p>&copy; 2025. All Rights Reserved.</p>
     </footer>
 
