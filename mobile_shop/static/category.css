@@ -3,59 +3,59 @@ body {
   background-color: #f8f9fa;
 }
 
-
+/* Navbar */
 .navbar {
-  padding: 10px 0;
-}
-.navbar-logo img {
-  height: 60px;
-}
-.nav-item .nav-link {
-  font-weight: 500;
-  transition: 0.3s;
-}
-.nav-item .nav-link:hover {
-  color: #d9534f !important;
-}
-
-
-/* Page Container */
-.container {
-  max-width: 600px;
-  margin: 50px auto;
-  background: white;
-  padding: 30px;
-  border-radius: 10px;
+  padding: 15px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
+/* Global Styles */
+
+
+.contain {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.title {
   text-align: center;
-  font-weight: bold;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form-group {
   margin-bottom: 20px;
 }
 
-/* Form Group Styling */
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group label {
-  font-weight: 600;
-  margin-bottom: 5px;
+.label {
   display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #555;
 }
 
-.form-group select,
-.form-group input {
+.select-box, .input-field {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
+  border: 1px solid #ccc;
   border-radius: 5px;
-  border: 1px solid #ddd;
-  font-size: 16px;
+  font-size: 14px;
+  color: #333;
+  box-sizing: border-box;
+  transition: border 0.3s ease;
 }
 
-/* Submit Button */
+.select-box:focus, .input-field:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
 .submit-btn {
   width: 100%;
   padding: 12px;
@@ -63,20 +63,23 @@ h2 {
   color: white;
   border: none;
   border-radius: 5px;
-  font-size: 18px;
-  font-weight: bold;
-  transition: 0.3s;
+  font-size: 16px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .submit-btn:hover {
   background-color: #0056b3;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+.submit-btn:active {
+  background-color: #004085;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
   .container {
-      max-width: 90%;
-      padding: 20px;
+      margin: 20px;
   }
 }
+

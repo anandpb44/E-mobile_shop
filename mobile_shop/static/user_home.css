@@ -6,6 +6,7 @@ body {
 /* Carousel */
 .carousel-item img {
     height: 400px;
+    max-width: 100%;
     object-fit: cover;
 }
 
@@ -39,7 +40,7 @@ body {
 
 /* Footer */
 .footer {
-    background-color:#d8d0d0;
+    background: #f8f9fa;
     color: rgb(0, 0, 0);
     text-align: center;
     padding: 15px;
@@ -47,4 +48,24 @@ body {
 }
 .footer a{
     text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .carousel-item img {
+        height: 300px;      /* Reduce the height for tablets */
+    }
+}
+
+/* For mobile devices (max-width: 480px) */
+@media (max-width: 480px) {
+    .carousel-item img {
+        height: 200px;      /* Further reduce the height for mobile devices */
+    }
+}
+
+/* Full screen width adjustments */
+@media (min-width: 1200px) {
+    .carousel-item img {
+        height: 500px;      /* Increase height on larger screens */
+    }
 }

@@ -24,7 +24,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
             <div class="container">
                 <a href="#" class="navbar-logo">
-                    <img src="{% static 'img/logo.png' %}" alt="Logo">
+                    <img src="{% static 'img/logo.png' %}" alt="Logo" width="80" height="80">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu"
                     aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,11 +32,11 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarMenu">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="shop_home">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="add_pro">Add Product</a></li>
-                        <li class="nav-item"><a class="nav-link" href="admin_booking">Orders</a></li>
                         <li class="nav-item"><a class="nav-link" href="category">Category</a></li>
-                        <li class="nav-item"><a class="nav-link btn btn-danger" href="logout">Log Out</a></li>
+                        <li class="nav-item"><a class="nav-link" href="admin_booking">Orders</a></li>
+                        <li class="nav-item"><a class="nav-link btn btn-danger  px-3" href="logout">Log Out</a></li>
                     </ul>
                 </div>
             </div>

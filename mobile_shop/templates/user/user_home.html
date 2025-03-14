@@ -68,28 +68,42 @@
     </div>
 
     <div class="container mt-5" id="products">
-      <div class="row">
-        {% for p in products %}
+      <div class="row" id="product-row">
+        {% for p in products|slice:":6" %}
         <div class="col-md-4 mb-4">
           <div class="card product-card shadow">
-            <img
-              src="{{ p.img.url }}"
-              class="card-img-top"
-              alt="{{ p.pname }}"
-            />
+            <img src="{{ p.img.url }}" class="card-img-top" alt="{{ p.pname }}">
             <div class="card-body text-center">
               <h5 class="card-title">{{ p.pname }}</h5>
               <p class="card-text">{{ p.pdis }}</p>
-              <a href="user_view/{{ p.pk }}" class="btn btn-primary"
-                >View Details</a
-              >
+              <a href="user_view/{{ p.pk }}" class="btn btn-primary">View Details</a>
             </div>
           </div>
         </div>
         {% endfor %}
       </div>
+    
+      <div id="hidden-products" class="row" style="display: none;">
+        {% for p in products|slice:"6:" %}
+        <div class="col-md-4 mb-4">
+          <div class="card product-card shadow">
+            <img src="{{ p.img.url }}" class="card-img-top" alt="{{ p.pname }}">
+            <div class="card-body text-center">
+              <h5 class="card-title">{{ p.pname }}</h5>
+              <p class="card-text">{{ p.pdis }}</p>
+              <a href="user_view/{{ p.pk }}" class="btn btn-primary">View Details</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    
+      <!-- "See More" Button -->
+      <div class="text-center mt-4">
+        <button id="see-more-btn" class="btn btn-primary">See More</button>
+      </div>
     </div>
-
+    
     <footer class="footer">
       <div class="container">
         <p>&copy; 2025 AFA Mobile Store. All Rights Reserved.</p>
@@ -99,5 +113,16 @@
         </div>
       </div>
     </footer>
+
+    <script>
+      document.getElementById("see-more-btn").addEventListener("click", function() {
+        // Show the hidden products
+        document.getElementById("hidden-products").style.display = "flex";
+    
+        // Hide the "See More" button
+        this.style.display = "none";
+      });
+    </script>
+    
   </body>
 </html>

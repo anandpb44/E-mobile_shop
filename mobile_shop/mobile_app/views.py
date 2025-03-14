@@ -123,7 +123,7 @@ def delete(req,pid):
     data=Product.objects.get(pk=pid)
     file=data.img.url
     file=file.split('/')[-1]
-    os.remove('media/'+file)
+    # os.remove('media/'+file)
     data.delete()
     return redirect(shop_home)
 def edit_pro(req,pid):
