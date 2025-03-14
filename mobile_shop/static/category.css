@@ -3,11 +3,21 @@ body {
   background-color: #f8f9fa;
 }
 
-/* Navbar Styling */
+
 .navbar {
-  padding: 15px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px 0;
 }
+.navbar-logo img {
+  height: 60px;
+}
+.nav-item .nav-link {
+  font-weight: 500;
+  transition: 0.3s;
+}
+.nav-item .nav-link:hover {
+  color: #d9534f !important;
+}
+
 
 /* Page Container */
 .container {

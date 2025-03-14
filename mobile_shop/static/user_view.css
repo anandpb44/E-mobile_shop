@@ -4,89 +4,6 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
-/* Navbar */
-.navbar {
-    background-color: #343a40;
-    padding: 15px 30px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.navbar .logo img {
-    border-radius: 5px;
-}
-
-.navbar ul {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    padding: 0;
-    margin: 0;
-}
-
-.navbar ul li {
-    margin: 0 15px;
-}
-
-.navbar ul li a {
-    color: white;
-    text-decoration: none;
-    font-size: 16px;
-    padding: 10px 15px;
-    transition: background 0.3s ease-in-out;
-}
-
-.navbar ul li a:hover {
-    background-color: #495057;
-    border-radius: 5px;
-}
-
-/* Dropdown */
-.nav-item.dropdown {
-    position: relative;
-}
-
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    background-color: #fff;
-    border-radius: 5px;
-    padding: 10px;
-    top: 35px;
-    left: 0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.nav-item:hover .dropdown-menu {
-    display: block;
-}
-
-.dropdown-menu .dropdown-item {
-    color: #333;
-    padding: 8px 15px;
-    transition: background 0.3s;
-}
-
-.dropdown-menu .dropdown-item:hover {
-    background-color: #007bff;
-    color: white;
-    border-radius: 3px;
-}
-
-/* Responsive Navbar (Mobile) */
-.menu-icon {
-    display: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: white;
-}
-
 /* Product Image */
 .product-img {
     width: 100%;
@@ -174,7 +91,10 @@ p {
 
 /* Footer */
 .footer {
-    margin-top: 40px;
-    background: #343a40;
-    color: white;
-}
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 15px;
+    background: #f8f9fa;
+    color: black;
+  }

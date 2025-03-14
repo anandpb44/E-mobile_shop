@@ -19,9 +19,11 @@ body {
 }
 
 .footer {
-  position: relative;
+  position: fixed;
   bottom: 0;
   width: 100%;
+  padding: 15px;
+  background: #f8f9fa;
 }
 
 /* Navbar */

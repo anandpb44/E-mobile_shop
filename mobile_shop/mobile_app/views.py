@@ -437,7 +437,7 @@ def view_cart(req):
         total=0
         for item in data:
            total += int(item.details.price) * item.qty
-        return render(req,'user/cart.html',{'cart':data,'data2':data2})
+        return render(req,'user/cart.html',{'cart':data,'data2':data2,'total':total})
     else:
         return redirect(shop_log)
 def deleteCart(req,pid):

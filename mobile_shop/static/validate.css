@@ -1,0 +1,65 @@
+body {
+    background-color: rgb(35, 73, 73);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+
+  /* Centered Container */
+  .login-container {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  /* Header Styling */
+  .login-container h3 {
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: rgb(35, 73, 73);
+  }
+
+  /* Input Field */
+  .form-control {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus {
+    border-color: rgb(35, 73, 73);
+    box-shadow: 0 0 5px rgba(35, 73, 73, 0.5);
+  }
+
+  /* Button Styling */
+  .btn-primary {
+    background-color: rgb(35, 73, 73);
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background-color: rgb(25, 55, 55);
+  }
+
+  /* Alert Styling */
+  .alert {
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 576px) {
+    .login-container {
+      padding: 20px;
+    }
+  }
