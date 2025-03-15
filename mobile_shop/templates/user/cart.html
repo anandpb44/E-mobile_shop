@@ -49,15 +49,7 @@
         <div class="row">
             
             <div class="col-lg-4 col-md-6 mb-4">
-                {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-
+                
             {% for i in cart %}
                 <div class="card shadow-lg border-0">
                     <img src="{{ i.details.pro.img.url }}" class="card-img-top p-3" alt="{{ i.details.pro.pname }}">
@@ -70,7 +62,7 @@
                         <!-- <p class="card-text text-success fw-bold">₹{{ total }}</p> -->
 
                         <!-- Quantity Update -->
-                        <div class="d-flex justify-content-center align-items-center mb-3">
+                        <div cli.details.stock -= i.qty ass="d-flex justify-content-center align-items-center mb-3">
                             <a href="qty_decr/{{ i.pk }}" class="btn btn-outline-dark btn-sm">-</a>
                             <span class="px-3 fw-bold">Qty: {{ i.qty }}</span>
                             <a href="qty_incr/{{ i.pk }}" class="btn btn-outline-dark btn-sm">+</a>

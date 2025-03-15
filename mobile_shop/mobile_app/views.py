@@ -172,8 +172,18 @@ def edit_details(req,pid):
 
 
 def detail_edit(req,pid):
-    
-    return render(req,'shop/detail_edit.html')
+    if req.method=='POST':
+        
+        ecolor=req.POST['pcolor']
+        eram=req.POST['pram']
+        estorage=req.POST['pstorage']
+        eprice=req.POST['pprice']
+        estock=req.POST['pstock']       
+        Details.objects.filter(pk=pid).update(color=ecolor,ram=eram,storage=estorage,price=eprice,stock=estock)
+        return redirect(shop_home)
+    else:
+        data=Details.objects.get(pk=pid)
+        return render(req,'shop/detail_edit.html',{'data':data})
 
 
 
@@ -458,22 +468,42 @@ def deleteCart(req,pid):
     else:
         return redirect(shop_log)
 
-def qty_incr(req,cid):
-    if 'user' in req.session:
-        data=Cart.objects.get(pk=cid)
-        stock=int(data.details.stock)
+# def qty_incr(req,cid):
+#     if 'user' in req.session:
+#         data=Cart.objects.get(pk=cid)
+#         stock=int(data.details.stock)
         
-        if stock >0 :
-            data.qty+=1
-            data.save()
+#         if stock >0 :
+#           data.details.stock > data.qty
+#           data.qty+=1
+#           data.save()
+#         else:
+#                 # If no stock is available, show out of stock message
+#                 messages.error(req, "Sorry, this item is out of stock.")
+        
+#         return redirect(view_cart)
 
-            stock -= 1
-            data.details.stock = stock  # Decrease stock of the product in inventory
-            data.details.save()
+#     else:
+#         return redirect(shop_log)
+
+def qty_incr(req, cid):
+    if 'user' in req.session:
+        data = Cart.objects.get(pk=cid)
+
+        # Ensure stock is an integer
+        try:
+            stock = int(data.details.stock)  # Convert stock to an integer
+        except ValueError:
+            messages.error(req, "Stock data is invalid.")
+            return redirect(view_cart)
+
+        if data.qty < stock:  # Ensure cart quantity does not exceed stock
+            data.qty += 1  # Increase quantity
+           
+            data.save()  # Save cart update
         else:
-                # If no stock is available, show out of stock message
-                messages.error(req, "Sorry, this item is out of stock.")
-        
+            messages.error(req, "Sorry, this item is out of stock.")
+
         return redirect(view_cart)
 
     else:
@@ -774,7 +804,9 @@ def bookings2(req):
             price=float(i.details.price)*i.qty
             data=Buy.objects.create(user=i.user,product=i.details,t_price=price,qty=i.qty,address=Address.objects.get(pk=address.pk))
             data.save()
-        cart.delete()
+            i.details.stock = int(i.details.stock) - int(i.qty)  
+            i.details.save()  # Save stock update
+            cart.delete()
         return redirect(user_bookings)
     else:
         return redirect(shop_log)

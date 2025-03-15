@@ -1,11 +1,107 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Detail</title>
 </head>
 <body>
-    
+    <form method="post" action="">
+    {% csrf_token %}
+        <input type="text" name="pcolor" id="" value="{{data.color}}">
+        <input type="number" name="pram" id="" value="{{data.ram}}">
+        <input type="number" name="pstorage" id="" value="{{data.storage}}">
+        <input type="number" name="pprice" id="" value="{{data.price}}">
+        <input type="number" name="pstock" id="" value="{{data.stock}}">
+
+
+        <button type="submit" class="btn btn-primary btn-custom">Update</button>
+    </form>
+   
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Detail</title>
+
+    <!-- Bootstrap CSS for responsiveness -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <style>
+        /* Custom responsive styles */
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 500px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 15px;
+            }
+
+            h3 {
+                font-size: 1.5rem;
+            }
+
+            .btn {
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h3 class="text-center mb-4">Edit Product Details</h3>
+        
+        <form method="post" action="">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="pcolor" class="form-label">Color</label>
+                <input type="text" class="form-control" name="pcolor" value="{{ data.color }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="pram" class="form-label">RAM (GB)</label>
+                <input type="number" class="form-control" name="pram" value="{{ data.ram }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="pstorage" class="form-label">Storage (GB)</label>
+                <input type="number" class="form-control" name="pstorage" value="{{ data.storage }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="pprice" class="form-label">Price (₹)</label>
+                <input type="number" step="0.01" class="form-control" name="pprice" value="{{ data.price }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="pstock" class="form-label">Stock</label>
+                <input type="number" class="form-control" name="pstock" value="{{ data.stock }}" required>
+            </div>
+
+            <button type="submit" class="btn btn-success">Update</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS (Optional, only if needed for components like dropdowns) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

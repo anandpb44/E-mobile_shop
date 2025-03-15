@@ -36,6 +36,7 @@ urlpatterns = [
     path('delete/<pid>',views.delete),
     path('edit_pro/<pid>',views.edit_pro),
     path('edit_details/<pid>',views.edit_details,name="edit_details"),
+    path('detail_edit/<pid>',views.detail_edit,name="detail_edit"),
     path('delete_details/<pid>',views.delete_details),
     path('admin_booking',views.ad_booking),
 
