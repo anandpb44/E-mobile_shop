@@ -11,6 +11,7 @@ from django.http import JsonResponse,HttpResponse
 import razorpay
 import json
 from django.views.decorators.csrf import csrf_exempt
+from django.db import transaction
 
 
 # Create your views here.
@@ -167,6 +168,15 @@ def edit_details(req,pid):
         data=Details.objects.filter(pro=pid)
         data1=Product.objects.get(pk=pid)
         return render(req,'shop/edit_details.html',{'data':data,'data1':data1})
+    
+
+
+def detail_edit(req,pid):
+    
+    return render(req,'shop/detail_edit.html')
+
+
+
 def delete_details(req,pid):
     data=Details.objects.get(pk=pid)
     data.delete()
@@ -453,7 +463,7 @@ def qty_incr(req,cid):
         data=Cart.objects.get(pk=cid)
         stock=int(data.details.stock)
         
-        if stock >0:
+        if stock >0 :
             data.qty+=1
             data.save()
 
@@ -468,6 +478,8 @@ def qty_incr(req,cid):
 
     else:
         return redirect(shop_log)
+
+
 def qty_decr(req,cid):
     if 'user' in req.session:
         data=Cart.objects.get(pk=cid)
